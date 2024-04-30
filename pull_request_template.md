@@ -8,6 +8,7 @@ Include a summary of the changes and the related issue.
 - [ ] Fix
 - [ ] Chores
 - [ ] Documentation 
+- [ ] Refactor
 
 ## Checklist:
 
