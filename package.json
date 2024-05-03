@@ -4,11 +4,18 @@
   "description": "FruitFiesta RSS ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
+    "build": "webpack --config ./webpack.config.js --env mode=prod",
+    "ci:lint": "npx eslint src",
+    "lint": "npx eslint src --fix",
+    "ci:format": "prettier --check src",
+    "format": "prettier --write src"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.6",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "copy-webpack-plugin": "^12.0.2",
