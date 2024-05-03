@@ -17,6 +17,12 @@ module.exports = {
       ],
       "parserOptions": {
         "sourceType": "script"
+      }, 
+    },
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": true
       }
     }
   ],
@@ -46,5 +52,6 @@ module.exports = {
       "always"
     ],
   },
-  "ignorePatterns": ["webpack.config.js"]
+  "ignorePatterns": ["webpack.config.js"],
+  
 };
