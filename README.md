@@ -1,3 +1,4 @@
+
 # FruitFiesta
 
 🙌 We are pleased to see you in our eCommerce application for exotic fruits and body cosmetics! Our store has a wide range of products, convenient and clear interface. Treat yourself and your guests to these juicy fruits! 🍉🌴🍍😋
