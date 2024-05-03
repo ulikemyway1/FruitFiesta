@@ -20,7 +20,7 @@
 
 #### Requirement
 
-To install and run the project use [Node.js (LTS)](https://nodejs.org/en/download)
+To install and run the project use [Node.js (v20.12.2)](https://nodejs.org/en/download)
 
 #### Dependency
 
