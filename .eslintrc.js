@@ -18,9 +18,6 @@ module.exports = {
       "files": [
         ".eslintrc.{js,cjs}"
       ],
-      "parserOptions": {
-        "sourceType": "script"
-      }, 
     },
     {
       "files": ["tests/**/*"],
@@ -31,8 +28,10 @@ module.exports = {
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "tsconfigRootDir": __dirname,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "plugins": [
     "@typescript-eslint"
@@ -46,15 +45,7 @@ module.exports = {
       "warn",
       "unix"
     ],
-    "quotes": [
-      "warn",
-      "double"
-    ],
-    "semi": [
-      "warn",
-      "always"
-    ],
   },
-  "ignorePatterns": ["webpack.config.js"],
+  "ignorePatterns": ["webpack.config.js", ".eslintrc.js"],
   
 };
