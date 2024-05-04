@@ -2,7 +2,7 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-
+const webpack = require('webpack');
 const baseConfig = {
   mode: "development",
   entry: "./src/index.ts",
