@@ -2,6 +2,8 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
+
 const baseConfig = {
   mode: "development",
   entry: "./src/index.ts",
@@ -29,21 +31,22 @@ const baseConfig = {
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
-      title: "Fruit Fiesta"
+      title: "Fruit Fiesta",
     }),
     new FaviconsWebpackPlugin({
-      logo: './src/assets/favicon/icon.png',
-      mode: 'webapp',
-      devMode: 'webapp',
+      logo: "./src/assets/favicon/icon.png",
+      mode: "webapp",
+      devMode: "webapp",
       favicons: {
-        appName: 'Fruit Fiesta',
-        appDescription: 'e-Commerce Fruit Fiesta',
-        developerName: 'Success Coders Team',
-        developerURL: 'https://github.com/ulikemyway1/FruitFiesta',
-        background: '#fff',
-        theme_color: '#fff',
-      }
+        appName: "Fruit Fiesta",
+        appDescription: "e-Commerce Fruit Fiesta",
+        developerName: "Success Coders Team",
+        developerURL: "https://github.com/ulikemyway1/FruitFiesta",
+        background: "#fff",
+        theme_color: "#fff",
+      },
     }),
   ],
 };
