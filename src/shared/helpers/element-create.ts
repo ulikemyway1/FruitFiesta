@@ -42,7 +42,7 @@ export default class CreateElement<T extends HTMLElement> {
   }
 
   private addInnerElement<U extends HTMLElement>(
-    element: U | CreateElement<U>
+    element: U | CreateElement<U>,
   ) {
     if (element instanceof CreateElement) {
       this.element.append(element.getHTMLElement());
@@ -54,7 +54,7 @@ export default class CreateElement<T extends HTMLElement> {
   addInnerElements(
     elements:
       | (HTMLElement | CreateElement<HTMLElement>)
-      | (HTMLElement | CreateElement<HTMLElement>)[]
+      | (HTMLElement | CreateElement<HTMLElement>)[],
   ) {
     if (Array.isArray(elements))
       elements.forEach((element) => {
