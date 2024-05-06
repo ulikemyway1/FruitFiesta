@@ -1,22 +1,21 @@
-@import "../../../global.scss";
+@import "../../../app/ui/global.scss";
 
 .login-page {
   padding: 0 16px;
   &__container {
     border: 3px solid var(--login-register-border);
-    padding: 50px 40px;
+    padding: 40px 30px;
     border-radius: 40px;
   }
   &__logo {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     display: block;
     margin-left: auto;
   }
 }
 
 .login-form {
-  padding: 20px 0 0 0;
   &__title {
     font-weight: 500;
     margin-bottom: 20px;
@@ -55,7 +54,12 @@
     font-weight: 400;
     margin-top: 20px;
     margin-bottom: 20px;
+    cursor: pointer;
     font-family: "Roboto Slab", serif;
+    transition: 0.3s ease-in-out;
+    &:hover {
+      background-color: var(--button-hover-background);
+    }
   }
   &__hint-box {
     display: flex;
@@ -72,6 +76,19 @@
     &-link {
       color: var(--green-text-color);
       font-weight: 500;
+      cursor: pointer;
+      display: inline-block;
+      &::after {
+        display: block;
+        content: "";
+        height: 2px;
+        width: 0%;
+        background-color: var(--green-text-color);
+        transition: width 0.3s ease-in-out;
+      }
+      &:hover::after {
+        width: 100%;
+      }
     }
   }
 }
