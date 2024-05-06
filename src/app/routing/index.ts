@@ -2,17 +2,23 @@ import Router from "../../shared/helpers/router";
 
 const router = new Router();
 
-router.route("#login", () => {
+enum Hash {
+  LOGIN = "#login",
+  REGISTER = "#register",
+  HOME = "#home",
+}
+
+router.route(Hash.LOGIN, () => {
   // your callback function to switch the view
-  console.log("#login");
+  console.log(Hash.LOGIN);
   document.body.innerHTML = "<h1>Login</h1>";
 });
-router.route("#register", () => {
-  console.log("#register");
+router.route(Hash.REGISTER, () => {
+  console.log(Hash.REGISTER);
   document.body.innerHTML = "<h1>Register</h1>";
 });
-router.route("#home", () => {
-  console.log("#home");
+router.route(Hash.HOME, () => {
+  console.log(Hash.HOME);
   document.body.innerHTML = "<h1>Home</h1>";
 });
 router.route("", () => {
