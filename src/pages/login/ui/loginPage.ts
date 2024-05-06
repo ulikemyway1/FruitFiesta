@@ -1,11 +1,12 @@
 import CreateElement from "../../../shared/helpers/element-create";
 import "./login.scss";
+import icon from "../../../assets/favicon/icon.png";
 
 class LoginPage {
   logoImage = new CreateElement({
     tag: "img",
     cssClasses: ["login-page__logo"],
-    attributes: { src: "./assets/favicon/icon.png" },
+    attributes: { src: icon },
   });
 
   loginForm = new CreateElement({
