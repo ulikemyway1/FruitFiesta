@@ -1,6 +1,9 @@
-// it's just dev test code, kill it later
 import getProject from "./shared/api/APIRoot";
+import router from "./app/routing";
 
+router.navigate(window.location.hash);
+
+// it's just dev test code, kill it later
 getProject().then(console.log).catch(console.error);
 
 console.log(
