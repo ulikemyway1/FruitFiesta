@@ -1,7 +1,5 @@
 import loginForm from "./ui/loginForm";
 
-function getLoginForm() {
-  return loginForm;
+export default function getLoginForm() {
+  return loginForm.draw();
 }
-
-export default { getLoginForm };
