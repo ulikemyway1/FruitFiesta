@@ -99,4 +99,20 @@
   &__error.error {
     display: block;
   }
+  &__password-box {
+    position: relative;
+  }
+  &__password-eye {
+    position: absolute;
+    top: 11px;
+    right: 6px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: url("../../../assets/images/eye.svg") 0 0 no-repeat;
+  }
+  &__password-eye.view {
+    background: url("../../../assets/images/eye-off.svg") 0 0 no-repeat;
+  }
 }

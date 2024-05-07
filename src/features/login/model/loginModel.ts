@@ -36,7 +36,7 @@
 //   console.log("link to MainPage");
 // }
 
-// export function emailInputHandler() {
+// function emailInputHandler() {
 //   const emailInputValue = loginForm.emailInput.getHTMLElement().value;
 
 //   const spaces = checkSpaces(emailInputValue);
@@ -106,7 +106,7 @@
 //   return hasWhitespaces;
 // }
 
-// export function passwordInputHandler() {
+// function passwordInputHandler() {
 //   const passwordInputValue = loginForm.passwordInput.getHTMLElement().value;
 
 //   const length = checkLength(passwordInputValue);
@@ -119,11 +119,11 @@
 //   return length && upperCase && lowerCase && digits && specialChars && spaces;
 // }
 
-// export function linkToRegistration() {
+// function linkToRegistration() {
 //   // For Stub
 // }
 
-// export function submitHandler() {
+// function submitHandler() {
 //   if (passwordInputHandler() && emailInputHandler()) {
 //     linkToMainPage();
 //   }

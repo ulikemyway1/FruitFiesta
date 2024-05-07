@@ -1,12 +1,6 @@
 import CreateElement from "../../../shared/helpers/element-create";
 import logo from "../../../assets/images/logo.svg";
 import "./login-form.scss";
-import {
-  emailInputHandler,
-  linkToRegistration,
-  passwordInputHandler,
-  submitHandler,
-} from "../model/loginModel";
 
 class LoginForm {
   logoImage = new CreateElement<HTMLImageElement>({
@@ -37,7 +31,7 @@ class LoginForm {
     cssClasses: ["login-form__email"],
     attributes: { placeholder: "username@gmail.com" },
     eventType: "input",
-    callback: emailInputHandler.bind(this),
+    callback: this.emailInputHandler.bind(this),
   });
 
   atError = new CreateElement<HTMLParagraphElement>({
@@ -67,9 +61,22 @@ class LoginForm {
   passwordInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["login-form__password"],
-    attributes: { placeholder: "Password" },
+    attributes: { placeholder: "Password", type: "password" },
     eventType: "input",
-    callback: passwordInputHandler.bind(this),
+    callback: this.passwordInputHandler.bind(this),
+  });
+
+  eyeHint = new CreateElement<HTMLInputElement>({
+    tag: "span",
+    cssClasses: ["login-form__password-eye"],
+    eventType: "click",
+    callback: this.showHidePassword.bind(this),
+  });
+
+  passwordBox = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["login-form__password-box"],
+    children: [this.passwordInput, this.eyeHint],
   });
 
   lengthError = new CreateElement<HTMLParagraphElement>({
@@ -113,7 +120,7 @@ class LoginForm {
     cssClasses: ["login-form__button"],
     textContent: "Sign in",
     eventType: "submit",
-    callback: submitHandler.bind(this),
+    callback: this.submitHandler.bind(this),
   });
 
   hintText = new CreateElement<HTMLParagraphElement>({
@@ -127,7 +134,7 @@ class LoginForm {
     cssClasses: ["login-form__hint-box-link"],
     textContent: "Register for free",
     eventType: "click",
-    callback: linkToRegistration.bind(this),
+    callback: this.linkToRegistration.bind(this),
   });
 
   hintBox = new CreateElement<HTMLDivElement>({
@@ -149,7 +156,7 @@ class LoginForm {
       this.spacesError,
       this.generalError,
       this.passwordInputTitle,
-      this.passwordInput,
+      this.passwordBox,
       this.lengthError,
       this.uppercaseError,
       this.lowercaseError,
@@ -160,6 +167,151 @@ class LoginForm {
       this.hintBox,
     ],
   });
+
+  checkAt(value: string) {
+    const hasAt = value.includes("@");
+    if (hasAt) {
+      this.atError.getHTMLElement().classList.remove("error");
+    } else {
+      this.atError.getHTMLElement().classList.add("error");
+    }
+    return hasAt;
+  }
+
+  checkSpaces(value: string) {
+    const hasNotSpaces = /^\S+$/.test(value);
+    if (hasNotSpaces) {
+      this.spacesError.getHTMLElement().classList.remove("error");
+    } else {
+      this.spacesError.getHTMLElement().classList.add("error");
+    }
+    return hasNotSpaces;
+  }
+
+  checkFullEmail(value: string) {
+    const isEmailValid =
+      /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/.test(value);
+    if (isEmailValid) {
+      this.generalError.getHTMLElement().classList.remove("error");
+    } else {
+      this.generalError.getHTMLElement().classList.add("error");
+    }
+    return isEmailValid;
+  }
+
+  linkToMainPage() {
+    console.log("link to MainPage", this);
+  }
+
+  emailInputHandler() {
+    const emailInputValue = this.emailInput.getHTMLElement().value;
+
+    const spaces = this.checkSpaces(emailInputValue);
+    const at = this.checkAt(emailInputValue);
+    const general = this.checkFullEmail(emailInputValue);
+
+    return spaces && at && general;
+  }
+
+  checkLength(value: string) {
+    const isProperLength = value.length > 7;
+    if (isProperLength) {
+      this.lengthError.getHTMLElement().classList.remove("error");
+    } else {
+      this.lengthError.getHTMLElement().classList.add("error");
+    }
+    return isProperLength;
+  }
+
+  checkUppercase(value: string) {
+    const hasUppercaseLetter = /[A-Z]/.test(value);
+    if (hasUppercaseLetter) {
+      this.uppercaseError.getHTMLElement().classList.remove("error");
+    } else {
+      this.uppercaseError.getHTMLElement().classList.add("error");
+    }
+    return hasUppercaseLetter;
+  }
+
+  checkLowercase(value: string) {
+    const hasLowercaseLetter = /[a-z]/.test(value);
+    if (hasLowercaseLetter) {
+      this.lowercaseError.getHTMLElement().classList.remove("error");
+    } else {
+      this.lowercaseError.getHTMLElement().classList.add("error");
+    }
+    return hasLowercaseLetter;
+  }
+
+  checkDigits(value: string) {
+    const hasDigits = /[0-9]/.test(value);
+    if (hasDigits) {
+      this.digitError.getHTMLElement().classList.remove("error");
+    } else {
+      this.digitError.getHTMLElement().classList.add("error");
+    }
+    return hasDigits;
+  }
+
+  checkSpecialChars(value: string) {
+    const hasSpecialChars = /([!@#$%^&*]+)/.test(value);
+    if (hasSpecialChars) {
+      this.charError.getHTMLElement().classList.remove("error");
+    } else {
+      this.charError.getHTMLElement().classList.add("error");
+    }
+    return hasSpecialChars;
+  }
+
+  checkWhitespaces(value: string) {
+    const hasWhitespaces = value.charAt(0) || value.charAt(-1);
+    if (hasWhitespaces) {
+      this.whitespaceError.getHTMLElement().classList.remove("error");
+    } else {
+      this.whitespaceError.getHTMLElement().classList.add("error");
+    }
+    return hasWhitespaces;
+  }
+
+  showHidePassword(event: Event) {
+    // const { target } = event;
+    const input = this.passwordInput;
+
+    if (input.getHTMLElement().getAttribute("type") === "password") {
+      //   if (target) {
+      //     target.classList.add("view");
+      //   }
+      //   input.getHTMLElement().setAttribute("type", "text");
+      // } else {
+      //   target.classList.remove("view");
+      //   input.getHTMLElement().setAttribute("type", "password");
+    }
+    return false;
+  }
+
+  passwordInputHandler() {
+    const passwordInputValue = this.passwordInput.getHTMLElement().value;
+
+    const length = this.checkLength(passwordInputValue);
+    const upperCase = this.checkUppercase(passwordInputValue);
+    const lowerCase = this.checkLowercase(passwordInputValue);
+    const digits = this.checkDigits(passwordInputValue);
+    const specialChars = this.checkSpecialChars(passwordInputValue);
+    const spaces = this.checkWhitespaces(passwordInputValue);
+
+    return length && upperCase && lowerCase && digits && specialChars && spaces;
+  }
+
+  linkToRegistration() {
+    // For Stub
+    console.log(this);
+  }
+
+  submitHandler() {
+    if (this.passwordInputHandler() && this.emailInputHandler()) {
+      this.linkToMainPage();
+    }
+  }
 
   draw() {
     return this.loginFormContainer;
