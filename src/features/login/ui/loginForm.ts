@@ -273,7 +273,8 @@ class LoginForm {
     return hasWhitespaces;
   }
 
-  showHidePassword(event: Event) {
+  showHidePassword() {
+    // event: Event
     // const { target } = event;
     const input = this.passwordInput;
 
