@@ -193,6 +193,7 @@ class LoginForm {
       /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/.test(value);
     if (isEmailValid) {
       this.generalError.getHTMLElement().classList.remove("error");
+      this.emailInput.getHTMLElement().classList.remove("error");
     } else {
       this.generalError.getHTMLElement().classList.add("error");
     }
@@ -205,6 +206,7 @@ class LoginForm {
 
   emailInputHandler() {
     const emailInputValue = this.emailInput.getHTMLElement().value;
+    this.emailInput.getHTMLElement().classList.add("error");
 
     const spaces = this.checkSpaces(emailInputValue);
     const at = this.checkAt(emailInputValue);
@@ -273,25 +275,27 @@ class LoginForm {
     return hasWhitespaces;
   }
 
-  showHidePassword() {
-    // event: Event
-    // const { target } = event;
+  showHidePassword(event: Event) {
+    const { target } = event;
     const input = this.passwordInput;
 
     if (input.getHTMLElement().getAttribute("type") === "password") {
-      //   if (target) {
-      //     target.classList.add("view");
-      //   }
-      //   input.getHTMLElement().setAttribute("type", "text");
-      // } else {
-      //   target.classList.remove("view");
-      //   input.getHTMLElement().setAttribute("type", "password");
+      if (target instanceof HTMLElement) {
+        target.classList.add("show");
+      }
+      input.getHTMLElement().setAttribute("type", "text");
+    } else {
+      if (target instanceof HTMLElement) {
+        target.classList.remove("show");
+      }
+      input.getHTMLElement().setAttribute("type", "password");
     }
     return false;
   }
 
   passwordInputHandler() {
     const passwordInputValue = this.passwordInput.getHTMLElement().value;
+    this.passwordInput.getHTMLElement().classList.add("error");
 
     const length = this.checkLength(passwordInputValue);
     const upperCase = this.checkUppercase(passwordInputValue);
@@ -300,7 +304,12 @@ class LoginForm {
     const specialChars = this.checkSpecialChars(passwordInputValue);
     const spaces = this.checkWhitespaces(passwordInputValue);
 
-    return length && upperCase && lowerCase && digits && specialChars && spaces;
+    const status =
+      length && upperCase && lowerCase && digits && specialChars && spaces;
+    if (status) {
+      this.passwordInput.getHTMLElement().classList.remove("error");
+    }
+    return status;
   }
 
   linkToRegistration() {

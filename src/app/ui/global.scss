@@ -2,6 +2,7 @@
 
 :root {
   --login-register-pages-background: #bbb192;
+  --background-glass-effect: #ffffff1f;
   --main-pages-background: #f8f4e7;
   --button-default-background: #403b30;
   --button-hover-background: #488a0f;
@@ -12,7 +13,7 @@
   --dark-brown-text-color: #24221f;
   --white-text-color: #ffffff;
   --green-text-color: #488a0f;
-  --placeholder-text-color: #bcbec0;
+  --placeholder-text-color: #9a9b9c;
   --error-text-border: #d42020;
 }
 
@@ -26,8 +27,8 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   font-family: "Roboto Slab", serif;
   font-style: normal;
   background-color: var(--login-register-pages-background);
