@@ -1,3 +1,1 @@
-import router from "./model/routs";
-
-export default router;
+export { router, Hash } from "./model/routs";

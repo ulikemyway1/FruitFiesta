@@ -3,14 +3,16 @@ import Router from "../../../shared/helpers/router";
 const router = new Router();
 
 enum Hash {
-  LOGIN = "#login",
-  REGISTER = "#registration",
-  MAIN = "#main",
-  CATALOG = "#catalog",
-  DETAIL = "#detail",
-  USER = "#user",
-  BASKET = "#basket",
-  ABOUT = "#about",
+  LOGIN = "login",
+  REGISTER = "registration",
+  MAIN = "main",
+  CATALOG = "catalog",
+  DETAIL = "detail",
+  USER = "user",
+  BASKET = "basket",
+  ABOUT = "about",
+  NOT_FOUND = "not-found",
+  EMPTY = "",
 }
 
 router.route(Hash.LOGIN, () => {
@@ -46,10 +48,14 @@ router.route(Hash.ABOUT, () => {
   console.log(Hash.ABOUT);
   document.body.innerHTML = "<h1>About</h1>";
 });
-
-router.route("", () => {
-  // console.log("empty hash");
-  // document.body.innerHTML = "<h1>Empty hash</h1>";
+router.route(Hash.NOT_FOUND, () => {
+  console.log(Hash.NOT_FOUND);
+  document.body.innerHTML = "<h1>Not found</h1>";
 });
 
-export default router;
+router.route(Hash.EMPTY, () => {
+  console.log("empty hash");
+  document.body.innerHTML = "<h1>Empty hash</h1>";
+});
+
+export { router, Hash };

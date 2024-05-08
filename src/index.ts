@@ -1,3 +1,10 @@
-import router from "./app/routing";
+import { router, Hash } from "./app/routing";
 
-router.navigate(window.location.hash);
+// get the user status, something like user.isLoggedIn
+const IsLoggedIn = false;
+
+if (IsLoggedIn) {
+  router.navigate(Hash.MAIN);
+} else {
+  router.navigate(Hash.LOGIN);
+}
