@@ -1,4 +1,5 @@
 import Router from "../../../shared/helpers/router";
+import loginPage from "../../../pages/login/ui/loginPage";
 
 const router = new Router();
 
@@ -18,7 +19,8 @@ enum Hash {
 router.route(Hash.LOGIN, () => {
   // your callback function to switch the view
   console.log(Hash.LOGIN);
-  document.body.innerHTML = "<h1>Login</h1>";
+  // document.body.innerHTML = "<h1>Login</h1>";
+  document.body.append(loginPage.draw().getHTMLElement());
 });
 router.route(Hash.REGISTER, () => {
   console.log(Hash.REGISTER);

@@ -1,4 +1,4 @@
-import loginPage from "../../pages/login/ui/loginPage";
+// import loginPage from "../../pages/login/ui/loginPage";
 
 class App {
   private container: HTMLElement = document.body;
@@ -8,7 +8,8 @@ class App {
   }
 
   run() {
-    this.container.append(loginPage.draw().getHTMLElement());
+    console.log(this);
+    // this.container.append(loginPage.draw().getHTMLElement());
   }
 }
 
