@@ -6,7 +6,27 @@ export class RegFormView {
   private form = new CreateElement({
     tag: "form",
     cssClasses: ["registration-form"],
-  });
+  }).getHTMLElement();
+
+  private statusBar = new CreateElement({
+    tag: "div",
+    cssClasses: ["registration-form__status-bar"],
+  }).getHTMLElement();
+
+  private progressText = new CreateElement({
+    tag: "span",
+    cssClasses: ["registration-form__progress-text"],
+  }).getHTMLElement();
+
+  private progressLine = new CreateElement({
+    tag: "div",
+    cssClasses: ["registration-form__progress-line"],
+  }).getHTMLElement();
+
+  private pageTitle = new CreateElement<HTMLInputElement>({
+    tag: "h2",
+    cssClasses: ["registration-form__page-title"],
+  }).getHTMLElement();
 
   private emailInput = new CreateElement<HTMLInputElement>({
     tag: "input",
@@ -33,9 +53,9 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Jonh",
+      placeholder: "John",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private lastNameInput = new CreateElement<HTMLInputElement>({
@@ -45,7 +65,7 @@ export class RegFormView {
       required: "true",
       placeholder: "Doe",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private birthDateInput = new CreateElement<HTMLInputElement>({
@@ -54,12 +74,7 @@ export class RegFormView {
       type: "date",
       required: "true",
     },
-    cssClasses: ["registration-form__input-short"],
-  }).getHTMLElement();
-
-  private firstLastDateWrapper = new CreateElement<HTMLInputElement>({
-    tag: "div",
-    cssClasses: ["registration-form__first-last-date-wrapper"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private shippingStreetInput = new CreateElement<HTMLInputElement>({
@@ -69,7 +84,7 @@ export class RegFormView {
       required: "true",
       placeholder: "Street",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private shippingCityInput = new CreateElement<HTMLInputElement>({
@@ -79,7 +94,7 @@ export class RegFormView {
       required: "true",
       placeholder: "City",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private shippingCodeInput = new CreateElement<HTMLInputElement>({
@@ -89,12 +104,7 @@ export class RegFormView {
       required: "true",
       placeholder: "Post code",
     },
-    cssClasses: ["registration-form__input-short"],
-  }).getHTMLElement();
-
-  private shippingWrapper = new CreateElement<HTMLInputElement>({
-    tag: "div",
-    cssClasses: ["registration-form__shipping-wrapper"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private billingStreetInput = new CreateElement<HTMLInputElement>({
@@ -104,7 +114,7 @@ export class RegFormView {
       required: "true",
       placeholder: "Street",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private billingCityInput = new CreateElement<HTMLInputElement>({
@@ -114,7 +124,7 @@ export class RegFormView {
       required: "true",
       placeholder: "City",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
   private billingCodeInput = new CreateElement<HTMLInputElement>({
@@ -124,12 +134,43 @@ export class RegFormView {
       required: "true",
       placeholder: "Post code",
     },
-    cssClasses: ["registration-form__input-short"],
+    cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private billingWrapper = new CreateElement<HTMLInputElement>({
+  pages: { title: string; elements: HTMLElement[] }[] = [
+    {
+      title: "Some about you...",
+      elements: [this.firstNameInput, this.lastNameInput, this.birthDateInput],
+    },
+    {
+      title: "Shipping address",
+      elements: [
+        this.shippingStreetInput,
+        this.shippingCityInput,
+        this.shippingCodeInput,
+      ],
+    },
+    {
+      title: "Billing address",
+      elements: [
+        this.billingStreetInput,
+        this.billingCityInput,
+        this.billingCodeInput,
+      ],
+    },
+    {
+      title: "Your login and password",
+      elements: [this.emailInput, this.passwordInput],
+    },
+  ];
+
+  currentPageIndex: number = 0;
+
+  maxPageIndex: number = 0;
+
+  private pageContentWrapper = new CreateElement({
     tag: "div",
-    cssClasses: ["registration-form__billing-wrapper"],
+    cssClasses: ["registration-form__page-content-wrapper"],
   }).getHTMLElement();
 
   public singUpBtn = new CreateElement<HTMLInputElement>({
@@ -138,37 +179,32 @@ export class RegFormView {
     textContent: "Sign Up",
   });
 
+  public nextBtn = new CreateElement<HTMLInputElement>({
+    tag: "button",
+    cssClasses: ["registration-form__next-btn"],
+    textContent: "Next",
+    eventType: "click",
+    callback: this.goNextPage.bind(this),
+  }).getHTMLElement();
+
   constructor() {
-    this.firstLastDateWrapper.append(
-      this.firstNameInput,
-      this.lastNameInput,
-      this.birthDateInput,
+    this.maxPageIndex = this.pages.length - 1;
+    this.pageTitle.textContent = this.pages[this.currentPageIndex].title;
+    this.statusBar.append(this.progressLine, this.progressText);
+    this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
+    this.pages[this.currentPageIndex].elements.forEach((element) =>
+      this.pageContentWrapper.append(element),
     );
-
-    this.shippingWrapper.append(
-      this.shippingStreetInput,
-      this.shippingCityInput,
-      this.shippingCodeInput,
+    this.form.append(
+      this.statusBar,
+      this.pageTitle,
+      this.pageContentWrapper,
+      this.nextBtn,
     );
-
-    this.billingWrapper.append(
-      this.billingStreetInput,
-      this.billingCityInput,
-      this.billingCodeInput,
-    );
-
-    this.form.addInnerElements([
-      this.emailInput,
-      this.passwordInput,
-      this.firstLastDateWrapper,
-      this.shippingWrapper,
-      this.billingWrapper,
-      this.singUpBtn,
-    ]);
   }
 
   public getFormView(): HTMLElement {
-    return this.form.getHTMLElement();
+    return this.form;
   }
 
   public collectData(): CustomerData {
@@ -189,6 +225,26 @@ export class RegFormView {
         postCode: this.shippingCodeInput.value,
       },
     };
+  }
+
+  private goNextPage(e: Event): void {
+    e.preventDefault();
+    if (this.currentPageIndex + 1 <= this.maxPageIndex) {
+      this.currentPageIndex += 1;
+      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
+      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+    }
+    this.showPageContent(this.currentPageIndex);
+  }
+
+  private showPageContent(pageIndex: number): void {
+    while (this.pageContentWrapper.lastElementChild) {
+      this.pageContentWrapper.lastElementChild.remove();
+    }
+    this.pageTitle.textContent = this.pages[pageIndex].title;
+    this.pages[pageIndex].elements.forEach((element) =>
+      this.pageContentWrapper.append(element),
+    );
   }
 }
 
