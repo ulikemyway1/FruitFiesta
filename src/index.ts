@@ -1,6 +1,10 @@
+import App from "./app/app/app";
 import { router, Hash } from "./app/routing";
 
-// get the user status, something like user.isLoggedIn
+const app = new App();
+
+app.run();
+
 const IsLoggedIn = false;
 
 if (IsLoggedIn) {
