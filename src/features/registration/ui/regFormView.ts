@@ -159,29 +159,36 @@ export class RegFormView {
   pages: { title: string; elements: HTMLElement[] }[] = [
     {
       title: "Some about you...",
-      elements: [this.firstNameInput, this.lastNameInput, this.birthDateInput],
+      elements: [
+        RegFormView.insertWrapperWithElements([this.firstNameInput]),
+        RegFormView.insertWrapperWithElements([this.lastNameInput]),
+        RegFormView.insertWrapperWithElements([this.birthDateInput]),
+      ],
     },
     {
       title: "Shipping address",
       elements: [
         this.shippingCountryInput,
-        this.shippingStreetInput,
-        this.shippingCityInput,
-        this.shippingCodeInput,
+        RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
+        RegFormView.insertWrapperWithElements([this.shippingCityInput]),
+        RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
       ],
     },
     {
       title: "Billing address",
       elements: [
         this.billingCountryInput,
-        this.billingStreetInput,
-        this.billingCityInput,
-        this.billingCodeInput,
+        RegFormView.insertWrapperWithElements([this.billingStreetInput]),
+        RegFormView.insertWrapperWithElements([this.billingCityInput]),
+        RegFormView.insertWrapperWithElements([this.billingCodeInput]),
       ],
     },
     {
       title: "Your login and password",
-      elements: [this.emailInput, this.passwordInput],
+      elements: [
+        RegFormView.insertWrapperWithElements([this.emailInput]),
+        RegFormView.insertWrapperWithElements([this.passwordInput]),
+      ],
     },
   ];
 
@@ -189,7 +196,7 @@ export class RegFormView {
 
   maxPageIndex: number = 0;
 
-  private pageContentWrapper = new CreateElement({
+  public pageContentWrapper = new CreateElement({
     tag: "div",
     cssClasses: ["registration-form__page-content-wrapper"],
   }).getHTMLElement();
@@ -208,6 +215,22 @@ export class RegFormView {
     callback: this.goNextPage.bind(this),
   }).getHTMLElement();
 
+  public prevBtn = new CreateElement<HTMLInputElement>({
+    tag: "button",
+    cssClasses: ["registration-form_prev-btn"],
+    textContent: "Back",
+    eventType: "click",
+    callback: this.goPrevPage.bind(this),
+    attributes: {
+      disabled: "true",
+    },
+  }).getHTMLElement();
+
+  private paginationWrapper = new CreateElement({
+    tag: "div",
+    cssClasses: ["registration-form__pagination-wrapper"],
+  }).getHTMLElement();
+
   constructor() {
     this.maxPageIndex = this.pages.length - 1;
     this.pageTitle.textContent = this.pages[this.currentPageIndex].title;
@@ -216,11 +239,12 @@ export class RegFormView {
     this.pages[this.currentPageIndex].elements.forEach((element) =>
       this.pageContentWrapper.append(element),
     );
+    this.paginationWrapper.append(this.prevBtn, this.nextBtn);
     this.form.append(
       this.statusBar,
       this.pageTitle,
       this.pageContentWrapper,
-      this.nextBtn,
+      this.paginationWrapper,
     );
 
     countryOptions.forEach((country) => {
@@ -263,6 +287,18 @@ export class RegFormView {
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
     }
     this.showPageContent(this.currentPageIndex);
+    this.checkPagination();
+  }
+
+  private goPrevPage(e: Event): void {
+    e.preventDefault();
+    if (this.currentPageIndex - 1 >= 0) {
+      this.currentPageIndex -= 1;
+      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
+      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+    }
+    this.showPageContent(this.currentPageIndex);
+    this.checkPagination();
   }
 
   private showPageContent(pageIndex: number): void {
@@ -273,6 +309,29 @@ export class RegFormView {
     this.pages[pageIndex].elements.forEach((element) =>
       this.pageContentWrapper.append(element),
     );
+  }
+
+  private checkPagination(): void {
+    if (this.currentPageIndex < this.maxPageIndex) {
+      this.nextBtn.disabled = false;
+    } else {
+      this.nextBtn.disabled = true;
+    }
+
+    if (this.currentPageIndex > 0) {
+      this.prevBtn.disabled = false;
+    } else {
+      this.prevBtn.disabled = true;
+    }
+  }
+
+  static insertWrapperWithElements(elements: HTMLElement[]): HTMLElement {
+    const wrapper = new CreateElement({
+      tag: "div",
+      cssClasses: ["input-wrapper"],
+      children: elements,
+    }).getHTMLElement();
+    return wrapper;
   }
 }
 
