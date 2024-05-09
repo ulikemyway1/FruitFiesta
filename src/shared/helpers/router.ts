@@ -5,13 +5,11 @@ export default class Router {
 
   fallback?: (hash: string) => void;
 
-  isItFirstTime = true;
+  catchHashChange = true;
 
   run() {
     window.addEventListener("hashchange", () => {
-      // skip the first event
-      if (this.isItFirstTime) {
-        this.isItFirstTime = false;
+      if (!this.catchHashChange) {
         return;
       }
       this.navigate(window.location.hash);
@@ -19,10 +17,14 @@ export default class Router {
   }
 
   navigate(hash: string) {
+    this.catchHashChange = false;
     if (window.location.hash !== hash) {
       // do we need to skip the next event?
       window.location.hash = hash;
     }
+    setTimeout(() => {
+      this.catchHashChange = true;
+    }, 0);
 
     // every time onNavigate we can callback if it exists
     if (this.onNavigate) {
