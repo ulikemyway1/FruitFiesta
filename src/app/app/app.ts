@@ -1,4 +1,4 @@
-// import loginPage from "../../pages/login/ui/loginPage";
+// import regFormController from "../../features/registration/model/regFormController";
 
 class App {
   private container: HTMLElement = document.body;
@@ -9,7 +9,7 @@ class App {
 
   run() {
     console.log(this);
-    // this.container.append(loginPage.draw().getHTMLElement());
+    // this.container.append(regFormController.getView());
   }
 }
 

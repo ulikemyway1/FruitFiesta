@@ -165,7 +165,7 @@ export class LoginFormView {
       this.signInButton,
       this.hintBox,
     ],
-  });
+  }).getHTMLElement();
 
   checkAt(value: string) {
     const hasAt = value.includes("@");
@@ -329,7 +329,7 @@ export class LoginFormView {
   }
 
   getFormView(): HTMLElement {
-    return this.loginFormContainer.getHTMLElement();
+    return this.loginFormContainer;
   }
 }
 

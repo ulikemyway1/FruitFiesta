@@ -5,7 +5,7 @@ export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData
 ): void {
   apiRoot
-    .customers()
+    .login()
     .post({
       body: {
         email: customerAuthData.email,
@@ -13,6 +13,6 @@ export default function sendRequestCustomerAuth(
       },
     })
     .execute()
-    .then((respone) => console.log(respone))
+    .then((response) => console.log(response))
     .catch((e) => console.error(e));
 }

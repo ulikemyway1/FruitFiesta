@@ -1,4 +1,5 @@
 // import { Hash, router } from "../../../app/routing";
+// import errorDialogController from "../../dialog/model/errorDialogController";
 import sendRequestCustomerAuth from "../api/authenticateCustomer";
 import loginFormView, { LoginFormView } from "../ui/loginFormView";
 
@@ -17,7 +18,9 @@ class LoginFormController {
         ) {
           const customerAuthData = this.view.collectAuthData();
           sendRequestCustomerAuth(customerAuthData);
-          // if ok
+          // if (response.statusCode === 400) {
+          // }
+
           // router.navigate(Hash.MAIN);
         }
       });
