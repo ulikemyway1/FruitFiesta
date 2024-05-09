@@ -1,5 +1,6 @@
 import CreateElement from "../../../shared/helpers/element-create";
 import CustomerData from "../model/ICustomerData";
+import countryOptions from "../model/countries";
 import "./regForm.scss";
 
 export class RegFormView {
@@ -28,7 +29,7 @@ export class RegFormView {
     cssClasses: ["registration-form__page-title"],
   }).getHTMLElement();
 
-  private emailInput = new CreateElement<HTMLInputElement>({
+  public emailInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "email",
@@ -38,7 +39,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private passwordInput = new CreateElement<HTMLInputElement>({
+  public passwordInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "password",
@@ -48,7 +49,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private firstNameInput = new CreateElement<HTMLInputElement>({
+  public firstNameInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -58,7 +59,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private lastNameInput = new CreateElement<HTMLInputElement>({
+  public lastNameInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -68,7 +69,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private birthDateInput = new CreateElement<HTMLInputElement>({
+  public birthDateInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "date",
@@ -77,7 +78,16 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private shippingStreetInput = new CreateElement<HTMLInputElement>({
+  public shippingCountryInput = new CreateElement<HTMLSelectElement>({
+    tag: "select",
+    attributes: {
+      required: "true",
+      placeholder: "Country",
+    },
+    cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  public shippingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -87,7 +97,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private shippingCityInput = new CreateElement<HTMLInputElement>({
+  public shippingCityInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -97,7 +107,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private shippingCodeInput = new CreateElement<HTMLInputElement>({
+  public shippingCodeInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -107,7 +117,16 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private billingStreetInput = new CreateElement<HTMLInputElement>({
+  public billingCountryInput = new CreateElement<HTMLSelectElement>({
+    tag: "select",
+    attributes: {
+      required: "true",
+      placeholder: "Country",
+    },
+    cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  public billingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -117,7 +136,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private billingCityInput = new CreateElement<HTMLInputElement>({
+  public billingCityInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -127,7 +146,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  private billingCodeInput = new CreateElement<HTMLInputElement>({
+  public billingCodeInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
@@ -145,6 +164,7 @@ export class RegFormView {
     {
       title: "Shipping address",
       elements: [
+        this.shippingCountryInput,
         this.shippingStreetInput,
         this.shippingCityInput,
         this.shippingCodeInput,
@@ -153,6 +173,7 @@ export class RegFormView {
     {
       title: "Billing address",
       elements: [
+        this.billingCountryInput,
         this.billingStreetInput,
         this.billingCityInput,
         this.billingCodeInput,
@@ -201,6 +222,13 @@ export class RegFormView {
       this.pageContentWrapper,
       this.nextBtn,
     );
+
+    countryOptions.forEach((country) => {
+      const optionForShipping = new Option(country.name, country.short);
+      const optionForBilling = new Option(country.name, country.short);
+      this.shippingCountryInput.add(optionForShipping);
+      this.billingCountryInput.add(optionForBilling);
+    });
   }
 
   public getFormView(): HTMLElement {
