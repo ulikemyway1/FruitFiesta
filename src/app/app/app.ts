@@ -1,4 +1,4 @@
-import loginPage from "../../pages/login/ui/loginPage";
+import { router, Hash } from "../routing";
 
 class App {
   private container: HTMLElement = document.body;
@@ -8,7 +8,19 @@ class App {
   }
 
   run() {
-    this.container.append(loginPage.draw().getHTMLElement());
+    console.log(this);
+
+    const IsLoggedIn = false;
+
+    router.run();
+
+    if (IsLoggedIn) {
+      router.navigate(Hash.MAIN);
+      // window.location.hash = Hash.MAIN;
+    } else {
+      router.navigate(Hash.LOGIN);
+      // window.location.hash = Hash.LOGIN;
+    }
   }
 }
 

@@ -1,14 +1,19 @@
 export default class Router {
-  routes: Array<{ pattern: string | RegExp; handler: (hash: string) => void }>;
+  routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
 
   onNavigate?: (hash: string) => void;
 
   fallback?: (hash: string) => void;
 
-  constructor() {
-    this.routes = [];
+  isItFirstTime = true;
 
+  run() {
     window.addEventListener("hashchange", () => {
+      // skip the first event
+      if (this.isItFirstTime) {
+        this.isItFirstTime = false;
+        return;
+      }
       this.navigate(window.location.hash);
     });
   }
@@ -23,6 +28,8 @@ export default class Router {
     if (this.onNavigate) {
       this.onNavigate(hash);
     }
+
+    console.log(this.routes);
 
     for (let i = 0; i < this.routes.length; i += 1) {
       // string
