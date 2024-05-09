@@ -31,8 +31,6 @@ export default class Router {
       this.onNavigate(hash);
     }
 
-    console.log(this.routes);
-
     for (let i = 0; i < this.routes.length; i += 1) {
       // string
       if (

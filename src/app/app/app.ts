@@ -10,16 +10,14 @@ class App {
   run() {
     console.log(this);
 
-    const IsLoggedIn = false;
+    const isLoggedIn = false;
 
     router.run();
 
-    if (IsLoggedIn) {
+    if (isLoggedIn) {
       router.navigate(Hash.MAIN);
-      // window.location.hash = Hash.MAIN;
     } else {
       router.navigate(Hash.LOGIN);
-      // window.location.hash = Hash.LOGIN;
     }
   }
 }
