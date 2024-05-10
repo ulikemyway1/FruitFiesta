@@ -3,7 +3,12 @@ import "./index.scss";
 import CreateElement from "../../../shared/helpers/element-create";
 import PAGES from "./PAGES";
 
-class Nav {
+class Header {
+  private container = new CreateElement({
+    tag: "header",
+    cssClasses: ["header"],
+  });
+
   private nav = new CreateElement({
     tag: "nav",
     cssClasses: ["nav"],
@@ -35,11 +40,12 @@ class Nav {
     });
 
     this.nav.addInnerElements(this.navList);
+    this.container.addInnerElements(this.nav);
   }
 
   getHTMLElement(): HTMLElement {
-    return this.nav.getHTMLElement();
+    return this.container.getHTMLElement();
   }
 }
 
-export default new Nav().getHTMLElement();
+export default new Header().getHTMLElement();
