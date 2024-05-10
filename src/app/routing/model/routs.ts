@@ -48,9 +48,9 @@ router.route(Hash.NOT_FOUND, () => {
   document.body.innerHTML = "<h1>Not found</h1>";
 });
 
-router.route(Hash.EMPTY, () => {
-  console.log("empty hash");
-  document.body.innerHTML = "<h1>Empty hash</h1>";
-});
+// router.route(Hash.EMPTY, () => {
+//   console.log("empty hash");
+//   document.body.innerHTML = "<h1>Empty hash</h1>";
+// });
 
 export default router;

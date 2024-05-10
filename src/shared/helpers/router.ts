@@ -37,15 +37,22 @@ export default class Router {
         typeof this.routes[i].pattern === "string" &&
         this.routes[i].pattern === hash
       ) {
+        console.log("router catch string");
+
         this.routes[i].handler(hash);
         return;
       }
       // RegExp
+      // TODO: configure it to work with the catalog
       if (hash.match(this.routes[i].pattern)) {
+        console.log("router catch regexp");
+
         this.routes[i].handler(hash);
         return;
       }
     }
+
+    this.navigate("#not-found");
 
     // we here if no route matched and we can do something if we have a fallback
     if (this.fallback) {
