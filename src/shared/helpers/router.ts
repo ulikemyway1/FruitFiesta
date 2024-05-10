@@ -41,9 +41,6 @@ export default class Router {
       ) {
         // console.log("router catch string");
         this.routes[i].handler(hash);
-
-        // console.log(window.history);
-
         return;
       }
       // RegExp
@@ -51,9 +48,6 @@ export default class Router {
       if (hash.match(this.routes[i].pattern)) {
         // console.log("router catch regexp");
         this.routes[i].handler(hash);
-
-        // console.log(window.history);
-
         return;
       }
     }
