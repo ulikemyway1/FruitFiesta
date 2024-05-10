@@ -2,21 +2,24 @@ import Router from "../../../shared/helpers/router";
 import MainPageView from "../../../pages/main/ui/mainPage";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
+import cleanContainer from "../../../shared/utils/clean-container";
 
 const router = new Router();
 
 router.route(Hash.LOGIN, () => {
   console.log(Hash.LOGIN);
   // document.body.innerHTML = "<h1>Login</h1>";
+  cleanContainer(document.body);
   document.body.append(loginPage.draw().getHTMLElement());
 });
-router.route(Hash.REGISTER, () => {
-  console.log(Hash.REGISTER);
+router.route(Hash.REGISTRATION, () => {
+  console.log(Hash.REGISTRATION);
   document.body.innerHTML = "<h1>Register</h1>";
 });
 router.route(Hash.MAIN, () => {
   console.log(Hash.MAIN);
   // document.body.innerHTML = "<h1>Main</h1>";
+  cleanContainer(document.body);
   document.body.append(new MainPageView().getHTMLElement());
 });
 router.route(Hash.CATALOG, () => {
@@ -49,4 +52,4 @@ router.route(Hash.EMPTY, () => {
   document.body.innerHTML = "<h1>Empty hash</h1>";
 });
 
-export { router, Hash };
+export default router;

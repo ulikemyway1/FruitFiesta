@@ -1,0 +1,19 @@
+.nav {
+}
+
+.nav__list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav__item {
+  list-style-type: none;
+  border: 1px solid black;
+
+  a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: black;
+  }
+}

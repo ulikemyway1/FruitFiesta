@@ -1,6 +1,6 @@
 enum Hash {
   LOGIN = "login",
-  REGISTER = "registration",
+  REGISTRATION = "registration",
   MAIN = "main",
   CATALOG = "catalog",
   DETAIL = "detail",

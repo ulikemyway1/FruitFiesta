@@ -1,6 +1,8 @@
 import Hash from "../../../app/routing/model/enumHash";
 import CreateElement from "../../../shared/helpers/element-create";
 
+import nav from "../../../widgets/nav";
+
 export default class MainPageView {
   title = new CreateElement({
     tag: "h1",
@@ -11,7 +13,7 @@ export default class MainPageView {
   content = new CreateElement({
     tag: "div",
     cssClasses: ["main-page__content"],
-    textContent: "Content",
+    textContent: "Ut et sint non aliqua ex id sit labore eiusmod laboris.",
   });
 
   button = new CreateElement<HTMLButtonElement>({
@@ -27,7 +29,7 @@ export default class MainPageView {
   container = new CreateElement({
     tag: "div",
     cssClasses: ["main-page"],
-    children: [this.title, this.content, this.button],
+    children: [nav, this.title, this.content, this.button],
   });
 
   getHTMLElement(): HTMLElement {
