@@ -1,5 +1,5 @@
 import Router from "../../../shared/helpers/router";
-import mainPageMain from "../../../pages/main";
+import mainPage from "../../../pages/main";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import cleanContainer from "../../../shared/utils/clean-container";
@@ -22,7 +22,7 @@ router.route(Hash.MAIN, () => {
   console.log(Hash.MAIN);
   // document.body.innerHTML = "<h1>Main</h1>";
   cleanContainer(document.body);
-  document.body.append(header, mainPageMain);
+  document.body.append(header, mainPage.getView());
 });
 router.route(Hash.CATALOG, () => {
   console.log(Hash.CATALOG);
