@@ -1,6 +1,11 @@
 import Hash from "../../../app/routing/model/enumHash";
 import CreateElement from "../../../shared/helpers/element-create";
 
+import apiRoot from "../../../shared/api/APIRoot";
+
+// get discount code list
+const getProductDiscounts = () => apiRoot.discountCodes().get().execute();
+
 export default class MainPageMain {
   title = new CreateElement({
     tag: "h1",
@@ -29,6 +34,13 @@ export default class MainPageMain {
     cssClasses: ["main-page"],
     children: [this.title, this.content, this.button],
   });
+
+  constructor() {
+    getProductDiscounts().then((response) => {
+      console.log(response);
+      this.content.getHTMLElement().textContent = `Джесон дисконтов: ${JSON.stringify(response)}`;
+    });
+  }
 
   getHTMLElement(): HTMLElement {
     return this.container.getHTMLElement();
