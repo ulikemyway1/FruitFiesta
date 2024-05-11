@@ -1,14 +1,29 @@
-// import MainPageView from "./ui/mainPage";
-// // import { router } from "../../app/routing";
+import MainPageView from "./ui/mainPageView";
+import MainPageModel from "./model/mainPageModel";
+import DiscountCardView from "../../widgets/discountCard";
 
-// export default class MainPageController {
-//   view: HTMLElement;
+class MainPageController {
+  model = MainPageModel;
 
-//   constructor() {
-//     this.view = new MainPageView().getHTMLElement();
-//   }
+  view = new MainPageView();
 
-//   public getView(): HTMLElement {
-//     return this.view;
-//   }
-// }
+  constructor() {
+    this.model.getDiscountCodes().then((discountCodes) => {
+      discountCodes.forEach((discount) =>
+        this.view.appendContent(
+          new DiscountCardView({
+            title: discount.title,
+            text: discount.text,
+            promoCode: discount.promoCode,
+          }).getHTMLElement(),
+        ),
+      );
+    });
+  }
+
+  getView() {
+    return this.view.getHTMLElement();
+  }
+}
+
+export default new MainPageController();
