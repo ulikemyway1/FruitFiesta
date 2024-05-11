@@ -1,4 +1,4 @@
-// import regFormController from "../../features/registration/model/regFormController";
+import { router, Hash } from "../routing";
 
 class App {
   private container: HTMLElement = document.body;
@@ -9,7 +9,16 @@ class App {
 
   run() {
     console.log(this);
-    // this.container.append(regFormController.getView());
+
+    const isLoggedIn = false;
+
+    router.run();
+
+    if (isLoggedIn) {
+      router.navigate(Hash.MAIN);
+    } else {
+      router.navigate(Hash.LOGIN);
+    }
   }
 }
 

@@ -1,23 +1,30 @@
 export default class Router {
-  routes: Array<{ pattern: string | RegExp; handler: (hash: string) => void }>;
+  routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
 
   onNavigate?: (hash: string) => void;
 
   fallback?: (hash: string) => void;
 
-  constructor() {
-    this.routes = [];
+  catchHashChange = true;
 
+  run() {
     window.addEventListener("hashchange", () => {
+      if (!this.catchHashChange) {
+        return;
+      }
       this.navigate(window.location.hash);
     });
   }
 
   navigate(hash: string) {
+    this.catchHashChange = false;
     if (window.location.hash !== hash) {
       // do we need to skip the next event?
       window.location.hash = hash;
     }
+    setTimeout(() => {
+      this.catchHashChange = true;
+    }, 0);
 
     // every time onNavigate we can callback if it exists
     if (this.onNavigate) {
