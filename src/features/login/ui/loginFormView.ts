@@ -10,11 +10,6 @@ export class LoginFormView {
     attributes: { src: logo },
   }).getHTMLElement();
 
-  private loginForm = new CreateElement<HTMLFormElement>({
-    tag: "form",
-    cssClasses: ["login-form"],
-  }).getHTMLElement();
-
   private loginFormTitle = new CreateElement<HTMLHeadingElement>({
     tag: "h2",
     cssClasses: ["login-form__title"],
@@ -30,7 +25,7 @@ export class LoginFormView {
   private emailInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["login-form__email"],
-    attributes: { placeholder: "username@gmail.com" },
+    attributes: { placeholder: "username@gmail.com", autocomplete: "" },
     eventType: "input",
     callback: this.emailInputHandler.bind(this),
   }).getHTMLElement();
@@ -62,7 +57,7 @@ export class LoginFormView {
   private passwordInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["login-form__password"],
-    attributes: { placeholder: "Password", type: "password" },
+    attributes: { placeholder: "Password", type: "password", autocomplete: "" },
     eventType: "input",
     callback: this.passwordInputHandler.bind(this),
   }).getHTMLElement();
@@ -142,12 +137,11 @@ export class LoginFormView {
     children: [this.hintText, this.hintLinkToRegistration],
   }).getHTMLElement();
 
-  private loginFormContainer = new CreateElement({
-    tag: "article",
-    cssClasses: ["login-form__container"],
+  private loginForm = new CreateElement<HTMLFormElement>({
+    tag: "form",
+    cssClasses: ["login-form"],
     children: [
       this.logoImage,
-      this.loginForm,
       this.loginFormTitle,
       this.emailInputTitle,
       this.emailInput,
@@ -165,6 +159,12 @@ export class LoginFormView {
       this.signInButton,
       this.hintBox,
     ],
+  }).getHTMLElement();
+
+  private loginFormContainer = new CreateElement({
+    tag: "article",
+    cssClasses: ["login-form__container"],
+    children: [this.loginForm],
   }).getHTMLElement();
 
   checkAt(value: string) {
@@ -321,10 +321,6 @@ export class LoginFormView {
     return {
       email: this.emailInput.value,
       password: this.passwordInput.value,
-      // anonymousCart: {
-      //   id: string;
-      //   typeId: string;
-      // };
     };
   }
 
