@@ -1,9 +1,10 @@
-// it's just dev test code, kill it later
-import getProject from "./shared/api/APIRoot";
+import "./app/styles/index.scss";
+import registrationForm from "./features/registration";
+import apiRoot from "./shared/api/APIRoot";
 
-getProject().then(console.log).catch(console.error);
+document.body.append(registrationForm);
 
-console.log(
-  "it's just test dotenv process.env.CTP_PROJECT_KEY:",
-  process.env.CTP_PROJECT_KEY,
-);
+apiRoot
+  .get()
+  .execute()
+  .then((resp) => console.log(resp));

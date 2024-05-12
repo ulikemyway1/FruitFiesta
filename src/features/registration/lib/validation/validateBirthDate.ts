@@ -17,7 +17,11 @@ export default function validateBirthDate(date: number): ValidationObject {
     status: "ok",
     validationMessage: "",
   };
-
+  if (!date) {
+    validationResult.status = "fail";
+    validationResult.validationMessage = "Please, input your birthday";
+    return validationResult;
+  }
   const customerDate = date;
   const customerAge = calculateAge(customerDate);
   if (!(customerAge >= 12)) {

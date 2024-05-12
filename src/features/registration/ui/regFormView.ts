@@ -210,9 +210,7 @@ export class RegFormView {
   public nextBtn = new CreateElement<HTMLInputElement>({
     tag: "button",
     cssClasses: ["registration-form__next-btn"],
-    textContent: "Next",
-    eventType: "click",
-    callback: this.goNextPage.bind(this),
+    textContent: "Continue",
   }).getHTMLElement();
 
   public prevBtn = new CreateElement<HTMLInputElement>({
@@ -279,12 +277,19 @@ export class RegFormView {
     };
   }
 
-  private goNextPage(e: Event): void {
+  public goNextPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex + 1 <= this.maxPageIndex) {
       this.currentPageIndex += 1;
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+    }
+    if (this.currentPageIndex === this.maxPageIndex) {
+      this.nextBtn.remove();
+      this.paginationWrapper.append(this.singUpBtn.getHTMLElement());
+    } else {
+      this.singUpBtn.getHTMLElement().remove();
+      this.paginationWrapper.append(this.nextBtn);
     }
     this.showPageContent(this.currentPageIndex);
     this.checkPagination();
