@@ -17,7 +17,7 @@ class App {
     if (isLoggedIn) {
       router.navigate(Hash.MAIN);
     } else {
-      router.navigate(Hash.LOGIN);
+      router.navigate(Hash.REGISTER);
     }
   }
 }

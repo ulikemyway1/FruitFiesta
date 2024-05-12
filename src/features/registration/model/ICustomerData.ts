@@ -5,11 +5,13 @@ export default interface CustomerData {
   lastName: string;
   birthDate: string;
   shippingAddress: {
+    country: string;
     street: string;
     city: string;
     postCode: string;
   };
   billingAddress: {
+    country: string;
     street: string;
     city: string;
     postCode: string;

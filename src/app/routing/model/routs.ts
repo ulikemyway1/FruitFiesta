@@ -4,6 +4,7 @@ import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import cleanContainer from "../../../shared/utils/clean-container";
 import header from "../../../widgets/header";
+import registrationPage from "../../../pages/registration";
 
 const router = new Router();
 
@@ -16,7 +17,7 @@ router.route(Hash.LOGIN, () => {
 router.route(Hash.REGISTRATION, () => {
   console.log(Hash.REGISTRATION);
   cleanContainer(document.body);
-  document.body.append(header, "<h1>Register</h1>");
+  document.body.append(registrationPage);
 });
 router.route(Hash.MAIN, () => {
   console.log(Hash.MAIN);
