@@ -1,10 +1,5 @@
-import "./app/styles/index.scss";
-import registrationForm from "./features/registration";
-import apiRoot from "./shared/api/APIRoot";
+import App from "./app/app/app";
 
-document.body.append(registrationForm);
+const app = new App();
 
-apiRoot
-  .get()
-  .execute()
-  .then((resp) => console.log(resp));
+app.run();

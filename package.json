@@ -8,7 +8,7 @@
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "ci:lint": "npx eslint 'src/**/*.{ts, js}' ",
-    "lint": "npx eslint 'src/**/*.{ts, js}'  --fix",
+    "lint": "npx eslint src --fix",
     "ci:format": "prettier --check src",
     "format": "prettier --write src",
     "prepare": "husky .husky"
