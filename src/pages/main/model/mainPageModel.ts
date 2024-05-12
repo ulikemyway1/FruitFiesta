@@ -1,6 +1,4 @@
-import apiRoot from "../../../shared/api/APIRoot";
-
-const fetchDiscountCodes = () => apiRoot.discountCodes().get().execute();
+import fetchDiscountCodes from "../api";
 
 export default class MainPageModel {
   static async getDiscountCodes() {

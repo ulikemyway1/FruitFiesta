@@ -20,6 +20,7 @@ class Header {
     children: [
       new CreateElement({
         tag: "img",
+        cssClasses: ["header__logo-img"],
         attributes: {
           src: logo,
           alt: "Logo",
