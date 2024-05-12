@@ -1,6 +1,5 @@
 import sendRequestCustomerAuth from "../api/authenticateCustomer";
 import loginFormView, { LoginFormView } from "../ui/loginFormView";
-// import CustomerAuthResponse from "./ICustomerAuthResponse";
 
 class LoginFormController {
   view: LoginFormView;
@@ -16,7 +15,7 @@ class LoginFormController {
           loginFormView.emailInputHandler()
         ) {
           const customerAuthData = this.view.collectAuthData();
-          sendRequestCustomerAuth(customerAuthData);
+          sendRequestCustomerAuth(customerAuthData, this.view);
         }
       });
   }

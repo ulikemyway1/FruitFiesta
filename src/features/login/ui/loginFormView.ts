@@ -2,8 +2,11 @@ import CreateElement from "../../../shared/helpers/element-create";
 import logo from "../../../assets/images/logo.svg";
 import "./login-form.scss";
 import CustomerAuthData from "../model/ICustomerAuthData";
+import Hash from "../../../app/routing/model/enumHash";
 
 export class LoginFormView {
+  private registrationPage = Hash.REGISTRATION;
+
   private logoImage = new CreateElement<HTMLImageElement>({
     tag: "img",
     cssClasses: ["login-form__logo"],
@@ -111,7 +114,13 @@ export class LoginFormView {
     textContent: "No leading or trailing whitespace",
   }).getHTMLElement();
 
-  public signInButton = new CreateElement<HTMLButtonElement>({
+  invalidLoginOrPassword = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["login-form__request-error"],
+    textContent: "Sorry, invalid login or password!",
+  }).getHTMLElement();
+
+  signInButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["login-form__button"],
     textContent: "Sign in",
@@ -156,6 +165,7 @@ export class LoginFormView {
       this.digitError,
       this.whitespaceError,
       this.charError,
+      this.invalidLoginOrPassword,
       this.signInButton,
       this.hintBox,
     ],
@@ -167,7 +177,7 @@ export class LoginFormView {
     children: [this.loginForm],
   }).getHTMLElement();
 
-  checkAt(value: string) {
+  private checkAt(value: string) {
     const hasAt = value.includes("@");
     if (hasAt) {
       this.atError.classList.remove("error");
@@ -177,7 +187,7 @@ export class LoginFormView {
     return hasAt;
   }
 
-  checkSpaces(value: string) {
+  private checkSpaces(value: string) {
     const hasNotSpaces = /^\S+$/.test(value);
     if (hasNotSpaces) {
       this.spacesError.classList.remove("error");
@@ -187,7 +197,7 @@ export class LoginFormView {
     return hasNotSpaces;
   }
 
-  checkFullEmail(value: string) {
+  private checkFullEmail(value: string) {
     const isEmailValid =
       /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/.test(value);
     if (isEmailValid) {
@@ -200,6 +210,7 @@ export class LoginFormView {
   }
 
   emailInputHandler() {
+    this.invalidLoginOrPassword.classList.remove("error");
     const emailInputValue = this.emailInput.value;
     this.emailInput.classList.add("error");
 
@@ -210,7 +221,7 @@ export class LoginFormView {
     return spaces && at && general;
   }
 
-  checkLength(value: string) {
+  private checkLength(value: string) {
     const isProperLength = value.length > 7;
     if (isProperLength) {
       this.lengthError.classList.remove("error");
@@ -220,7 +231,7 @@ export class LoginFormView {
     return isProperLength;
   }
 
-  checkUppercase(value: string) {
+  private checkUppercase(value: string) {
     const hasUppercaseLetter = /[A-Z]/.test(value);
     if (hasUppercaseLetter) {
       this.uppercaseError.classList.remove("error");
@@ -230,7 +241,7 @@ export class LoginFormView {
     return hasUppercaseLetter;
   }
 
-  checkLowercase(value: string) {
+  private checkLowercase(value: string) {
     const hasLowercaseLetter = /[a-z]/.test(value);
     if (hasLowercaseLetter) {
       this.lowercaseError.classList.remove("error");
@@ -240,7 +251,7 @@ export class LoginFormView {
     return hasLowercaseLetter;
   }
 
-  checkDigits(value: string) {
+  private checkDigits(value: string) {
     const hasDigits = /[0-9]/.test(value);
     if (hasDigits) {
       this.digitError.classList.remove("error");
@@ -250,7 +261,7 @@ export class LoginFormView {
     return hasDigits;
   }
 
-  checkSpecialChars(value: string) {
+  private checkSpecialChars(value: string) {
     const hasSpecialChars = /([!@#$%^&*]+)/.test(value);
     if (hasSpecialChars) {
       this.charError.classList.remove("error");
@@ -260,7 +271,7 @@ export class LoginFormView {
     return hasSpecialChars;
   }
 
-  checkWhitespaces(value: string) {
+  private checkWhitespaces(value: string) {
     const hasWhitespaces = value.charAt(0) || value.charAt(-1);
     if (hasWhitespaces) {
       this.whitespaceError.classList.remove("error");
@@ -270,7 +281,7 @@ export class LoginFormView {
     return hasWhitespaces;
   }
 
-  showHidePassword(event: Event) {
+  private showHidePassword(event: Event) {
     const { target } = event;
     const input = this.passwordInput;
 
@@ -289,6 +300,7 @@ export class LoginFormView {
   }
 
   passwordInputHandler() {
+    this.invalidLoginOrPassword.classList.remove("error");
     const passwordInputValue = this.passwordInput.value;
     this.passwordInput.classList.add("error");
 
@@ -307,21 +319,28 @@ export class LoginFormView {
     return status;
   }
 
-  linkToRegistration() {
-    // router.navigate(Hash.REGISTER);
-    console.log(this);
+  private linkToRegistration() {
+    window.location.hash = this.registrationPage;
   }
 
-  // submitForm() {
-  //   if (this.passwordInputHandler() && this.emailInputHandler()) {
-  //     this.linkToMainPage();
-  //   }
-  // }
-  public collectAuthData(): CustomerAuthData {
+  collectAuthData(): CustomerAuthData {
     return {
       email: this.emailInput.value,
       password: this.passwordInput.value,
     };
+  }
+
+  clearAuthForm() {
+    this.emailInput.value = "";
+    this.passwordInput.value = "";
+  }
+
+  showBadRequestError() {
+    this.invalidLoginOrPassword.classList.add("error");
+  }
+
+  hideBadRequestError() {
+    this.invalidLoginOrPassword.classList.remove("error");
   }
 
   getFormView(): HTMLElement {
