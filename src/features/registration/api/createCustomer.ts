@@ -13,6 +13,9 @@ export default function sendRequestCustomerCreation(
         firstName: customerData.firstName,
         lastName: customerData.lastName,
         dateOfBirth: customerData.birthDate,
+        addresses: [customerData.shippingAddress, customerData.billingAddress],
+        defaultShippingAddress: 0,
+        defaultBillingAddress: 1,
       },
     })
     .execute()

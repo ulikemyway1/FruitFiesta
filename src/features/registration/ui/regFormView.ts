@@ -265,11 +265,13 @@ export class RegFormView {
       lastName: this.lastNameInput.value,
       birthDate: this.birthDateInput.value,
       billingAddress: {
+        country: this.billingCountryInput.value,
         street: this.billingStreetInput.value,
         city: this.billingCityInput.value,
-        postCode: this.billingCityInput.value,
+        postCode: this.billingCodeInput.value,
       },
       shippingAddress: {
+        country: this.shippingCountryInput.value,
         street: this.shippingStreetInput.value,
         city: this.shippingCityInput.value,
         postCode: this.shippingCodeInput.value,
