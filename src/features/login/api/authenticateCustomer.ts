@@ -5,7 +5,7 @@ import { LoginFormView } from "../ui/loginFormView";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
-  loginForm: LoginFormView
+  loginForm: LoginFormView,
 ): void {
   apiRoot
     .login()
