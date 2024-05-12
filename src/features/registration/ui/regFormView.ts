@@ -2,8 +2,15 @@ import CreateElement from "../../../shared/helpers/element-create";
 import CustomerData from "../model/ICustomerData";
 import countryOptions from "../model/countries";
 import "./regForm.scss";
+import logo from "../../../assets/images/logo.svg";
 
 export class RegFormView {
+  private logoImage = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["registration-form__logo"],
+    attributes: { src: logo },
+  }).getHTMLElement();
+
   private form = new CreateElement({
     tag: "form",
     cssClasses: ["registration-form"],
@@ -84,7 +91,10 @@ export class RegFormView {
       required: "true",
       placeholder: "Country",
     },
-    cssClasses: ["registration-form__input-wide"],
+    cssClasses: [
+      "registration-form__input-wide",
+      "registration-form__country-input",
+    ],
   }).getHTMLElement();
 
   public shippingStreetInput = new CreateElement<HTMLInputElement>({
@@ -123,7 +133,10 @@ export class RegFormView {
       required: "true",
       placeholder: "Country",
     },
-    cssClasses: ["registration-form__input-wide"],
+    cssClasses: [
+      "registration-form__input-wide",
+      "registration-form__country-input",
+    ],
   }).getHTMLElement();
 
   public billingStreetInput = new CreateElement<HTMLInputElement>({
@@ -154,6 +167,18 @@ export class RegFormView {
       placeholder: "Post code",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private footerLinkWrapper = new CreateElement({
+    tag: "div",
+    cssClasses: ["registration-form__footer-link-wrapper"],
+    textContent: "Already have the account?",
+  }).getHTMLElement();
+
+  public linkToSignIn = new CreateElement<HTMLAnchorElement>({
+    tag: "a",
+    cssClasses: ["registration-form__footer-link"],
+    textContent: "Login",
   }).getHTMLElement();
 
   pages: { title: string; elements: HTMLElement[] }[] = [
@@ -215,7 +240,7 @@ export class RegFormView {
 
   public prevBtn = new CreateElement<HTMLInputElement>({
     tag: "button",
-    cssClasses: ["registration-form_prev-btn"],
+    cssClasses: ["registration-form__prev-btn"],
     textContent: "Back",
     eventType: "click",
     callback: this.goPrevPage.bind(this),
@@ -238,11 +263,16 @@ export class RegFormView {
       this.pageContentWrapper.append(element),
     );
     this.paginationWrapper.append(this.prevBtn, this.nextBtn);
+
+    this.footerLinkWrapper.append(this.linkToSignIn);
+
     this.form.append(
       this.statusBar,
+      this.logoImage,
       this.pageTitle,
       this.pageContentWrapper,
       this.paginationWrapper,
+      this.footerLinkWrapper,
     );
 
     countryOptions.forEach((country) => {

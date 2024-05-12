@@ -9,6 +9,12 @@
   gap: 20px;
   align-items: center;
   min-height: 600px;
+  background: rgba($color: #ffffff, $alpha: 0.1);
+
+  &__logo {
+    align-self: flex-end;
+    -webkit-user-drag: none;
+  }
 
   &__status-bar {
     position: relative;
@@ -19,13 +25,14 @@
     height: 26px;
     border-radius: 6px;
     overflow: hidden;
+    user-select: none;
   }
 
   &__progress-line {
     position: relative;
     height: 100%;
     width: 100%;
-    background-color: aquamarine;
+    background: var(--green-text-color);
     border-radius: 6px;
     transform: translateX(-100%);
     transition: all 0.6s;
@@ -41,7 +48,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: 1px solid black;
+    gap: 15px;
     width: 90%;
     flex-grow: 1;
     border-radius: 6px;
@@ -52,7 +59,12 @@
   &__sign-up {
     height: 50px;
     border-radius: 10px;
-    padding: 5px;
+    padding: 5px 15px;
+    border: none;
+    font-size: 16px;
+    &:has(+ .validation-error) {
+      border: 2px solid var(--error-text-border);
+    }
   }
   &__input-wide {
     width: 100%;
@@ -61,10 +73,78 @@
     max-width: 140px;
   }
 
+  &__country-input {
+    margin-bottom: 30px;
+    cursor: pointer;
+  }
+
   &__pagination-wrapper {
     display: flex;
     gap: 25px;
   }
+
+  &__next-btn,
+  &__prev-btn,
+  &__sign-up {
+    height: 50px;
+    font-size: 20px;
+    font-weight: 800;
+    padding: 0 15px;
+    border-radius: 10px;
+    border: none;
+    color: #ffffff;
+    background: var(--button-default-background);
+    cursor: pointer;
+    transition: all 0.6s ease-out;
+    width: 115px;
+
+    &:disabled {
+      background: var(--button-disabled-background);
+      cursor: auto;
+    }
+  }
+
+  &__sign-up {
+    background: var(--button-hover-background);
+  }
+
+  &__footer-link-wrapper {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+  }
+
+  &__footer-link {
+    color: var(--green-text-color);
+    font-weight: 800;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: relative;
+      top: 2px;
+      display: block;
+      margin: 0 auto;
+      height: 2px;
+      background: var(--green-text-color);
+      width: 100%;
+      transform: scaleX(0);
+      opacity: 0;
+      transition: all 0.6s;
+    }
+  }
+}
+
+.validation-error {
+  color: var(--error-text-border);
+  font-size: 14px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  gap: 6px;
 }
 
 @media (max-width: 670px) {
@@ -78,4 +158,20 @@
 
 .input-wrapper {
   width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .registration-form {
+    &__next-btn:hover:enabled,
+    &__prev-btn:hover:enabled {
+      background: var(--button-hover-background);
+    }
+    &__sign-up:hover {
+      filter: brightness(0.8);
+    }
+    &__footer-link:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
 }

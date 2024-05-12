@@ -188,6 +188,11 @@ class RegFormController {
         }
       });
     });
+
+    this.view.linkToSignIn.addEventListener(
+      "click",
+      RegFormController.navigateToLogin,
+    );
   }
 
   public getView(): HTMLElement {
@@ -250,6 +255,11 @@ class RegFormController {
     if (validationResult.status === "fail") {
       this.showValidationError.call(target, validationResult.validationMessage);
     }
+  }
+
+  static navigateToLogin(): void {
+    // TODO: router
+    console.log("go to login page");
   }
 }
 
