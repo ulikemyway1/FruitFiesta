@@ -1,10 +1,10 @@
 import Router from "../../../shared/helpers/router";
-// import MainPageView from "../../../pages/main/ui/mainPage";
+import MainPageView from "../../../pages/main/ui/mainPage";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
+import registrationPage from "../../../pages/registration";
 import cleanContainer from "../../../shared/utils/clean-container";
 import header from "../../../widgets/header";
-
 const router = new Router();
 
 router.route(Hash.LOGIN, () => {
@@ -12,13 +12,12 @@ router.route(Hash.LOGIN, () => {
   document.body.append(header, loginPage.draw().getHTMLElement());
 });
 router.route(Hash.REGISTRATION, () => {
-  console.log(Hash.REGISTRATION);
   cleanContainer(document.body);
-  document.body.append(header, "<h1>Register</h1>");
+  document.body.append(header, registrationPage);
 });
 router.route(Hash.MAIN, () => {
   cleanContainer(document.body);
-  // document.body.append(header, mainPage.getView());
+  document.body.append(new MainPageView().getHTMLElement());
 });
 router.route(Hash.CATALOG, () => {
   console.log(Hash.CATALOG);
