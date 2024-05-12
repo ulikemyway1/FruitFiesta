@@ -10,7 +10,7 @@ class App {
   run() {
     console.log(this);
 
-    const isLoggedIn = false;
+    const isLoggedIn = true;
 
     router.run();
 

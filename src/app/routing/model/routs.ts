@@ -1,24 +1,29 @@
 import Router from "../../../shared/helpers/router";
-// import MainPageView from "../../../pages/main/ui/mainPage";
+import mainPage from "../../../pages/main";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
-import registrationPage from "../../../pages/registration";
 import cleanContainer from "../../../shared/utils/clean-container";
 import header from "../../../widgets/header";
+import registrationPage from "../../../pages/registration";
 
 const router = new Router();
 
 router.route(Hash.LOGIN, () => {
+  console.log(Hash.LOGIN);
+  // document.body.innerHTML = "<h1>Login</h1>";
   cleanContainer(document.body);
   document.body.append(header, loginPage.draw().getHTMLElement());
 });
 router.route(Hash.REGISTRATION, () => {
+  console.log(Hash.REGISTRATION);
   cleanContainer(document.body);
   document.body.append(header, registrationPage);
 });
 router.route(Hash.MAIN, () => {
+  console.log(Hash.MAIN);
+  // document.body.innerHTML = "<h1>Main</h1>";
   cleanContainer(document.body);
-  // document.body.append(new MainPageView().getHTMLElement());
+  document.body.append(header, mainPage.getView());
 });
 router.route(Hash.CATALOG, () => {
   console.log(Hash.CATALOG);
