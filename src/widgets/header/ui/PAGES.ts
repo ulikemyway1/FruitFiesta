@@ -1,11 +1,11 @@
 const PAGES = new Map([
-  ["HOME", "#main"],
-  ["CATALOG", "#catalog"],
-  ["BASKET", "#basket"],
-  ["PROFILE", "#profile"],
-  ["ABOUT", "#about"],
-  ["LOGIN", "#login"],
-  ["REGISTRATION", "#registration"],
+  ["Home", "#main"],
+  ["Catalog", "#catalog"],
+  ["Basket", "#basket"],
+  ["Profile", "#profile"],
+  ["About", "#about"],
+  ["Login", "#login"],
+  ["Registration", "#registration"],
 ]);
 
 export default PAGES;
