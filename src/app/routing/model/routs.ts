@@ -2,6 +2,7 @@ import Router from "../../../shared/helpers/router";
 import MainPageView from "../../../pages/main/ui/mainPage";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
+import registrationPage from "../../../pages/registration";
 
 const router = new Router();
 
@@ -12,7 +13,12 @@ router.route(Hash.LOGIN, () => {
 });
 router.route(Hash.REGISTER, () => {
   console.log(Hash.REGISTER);
-  document.body.innerHTML = "<h1>Register</h1>";
+
+  // TODO: create finction to clear body
+  document.body.innerHTML = "";
+  //
+
+  document.body.append(registrationPage);
 });
 router.route(Hash.MAIN, () => {
   console.log(Hash.MAIN);
