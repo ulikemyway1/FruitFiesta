@@ -94,7 +94,8 @@
       }
     }
   }
-  &__error {
+  &__error,
+  &__request-error {
     display: block;
     height: 0;
     opacity: 0;
@@ -102,9 +103,13 @@
     font-size: 14px;
     transition: 0.3s linear;
   }
-  &__error.error {
+  &__error.error,
+  &__request-error.error {
     height: 100%;
     opacity: 1;
+  }
+  &__request-error.error {
+    font-size: 18px;
   }
   &__password-box {
     position: relative;

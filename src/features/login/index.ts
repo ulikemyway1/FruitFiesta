@@ -1,5 +1,5 @@
-import loginForm from "./ui/loginForm";
+import loginFormController from "./model/loginFormController";
 
-export default function getLoginForm() {
-  return loginForm.draw();
-}
+const authenticationForm = loginFormController.getView();
+
+export default authenticationForm;

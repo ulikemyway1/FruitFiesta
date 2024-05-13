@@ -17,7 +17,7 @@ router.route(Hash.LOGIN, () => {
 router.route(Hash.REGISTRATION, () => {
   console.log(Hash.REGISTRATION);
   cleanContainer(document.body);
-  document.body.append(registrationPage);
+  document.body.append(header, registrationPage);
 });
 router.route(Hash.MAIN, () => {
   console.log(Hash.MAIN);
