@@ -1,4 +1,5 @@
 import "./discountCard.scss";
+import { DiscountCode } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 
 import discountSvg from "../../../assets/images/coupon-svgrepo-com.svg";
@@ -43,14 +44,14 @@ export default class DiscountCardView {
     children: [this.img, this.content],
   });
 
-  constructor({
-    title = "Some title",
-    text = "Some text",
-    promoCode = "Some promo code",
-  }) {
-    this.title.getHTMLElement().textContent = title;
-    this.text.getHTMLElement().textContent = text;
-    this.promoCode.getHTMLElement().textContent = promoCode;
+  constructor(discount: DiscountCode) {
+    this.title.getHTMLElement().textContent = discount.name
+      ? discount.name["en-GB"]
+      : "";
+    this.text.getHTMLElement().textContent = discount.description
+      ? discount.description["en-GB"]
+      : "";
+    this.promoCode.getHTMLElement().textContent = discount.code;
   }
 
   getHTMLElement(): HTMLElement {
