@@ -8,6 +8,7 @@ export default function sendRequestCustomerAuth(
   loginForm: LoginFormView,
 ): void {
   apiRoot
+    .me()
     .login()
     .post({
       body: {
@@ -21,6 +22,8 @@ export default function sendRequestCustomerAuth(
         loginForm.clearAuthForm();
         loginForm.hideBadRequestError();
         window.location.hash = Hash.MAIN;
+
+        console.log((response.headers as Headers)?.get("Authorization"));
       }
     })
     .catch(() => {

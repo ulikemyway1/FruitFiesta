@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 import {
   ClientBuilder,
-  type AuthMiddlewareOptions,
+  // type ExistingTokenMiddlewareOptions,
+  type RefreshAuthMiddlewareOptions,
   type HttpMiddlewareOptions,
 } from "@commercetools/sdk-client-v2";
 
@@ -24,27 +25,34 @@ if (!process.env.CTP_PROJECT_KEY) {
 }
 
 const projectKey = process.env.CTP_PROJECT_KEY;
-const scopes = [process.env.CTP_SCOPES];
+// const scopes = [process.env.CTP_SCOPES];
 
-const authMiddlewareOptions: AuthMiddlewareOptions = {
-  host: "https://auth.eu-central-1.aws.commercetools.com",
-  projectKey,
-  credentials: {
-    clientId: process.env.CTP_CLIENT_ID,
-    clientSecret: process.env.CTP_CLIENT_SECRET,
-  },
-  scopes,
-  fetch,
-  tokenCache: tokenStorage,
-};
+// const authorization: string = "Bearer 6u3eC_2gTeUiGCwmIL6qUwjs1_3dd0Dw";
+// const options: ExistingTokenMiddlewareOptions = {
+//   force: true,
+// };
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: `https://api.${process.env.CTP_HOST}.commercetools.com`,
   fetch,
 };
 
+const refreshAuthMiddlewareOptions: RefreshAuthMiddlewareOptions = {
+  host: "https://auth.eu-central-1.aws.commercetools.com",
+  projectKey,
+  credentials: {
+    clientId: process.env.CTP_CLIENT_ID,
+    clientSecret: process.env.CTP_CLIENT_SECRET,
+  },
+  refreshToken: tokenStorage.storage.refreshToken || "dfrewfre",
+  tokenCache: tokenStorage,
+  // scopes,
+  fetch,
+};
+
 const ctpClient = new ClientBuilder()
-  .withAnonymousSessionFlow(authMiddlewareOptions)
+  .withRefreshTokenFlow(refreshAuthMiddlewareOptions)
+  // .withExistingTokenFlow(authorization, options)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();

@@ -1,10 +1,9 @@
 import fetch from "node-fetch";
 import {
   ClientBuilder,
-  type AuthMiddlewareOptions,
+  type PasswordAuthMiddlewareOptions,
   type HttpMiddlewareOptions,
 } from "@commercetools/sdk-client-v2";
-
 import tokenStorage from "./tokenStorage";
 
 if (!process.env.CTP_PROJECT_KEY) {
@@ -26,16 +25,20 @@ if (!process.env.CTP_PROJECT_KEY) {
 const projectKey = process.env.CTP_PROJECT_KEY;
 const scopes = [process.env.CTP_SCOPES];
 
-const authMiddlewareOptions: AuthMiddlewareOptions = {
+const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
   host: "https://auth.eu-central-1.aws.commercetools.com",
   projectKey,
   credentials: {
     clientId: process.env.CTP_CLIENT_ID,
     clientSecret: process.env.CTP_CLIENT_SECRET,
+    user: {
+      username: "qwerty12345678@qwerty.com",
+      password: "Qwerty1!",
+    },
   },
+  tokenCache: tokenStorage,
   scopes,
   fetch,
-  tokenCache: tokenStorage,
 };
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
@@ -44,7 +47,7 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 };
 
 const ctpClient = new ClientBuilder()
-  .withAnonymousSessionFlow(authMiddlewareOptions)
+  .withPasswordFlow(passwordAuthMiddlewareOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();

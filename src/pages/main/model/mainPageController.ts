@@ -2,6 +2,7 @@ import MainPageView from "../ui/mainPageView";
 import MainPageModel from "./mainPageModel";
 import DiscountCardView from "../../../widgets/discountCard";
 import ProductCardView from "../../../widgets/productCard";
+// import apiRoot from "../../../shared/api/APIRootToken";
 
 class MainPageController {
   model = MainPageModel;
@@ -23,6 +24,8 @@ class MainPageController {
         this.view.appendContent(new ProductCardView(product).getHTMLElement());
       });
     });
+
+    // apiRoot.me().get().execute();
   }
 
   getView() {

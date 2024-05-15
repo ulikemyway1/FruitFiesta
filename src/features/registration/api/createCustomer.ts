@@ -7,7 +7,8 @@ export default function sendRequestCustomerCreation(
   customerData: CustomerData,
 ): void {
   apiRoot
-    .customers()
+    .me()
+    .signup()
     .post({
       body: {
         email: customerData.email,
