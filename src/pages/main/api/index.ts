@@ -4,6 +4,6 @@ const fetchDiscountCodes = () =>
   requestAPI.withAnonymousSessionFlow().discountCodes().get().execute();
 
 const fetchProductProjections = () =>
-  apiRoot.productProjections().get().execute();
+  requestAPI.withAnonymousSessionFlow().productProjections().get().execute();
 
 export { fetchDiscountCodes, fetchProductProjections };

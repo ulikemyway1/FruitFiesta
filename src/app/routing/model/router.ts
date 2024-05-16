@@ -1,6 +1,6 @@
-import header from "../../widgets/header";
-import cleanContainer from "../utils/clean-container";
-import CreateElement from "./element-create";
+import header from "../../../widgets/header";
+import cleanContainer from "../../../shared/utils/clean-container";
+import CreateElement from "../../../shared/helpers/element-create";
 
 export default class Router {
   routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
