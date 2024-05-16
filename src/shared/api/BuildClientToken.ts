@@ -27,7 +27,7 @@ if (!process.env.CTP_PROJECT_KEY) {
 const projectKey = process.env.CTP_PROJECT_KEY;
 // const scopes = [process.env.CTP_SCOPES];
 
-// const authorization: string = "Bearer 6u3eC_2gTeUiGCwmIL6qUwjs1_3dd0Dw";
+// const authorization: string = `Bearer ${tokenStorage.storage.token}`;
 // const options: ExistingTokenMiddlewareOptions = {
 //   force: true,
 // };

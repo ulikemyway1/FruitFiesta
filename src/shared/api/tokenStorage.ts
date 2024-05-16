@@ -40,13 +40,14 @@ class TokenStorage implements TokenCache {
     console.log("сетаеца", this.storage);
   }
 
-  // public clear(): void {
-  //   this.storage = {
-  //     token: "",
-  //     expirationTime: 0,
-  //     refreshToken: "",
-  //   };
-  // }
+  public clear(): void {
+    this.storage = {
+      token: "",
+      expirationTime: 0,
+      refreshToken: "",
+    };
+    localStorage.removeItem("token");
+  }
 }
 
 const tokenStorage = new TokenStorage();
