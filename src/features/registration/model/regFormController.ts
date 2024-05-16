@@ -1,3 +1,4 @@
+import Hash from "../../../shared/routs/enumHash";
 import CreateElement from "../../../shared/helpers/element-create";
 import sendRequestCustomerCreation from "../api/createCustomer";
 import IValidationObject from "../lib/validation/IValidationObject";
@@ -258,8 +259,7 @@ class RegFormController {
   }
 
   static navigateToLogin(): void {
-    // TODO: router
-    console.log("go to login page");
+    window.location.hash = Hash.LOGIN;
   }
 }
 
