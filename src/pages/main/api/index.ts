@@ -1,6 +1,6 @@
 import requestAPI from "../../../shared/api/APIRootBuilder";
 
 const fetchDiscountCodes = () =>
-  requestAPI.apiRoot().discountCodes().get().execute();
+  requestAPI.withAnonymousSessionFlow().discountCodes().get().execute();
 
 export default fetchDiscountCodes;

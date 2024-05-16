@@ -12,16 +12,21 @@ export default class UserProfileView {
     cssClasses: ["user-profile__username"],
   }).getHTMLElement();
 
-  private shippingAddress: HTMLElement = new CreateElement({
+  private email: HTMLElement = new CreateElement({
     tag: "div",
-    cssClasses: ["user-profile__shipping-address"],
+    cssClasses: ["user-profile__email"],
   }).getHTMLElement();
 
-  constructor(username: string, shippingAddress: string) {
-    this.greeting.textContent = `Hello, ${username}`;
-    this.shippingAddress.textContent = shippingAddress;
+  constructor() {
+    this.view.append(this.greeting, this.email);
+  }
 
-    this.view.append(this.greeting, this.shippingAddress);
+  public setUsername(username: string) {
+    this.greeting.textContent = `Hello, ${username}`;
+  }
+
+  public setEmail(email: string) {
+    this.email.textContent = email;
   }
 
   public getVeiw() {

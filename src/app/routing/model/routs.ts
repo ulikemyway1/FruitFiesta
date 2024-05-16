@@ -5,7 +5,7 @@ import loginPage from "../../../pages/login/ui/loginPage";
 import cleanContainer from "../../../shared/utils/clean-container";
 import header from "../../../widgets/header";
 import registrationPage from "../../../pages/registration";
-import userProfileController from "../../../features/userProfile/model/userProfileController";
+import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
 
 const router = new Router();
 

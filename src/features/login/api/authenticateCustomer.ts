@@ -1,26 +1,13 @@
 import Hash from "../../../shared/routs/enumHash";
 import CustomerAuthData from "../model/ICustomerAuthData";
 import { LoginFormView } from "../ui/loginFormView";
-import requestAPI from "../../../shared/api/APIRootBuilder";
+import loginCustomer from "../../../shared/api/loginCustomer";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
   loginForm: LoginFormView,
 ): void {
-  const apiRoot = requestAPI.withPasswordFlow(
-    customerAuthData.password,
-    customerAuthData.email,
-  );
-  apiRoot
-    .me()
-    .login()
-    .post({
-      body: {
-        password: customerAuthData.password,
-        email: customerAuthData.email,
-      },
-    })
-    .execute()
+  loginCustomer(customerAuthData.email, customerAuthData.password)
     .then((response) => {
       if (response.statusCode === 200) {
         loginForm.clearAuthForm();

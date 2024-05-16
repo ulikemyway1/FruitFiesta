@@ -9,6 +9,7 @@ export class UserProfileView {
   public title: HTMLElement = new CreateElement({
     tag: "h2",
     cssClasses: ["user-profile__title"],
+    textContent: "USER PROFILE",
   }).getHTMLElement();
 
   public main: HTMLElement = new CreateElement({
