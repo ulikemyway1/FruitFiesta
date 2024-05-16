@@ -3,7 +3,7 @@ import logo from "../../../assets/images/logo.svg";
 
 import CreateElement from "../../../shared/helpers/element-create";
 import PAGES from "./PAGES";
-import Hash from "../../../app/routing/model/enumHash";
+import Hash from "../../../shared/routs/enumHash";
 
 class Header {
   private container = new CreateElement({

@@ -1,5 +1,3 @@
-import App from "./app/app/app";
+import appController from "./app/app/appController";
 
-const app = new App();
-
-app.run();
+appController.run();

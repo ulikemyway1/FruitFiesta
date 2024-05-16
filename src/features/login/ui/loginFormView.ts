@@ -2,7 +2,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import logo from "../../../assets/images/logo.svg";
 import "./login-form.scss";
 import CustomerAuthData from "../model/ICustomerAuthData";
-import Hash from "../../../app/routing/model/enumHash";
+import Hash from "../../../shared/routs/enumHash";
 
 export class LoginFormView {
   private registrationPage = Hash.REGISTRATION;

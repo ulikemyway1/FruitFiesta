@@ -1,6 +1,7 @@
-import apiRoot from "../../../shared/api/APIRoot";
+import requestAPI from "../../../shared/api/APIRootBuilder";
 
-const fetchDiscountCodes = () => apiRoot.discountCodes().get().execute();
+const fetchDiscountCodes = () =>
+  requestAPI.withAnonymousSessionFlow().discountCodes().get().execute();
 
 const fetchProductProjections = () =>
   apiRoot.productProjections().get().execute();

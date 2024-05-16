@@ -1,13 +1,16 @@
-import apiRoot from "../../../shared/api/APIRoot";
 import popup from "../../../shared/ui/popup";
 import popupController from "../../../shared/ui/popup/model/popupController";
 import CustomerData from "../model/ICustomerData";
+import immediateLogin from "./immediateLogin";
+import requestAPI from "../../../shared/api/APIRootBuilder";
 
 export default function sendRequestCustomerCreation(
   customerData: CustomerData,
 ): void {
+  const apiRoot = requestAPI.withAnonymousSessionFlow();
   apiRoot
-    .customers()
+    .me()
+    .signup()
     .post({
       body: {
         email: customerData.email,
@@ -28,6 +31,9 @@ export default function sendRequestCustomerCreation(
           response.body.customer.firstName || " ",
         );
         document.body.append(popup);
+        // save token as auth on success for auto re-login
+        localStorage.setItem("auth-token", localStorage.getItem("token")!);
+        immediateLogin(customerData.email, customerData.password);
       } else {
         popupController.setStatus("fail");
         document.body.append(popup);

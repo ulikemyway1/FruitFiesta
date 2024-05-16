@@ -1,8 +1,11 @@
-import Router from "../../../shared/helpers/router";
+import Router from "./router";
 import mainPage from "../../../pages/main";
-import Hash from "./enumHash";
+import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
+
+import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
+
 import CreateElement from "../../../shared/helpers/element-create";
 
 const router = new Router();
@@ -63,6 +66,9 @@ router.route(Hash.NOT_FOUND, () => {
       textContent: "Not found",
     }).getHTMLElement(),
   );
+});
+router.route(Hash.PROFILE, () => {
+  Router.switchContent(userProfileController.getView());
 });
 
 // router.route(Hash.EMPTY, () => {
