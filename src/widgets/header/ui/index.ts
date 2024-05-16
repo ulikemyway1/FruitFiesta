@@ -45,6 +45,8 @@ class Header {
     cssClasses: ["nav__list"],
   });
 
+  private navItems: CreateElement<HTMLElement>[] = [];
+
   constructor() {
     PAGES.forEach((href, textContent) => {
       const navItem = new CreateElement({
@@ -62,11 +64,25 @@ class Header {
         ],
       });
 
-      this.navList.addInnerElements(navItem);
+      this.navItems.push(navItem);
     });
 
+    this.navList.addInnerElements(this.navItems);
     this.nav.addInnerElements(this.navList);
     this.container.addInnerElements([this.logo, this.title, this.nav]);
+  }
+
+  public toggleActiveLink() {
+    const { hash } = document.location;
+    this.navItems.forEach((navItem) => {
+      navItem.getHTMLElement().classList.remove("nav__item_active");
+      if (
+        navItem.getHTMLElement().firstElementChild?.getAttribute("href") ===
+        hash
+      ) {
+        navItem.getHTMLElement().classList.add("nav__item_active");
+      }
+    });
   }
 
   getHTMLElement(): HTMLElement {
@@ -74,4 +90,4 @@ class Header {
   }
 }
 
-export default new Header().getHTMLElement();
+export default new Header();

@@ -40,10 +40,16 @@
     margin-right: auto;
   }
 
-  a {
+  .nav__link {
     display: block;
     padding: 0.5rem 1rem;
     text-decoration: none;
     color: var(--dark-brown-text-color);
+  }
+
+  &_active {
+    .nav__link {
+      color: var(--green-text-color);
+    }
   }
 }

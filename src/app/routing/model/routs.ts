@@ -2,57 +2,67 @@ import Router from "../../../shared/helpers/router";
 import mainPage from "../../../pages/main";
 import Hash from "./enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
-import cleanContainer from "../../../shared/utils/clean-container";
-import header from "../../../widgets/header";
 import registrationPage from "../../../pages/registration";
+import CreateElement from "../../../shared/helpers/element-create";
 
 const router = new Router();
 
 router.route(Hash.LOGIN, () => {
-  console.log(Hash.LOGIN);
-  // document.body.innerHTML = "<h1>Login</h1>";
-  cleanContainer(document.body);
-  document.body.append(header, loginPage.draw().getHTMLElement());
+  Router.switchContent(loginPage.draw().getHTMLElement());
 });
 router.route(Hash.REGISTRATION, () => {
-  console.log(Hash.REGISTRATION);
-  cleanContainer(document.body);
-  document.body.append(header, registrationPage);
+  Router.switchContent(registrationPage);
 });
 router.route(Hash.MAIN, () => {
-  console.log(Hash.MAIN);
-  // document.body.innerHTML = "<h1>Main</h1>";
-  cleanContainer(document.body);
-  document.body.append(header, mainPage.getView());
+  Router.switchContent(mainPage.getView());
 });
 router.route(Hash.CATALOG, () => {
-  console.log(Hash.CATALOG);
-  cleanContainer(document.body);
-  document.body.append(header, "<h1>Catalog</h1>");
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "Catalog",
+    }).getHTMLElement(),
+  );
 });
 router.route(Hash.DETAIL, () => {
-  console.log(Hash.DETAIL);
-  cleanContainer(document.body);
-  document.body.append(header, "<h1>Detail</h1>");
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "Detail",
+    }).getHTMLElement(),
+  );
 });
 router.route(Hash.USER, () => {
-  console.log(Hash.USER);
-  document.body.innerHTML = "<h1>User</h1>";
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "User",
+    }).getHTMLElement(),
+  );
 });
 router.route(Hash.BASKET, () => {
-  console.log(Hash.BASKET);
-  cleanContainer(document.body);
-  document.body.append(header, "<h1>Basket</h1>");
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "Basket",
+    }).getHTMLElement(),
+  );
 });
 router.route(Hash.ABOUT, () => {
-  console.log(Hash.ABOUT);
-  cleanContainer(document.body);
-  document.body.append(header, "<h1>About</h1>");
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "About",
+    }).getHTMLElement(),
+  );
 });
 router.route(Hash.NOT_FOUND, () => {
-  console.log(Hash.NOT_FOUND);
-  cleanContainer(document.body);
-  document.body.append(header, "<h1>Not found</h1>");
+  Router.switchContent(
+    new CreateElement({
+      tag: "h1",
+      textContent: "Not found",
+    }).getHTMLElement(),
+  );
 });
 
 // router.route(Hash.EMPTY, () => {
