@@ -1,10 +1,11 @@
-import Router from "../../../shared/helpers/router";
+import Router from "./router";
 import mainPage from "../../../pages/main";
-import Hash from "./enumHash";
+import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import cleanContainer from "../../../shared/utils/clean-container";
 import header from "../../../widgets/header";
 import registrationPage from "../../../pages/registration";
+import userProfileController from "../../../features/userProfile/model/userProfileController";
 
 const router = new Router();
 
@@ -53,6 +54,11 @@ router.route(Hash.NOT_FOUND, () => {
   console.log(Hash.NOT_FOUND);
   cleanContainer(document.body);
   document.body.append(header, "<h1>Not found</h1>");
+});
+router.route(Hash.PROFILE, () => {
+  console.log(Hash.PROFILE);
+  cleanContainer(document.body);
+  document.body.append(header, userProfileController.getView());
 });
 
 // router.route(Hash.EMPTY, () => {

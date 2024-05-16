@@ -1,4 +1,4 @@
-import Hash from "../../app/routing/model/enumHash";
+import Hash from "../../../shared/routs/enumHash";
 
 export default class Router {
   routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];

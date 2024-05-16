@@ -8,6 +8,7 @@ enum Hash {
   BASKET = "#basket",
   ABOUT = "#about",
   NOT_FOUND = "#not-found",
+  PROFILE = "#profile",
   // EMPTY = "",
 }
 
