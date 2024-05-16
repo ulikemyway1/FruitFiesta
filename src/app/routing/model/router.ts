@@ -1,4 +1,6 @@
-import Hash from "../../../shared/routs/enumHash";
+import header from "../../widgets/header";
+import cleanContainer from "../utils/clean-container";
+import CreateElement from "./element-create";
 
 export default class Router {
   routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
@@ -52,13 +54,25 @@ export default class Router {
       }
     }
 
-    window.history.replaceState(null, "", Hash.NOT_FOUND);
-    this.navigate(Hash.NOT_FOUND);
+    // window.history.replaceState(null, "", Hash.NOT_FOUND);
+    // this.navigate(Hash.NOT_FOUND);
+    Router.switchContent(
+      new CreateElement({
+        tag: "h1",
+        textContent: "Not found",
+      }).getHTMLElement(),
+    );
 
     // we here if no route matched and we can do something if we have a fallback
     if (this.fallback) {
       this.fallback(hash);
     }
+  }
+
+  static switchContent(...content: HTMLElement[]) {
+    cleanContainer(document.body);
+    header.toggleActiveLink();
+    document.body.append(header.getHTMLElement(), ...content);
   }
 
   route(pattern: string | RegExp, handler: (hash: string) => void) {

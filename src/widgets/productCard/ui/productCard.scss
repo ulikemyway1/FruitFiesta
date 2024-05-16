@@ -1,4 +1,4 @@
-.discount-card {
+.product-card {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,25 +6,21 @@
   background: white;
   border-radius: 20px;
 }
-.discount-card__img {
+.product-card__img {
   width: 100px;
   height: 100px;
   margin-right: 20px;
 }
-.discount-card__content {
+.product-card__content {
   display: flex;
   flex-direction: column;
 }
-.discount-card__title {
+.product-card__title {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 10px;
 }
-.discount-card__description {
+.product-card__description {
   font-size: 16px;
   margin-bottom: 10px;
-}
-.discount-card__promo-code {
-  font-size: 18px;
-  font-weight: 700;
 }
