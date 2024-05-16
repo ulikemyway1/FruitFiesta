@@ -7,7 +7,6 @@ import requestAPI from "../../../shared/api/APIRootBuilder";
 export default function sendRequestCustomerCreation(
   customerData: CustomerData,
 ): void {
-
   const apiRoot = requestAPI.withAnonymousSessionFlow();
   apiRoot
     .me()
@@ -33,7 +32,7 @@ export default function sendRequestCustomerCreation(
         );
         document.body.append(popup);
         // save token as auth on success for auto re-login
-        localStorage.setItem("auth-token", localStorage.getItem("token")!)
+        localStorage.setItem("auth-token", localStorage.getItem("token")!);
         immediateLogin(customerData.email, customerData.password);
       } else {
         popupController.setStatus("fail");

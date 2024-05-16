@@ -7,9 +7,19 @@ export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
   loginForm: LoginFormView,
 ): void {
-  const apiRoot = requestAPI.withPasswordFlow(customerAuthData.password, customerAuthData.email);
+  const apiRoot = requestAPI.withPasswordFlow(
+    customerAuthData.password,
+    customerAuthData.email,
+  );
   apiRoot
-    .me().login().post({body: {'password': customerAuthData.password, 'email': customerAuthData.email}})
+    .me()
+    .login()
+    .post({
+      body: {
+        password: customerAuthData.password,
+        email: customerAuthData.email,
+      },
+    })
     .execute()
     .then((response) => {
       if (response.statusCode === 200) {

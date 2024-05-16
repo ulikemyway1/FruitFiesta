@@ -1,10 +1,8 @@
-
 // import UserProfileView from "../ui/userProfile"
 
 // export class  UserProfileController {
 
 //    private  view: UserProfileView | null = null;
-
 
 //   public setContent(username: string, shippingAddress: string) {
 //     this.view = new UserProfileView(username, shippingAddress)

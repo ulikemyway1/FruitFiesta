@@ -21,7 +21,7 @@ class TokenStorage implements TokenCache {
 
   public get(tokenCacheOptions?: TokenCacheOptions) {
     if (tokenCacheOptions) {
-      return this.storage
+      return this.storage;
     }
     return this.storage;
   }
@@ -33,7 +33,7 @@ class TokenStorage implements TokenCache {
 
     localStorage.setItem("token", JSON.stringify(cache));
     if (tokenCacheOptions) {
-      console.info(`Just get tokenCacheOptions: ${tokenCacheOptions}`)
+      console.info(`Just get tokenCacheOptions: ${tokenCacheOptions}`);
     }
   }
 
@@ -42,7 +42,7 @@ class TokenStorage implements TokenCache {
       token: "",
       expirationTime: 0,
       refreshToken: undefined,
-    }
+    };
   }
 }
 

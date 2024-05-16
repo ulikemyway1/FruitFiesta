@@ -4,10 +4,9 @@ import AppModel from "./appModel";
 import AppView from "./appView";
 
 class AppController {
+  model: AppModel;
 
-  model: AppModel
-
-  view: AppView
+  view: AppView;
 
   constructor(model: AppModel, view: AppView) {
     this.model = model;
@@ -15,9 +14,8 @@ class AppController {
   }
 
   async run() {
+    router.run();
 
-    router.run(); 
-    
     if (this.model.userIsLoggedIn) {
       router.navigate(Hash.MAIN);
       requestAPI.apiRoot().me().get().execute();
