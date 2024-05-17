@@ -1,4 +1,4 @@
-import { CustomerDraft } from "@commercetools/platform-sdk";
+import { MyCustomerDraft } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import countryOptions from "../model/countries";
 import "./regForm.scss";
@@ -128,13 +128,9 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  public setDefaultShipping = new SwitcherUI(
-    "Set as default shipping address",
-  ).getSwitcher();
+  public setDefaultShipping = new SwitcherUI("Set as default shipping address");
 
-  public setAsBillingAddress = new SwitcherUI(
-    "Use as billing address",
-  ).getSwitcher();
+  public setAsBillingAddress = new SwitcherUI("Use as billing address");
 
   public billingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
@@ -178,9 +174,7 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
-  public setDefaultBilling = new SwitcherUI(
-    "Set as default billing address",
-  ).getSwitcher();
+  public setDefaultBilling = new SwitcherUI("Set as default billing address");
 
   private footerLinkWrapper = new CreateElement({
     tag: "div",
@@ -210,8 +204,12 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
         RegFormView.insertWrapperWithElements([this.shippingCityInput]),
         RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
-        RegFormView.insertWrapperWithElements([this.setDefaultShipping]),
-        RegFormView.insertWrapperWithElements([this.setAsBillingAddress]),
+        RegFormView.insertWrapperWithElements([
+          this.setDefaultShipping.getSwitcher(),
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.setAsBillingAddress.getSwitcher(),
+        ]),
       ],
     },
     {
@@ -221,7 +219,9 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.billingStreetInput]),
         RegFormView.insertWrapperWithElements([this.billingCityInput]),
         RegFormView.insertWrapperWithElements([this.billingCodeInput]),
-        RegFormView.insertWrapperWithElements([this.setDefaultBilling]),
+        RegFormView.insertWrapperWithElements([
+          this.setDefaultBilling.getSwitcher(),
+        ]),
       ],
     },
     {
@@ -303,7 +303,11 @@ export class RegFormView {
     return this.form;
   }
 
-  public collectData(): CustomerDraft {
+  public collectData(): MyCustomerDraft {
+    const shippingAsDefault = this.setDefaultShipping.getStatus();
+    const billingAsDefault = this.setDefaultShipping.getStatus();
+    const shippingDefaultIndex = shippingAsDefault ? 1 : undefined;
+    const billingDefaultIndex = billingAsDefault ? 0 : undefined;
     return {
       email: this.emailInput.value,
       password: this.passwordInput.value,
@@ -324,6 +328,8 @@ export class RegFormView {
           postalCode: this.shippingCodeInput.value,
         },
       ],
+      defaultShippingAddress: shippingDefaultIndex,
+      defaultBillingAddress: billingDefaultIndex,
     };
   }
 

@@ -42,4 +42,8 @@ export default class SwitcherUI {
   public getSwitcher(): HTMLElement {
     return this.wrapper;
   }
+
+  public getStatus() {
+    return this.checkbox.checked;
+  }
 }
