@@ -1,8 +1,9 @@
+import { CustomerDraft } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import CustomerData from "../model/ICustomerData";
 import countryOptions from "../model/countries";
 import "./regForm.scss";
 import logo from "../../../assets/images/logo.svg";
+import SwitcherUI from "../../../shared/ui/switcherUI/UI/switcher";
 
 export class RegFormView {
   private logoImage = new CreateElement<HTMLImageElement>({
@@ -127,6 +128,14 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  public setDefaultShipping = new SwitcherUI(
+    "Set as default shipping address",
+  ).getSwitcher();
+
+  public setAsBillingAddress = new SwitcherUI(
+    "Use as billing address",
+  ).getSwitcher();
+
   public billingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
     attributes: {
@@ -169,6 +178,10 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  public setDefaultBilling = new SwitcherUI(
+    "Set as default billing address",
+  ).getSwitcher();
+
   private footerLinkWrapper = new CreateElement({
     tag: "div",
     cssClasses: ["registration-form__footer-link-wrapper"],
@@ -197,6 +210,8 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
         RegFormView.insertWrapperWithElements([this.shippingCityInput]),
         RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
+        RegFormView.insertWrapperWithElements([this.setDefaultShipping]),
+        RegFormView.insertWrapperWithElements([this.setAsBillingAddress]),
       ],
     },
     {
@@ -206,6 +221,7 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.billingStreetInput]),
         RegFormView.insertWrapperWithElements([this.billingCityInput]),
         RegFormView.insertWrapperWithElements([this.billingCodeInput]),
+        RegFormView.insertWrapperWithElements([this.setDefaultBilling]),
       ],
     },
     {
@@ -287,25 +303,27 @@ export class RegFormView {
     return this.form;
   }
 
-  public collectData(): CustomerData {
+  public collectData(): CustomerDraft {
     return {
       email: this.emailInput.value,
       password: this.passwordInput.value,
       firstName: this.firstNameInput.value,
       lastName: this.lastNameInput.value,
-      birthDate: this.birthDateInput.value,
-      billingAddress: {
-        country: this.billingCountryInput.value,
-        street: this.billingStreetInput.value,
-        city: this.billingCityInput.value,
-        postCode: this.billingCodeInput.value,
-      },
-      shippingAddress: {
-        country: this.shippingCountryInput.value,
-        street: this.shippingStreetInput.value,
-        city: this.shippingCityInput.value,
-        postCode: this.shippingCodeInput.value,
-      },
+      dateOfBirth: this.birthDateInput.value,
+      addresses: [
+        {
+          country: this.billingCountryInput.value,
+          streetName: this.billingStreetInput.value,
+          city: this.billingCityInput.value,
+          postalCode: this.billingCodeInput.value,
+        },
+        {
+          country: this.shippingCountryInput.value,
+          streetName: this.shippingStreetInput.value,
+          city: this.shippingCityInput.value,
+          postalCode: this.shippingCodeInput.value,
+        },
+      ],
     };
   }
 

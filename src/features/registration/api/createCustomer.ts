@@ -1,11 +1,11 @@
+import { CustomerDraft } from "@commercetools/platform-sdk";
 import popup from "../../../shared/ui/popup";
 import popupController from "../../../shared/ui/popup/model/popupController";
-import CustomerData from "../model/ICustomerData";
 import immediateLogin from "./immediateLogin";
 import requestAPI from "../../../shared/api/APIRootBuilder";
 
 export default function sendRequestCustomerCreation(
-  customerData: CustomerData,
+  customerData: CustomerDraft,
 ): void {
   const apiRoot = requestAPI.withAnonymousSessionFlow();
   apiRoot
@@ -14,11 +14,11 @@ export default function sendRequestCustomerCreation(
     .post({
       body: {
         email: customerData.email,
-        password: customerData.password,
+        password: customerData.password!,
         firstName: customerData.firstName,
         lastName: customerData.lastName,
-        dateOfBirth: customerData.birthDate,
-        addresses: [customerData.shippingAddress, customerData.billingAddress],
+        dateOfBirth: customerData.dateOfBirth,
+        addresses: customerData.addresses,
         defaultShippingAddress: 0,
         defaultBillingAddress: 1,
       },
@@ -33,7 +33,7 @@ export default function sendRequestCustomerCreation(
         document.body.append(popup);
         // save token as auth on success for auto re-login
         localStorage.setItem("auth-token", localStorage.getItem("token")!);
-        immediateLogin(customerData.email, customerData.password);
+        immediateLogin(customerData.email, customerData.password!);
       } else {
         popupController.setStatus("fail");
         document.body.append(popup);
