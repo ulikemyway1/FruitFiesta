@@ -351,6 +351,10 @@ export class RegFormView {
       this.currentPageIndex -= 1;
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      if (this.currentPageIndex !== this.maxPageIndex) {
+        this.singUpBtn.getHTMLElement().remove();
+        this.paginationWrapper.append(this.nextBtn);
+      }
     }
     this.showPageContent(this.currentPageIndex);
     this.checkPagination();
