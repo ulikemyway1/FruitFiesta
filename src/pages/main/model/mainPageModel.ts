@@ -9,7 +9,12 @@ export default class MainPageModel {
   static async getRandomProducts(num_of_random_products = 3) {
     const response = await fetchProductProjections();
     const randomProducts = [];
-    for (let i = 0; i < num_of_random_products; i += 1) {
+    const productsAmount = response.body.results.length;
+    for (
+      let i = 0;
+      i < Math.min(productsAmount, num_of_random_products);
+      i += 1
+    ) {
       const randomProduct =
         response.body.results[Math.floor(Math.random() * response.body.count)];
       randomProducts.push(randomProduct);
