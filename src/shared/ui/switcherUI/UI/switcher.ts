@@ -43,7 +43,11 @@ export default class SwitcherUI {
     return this.wrapper;
   }
 
-  public getStatus() {
+  public getStatus(): boolean {
     return this.checkbox.checked;
+  }
+
+  public setStatus(checked: boolean): void {
+    this.checkbox.checked = checked;
   }
 }

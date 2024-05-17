@@ -3,10 +3,14 @@ import popup from "../../../shared/ui/popup";
 import popupController from "../../../shared/ui/popup/model/popupController";
 import requestAPI from "../../../shared/api/APIRootBuilder";
 import loginCustomer from "../../../shared/api/loginCustomer";
+import SwitchRout from "../../../shared/routs/SwitchRout";
 
 export default function sendRequestCustomerCreation(
   customerData: MyCustomerDraft,
-): void {
+  button: HTMLInputElement,
+) {
+  const initiator = button;
+  initiator.disabled = true;
   const apiRoot = requestAPI.withAnonymousSessionFlow();
   apiRoot
     .me()
@@ -55,6 +59,9 @@ export default function sendRequestCustomerCreation(
                     response.body.customer.firstName || " ",
                   );
                   document.body.append(popup);
+                  setTimeout(() => {
+                    SwitchRout.to(SwitchRout.path.MAIN);
+                  }, 2000);
                 } else {
                   popupController.setStatus("fail");
                   document.body.append(popup);
@@ -81,5 +88,8 @@ export default function sendRequestCustomerCreation(
         }
         document.body.append(popup);
       }
+    })
+    .finally(() => {
+      initiator.disabled = false;
     });
 }

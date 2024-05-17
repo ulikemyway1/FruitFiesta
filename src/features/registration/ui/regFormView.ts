@@ -6,6 +6,8 @@ import logo from "../../../assets/images/logo.svg";
 import SwitcherUI from "../../../shared/ui/switcherUI/UI/switcher";
 
 export class RegFormView {
+  public shippingSetAsBilling: boolean = false;
+
   private logoImage = new CreateElement<HTMLImageElement>({
     tag: "img",
     cssClasses: ["registration-form__logo"],
@@ -188,7 +190,7 @@ export class RegFormView {
     textContent: "Login",
   }).getHTMLElement();
 
-  pages: { title: string; elements: HTMLElement[] }[] = [
+  public pages: { title: string; elements: HTMLElement[] }[] = [
     {
       title: "Some about you...",
       elements: [
@@ -336,7 +338,15 @@ export class RegFormView {
   public goNextPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex + 1 <= this.maxPageIndex) {
-      this.currentPageIndex += 1;
+      if (this.currentPageIndex === 1 && this.shippingSetAsBilling) {
+        this.billingCityInput.value = this.shippingCityInput.value;
+        this.billingCodeInput.value = this.shippingCodeInput.value;
+        this.billingCountryInput.value = this.shippingCountryInput.value;
+        this.billingStreetInput.value = this.shippingStreetInput.value;
+        this.currentPageIndex += 2;
+      } else {
+        this.currentPageIndex += 1;
+      }
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
     }
@@ -354,7 +364,14 @@ export class RegFormView {
   private goPrevPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex - 1 >= 0) {
-      this.currentPageIndex -= 1;
+      if (
+        this.currentPageIndex === this.maxPageIndex &&
+        this.shippingSetAsBilling
+      ) {
+        this.currentPageIndex -= 2;
+      } else {
+        this.currentPageIndex -= 1;
+      }
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
       if (this.currentPageIndex !== this.maxPageIndex) {
@@ -387,6 +404,13 @@ export class RegFormView {
       this.prevBtn.disabled = false;
     } else {
       this.prevBtn.disabled = true;
+    }
+  }
+
+  public goToPage(pageNumber: number) {
+    if (pageNumber >= 0 && pageNumber <= this.maxPageIndex) {
+      this.currentPageIndex = pageNumber;
+      this.showPageContent(this.currentPageIndex);
     }
   }
 
