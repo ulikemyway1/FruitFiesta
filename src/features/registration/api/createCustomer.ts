@@ -4,6 +4,7 @@ import popupController from "../../../shared/ui/popup/model/popupController";
 import requestAPI from "../../../shared/api/APIRootBuilder";
 import loginCustomer from "../../../shared/api/loginCustomer";
 import SwitchRout from "../../../shared/routs/SwitchRout";
+import user from "../../../entities/user";
 
 export default function sendRequestCustomerCreation(
   customerData: MyCustomerDraft,
@@ -59,11 +60,11 @@ export default function sendRequestCustomerCreation(
                     "ok",
                     response.body.customer.firstName || " ",
                   );
+                  user.userIsLoggedIn = true;
                   document.body.append(popup);
                   setTimeout(() => {
                     SwitchRout.to(SwitchRout.path.MAIN);
                     callback();
-                    console.log(callback);
                   }, 2000);
                 } else {
                   popupController.setStatus("fail");
