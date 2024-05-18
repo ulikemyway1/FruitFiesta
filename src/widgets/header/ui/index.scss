@@ -27,18 +27,15 @@
 
 .nav {
   display: flex;
+  justify-content: center;
 }
 
 .nav__item {
+  &_hidden {
+    display: none;
+  }
+
   list-style-type: none;
-
-  &:first-child {
-    margin-left: auto;
-  }
-
-  &:last-child {
-    margin-right: auto;
-  }
 
   .nav__link {
     display: flex;
