@@ -1,6 +1,6 @@
 import header from "../../../widgets/header";
 import cleanContainer from "../../../shared/utils/clean-container";
-import CreateElement from "../../../shared/helpers/element-create";
+import notFoundPageView from "../../../pages/notFound";
 
 export default class Router {
   routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
@@ -54,14 +54,7 @@ export default class Router {
       }
     }
 
-    // window.history.replaceState(null, "", Hash.NOT_FOUND);
-    // this.navigate(Hash.NOT_FOUND);
-    Router.switchContent(
-      new CreateElement({
-        tag: "h1",
-        textContent: "Not found",
-      }).getHTMLElement(),
-    );
+    Router.switchContent(notFoundPageView);
 
     // we here if no route matched and we can do something if we have a fallback
     if (this.fallback) {

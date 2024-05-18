@@ -1,9 +1,11 @@
 import "./index.scss";
-import logo from "../../../assets/images/logo.svg";
+import logoIcon from "../../../assets/images/logo.svg";
 
 import CreateElement from "../../../shared/helpers/element-create";
-import PAGES from "./PAGES";
+import HEADER_LINKS from "./HEADER_LINKS";
 import Hash from "../../../shared/routs/enumHash";
+
+import user from "../../../entities/user";
 
 class Header {
   private container = new CreateElement({
@@ -22,7 +24,7 @@ class Header {
         tag: "img",
         cssClasses: ["header__logo-img"],
         attributes: {
-          src: logo,
+          src: logoIcon,
           alt: "Logo",
         },
       }),
@@ -37,18 +39,18 @@ class Header {
 
   private nav = new CreateElement({
     tag: "nav",
-    cssClasses: ["nav"],
+    cssClasses: ["navigation"],
   });
 
   private navList = new CreateElement({
     tag: "ul",
-    cssClasses: ["nav__list"],
+    cssClasses: ["nav"],
   });
 
   private navItems: CreateElement<HTMLElement>[] = [];
 
   constructor() {
-    PAGES.forEach((href, textContent) => {
+    HEADER_LINKS.forEach(([textContent, href, icon]) => {
       const navItem = new CreateElement({
         tag: "li",
         cssClasses: ["nav__item"],
@@ -56,16 +58,41 @@ class Header {
           new CreateElement({
             tag: "a",
             cssClasses: ["nav__link"],
-            textContent,
             attributes: {
               href,
             },
+            children: [
+              new CreateElement({
+                tag: "img",
+                cssClasses: ["nav__icon"],
+                attributes: {
+                  src: icon,
+                  alt: textContent,
+                },
+              }),
+              new CreateElement({
+                tag: "div",
+                cssClasses: ["nav__text"],
+                textContent,
+              }),
+            ],
           }),
         ],
       });
 
       this.navItems.push(navItem);
     });
+
+    this.navItems[7].getHTMLElement().addEventListener("click", () => {
+      user.userIsLoggedIn = false;
+      localStorage.removeItem("auth-token");
+    });
+
+    setTimeout(() => {
+      this.update();
+    }, 0);
+
+    console.log(user.userIsLoggedIn);
 
     this.navList.addInnerElements(this.navItems);
     this.nav.addInnerElements(this.navList);
@@ -83,6 +110,21 @@ class Header {
         navItem.getHTMLElement().classList.add("nav__item_active");
       }
     });
+  }
+
+  public update() {
+    console.log("Header was updated");
+    if (user.userIsLoggedIn) {
+      this.navItems[4].getHTMLElement().classList.add("nav__item_hidden");
+      this.navItems[5].getHTMLElement().classList.add("nav__item_hidden");
+      this.navItems[6].getHTMLElement().classList.remove("nav__item_hidden");
+      this.navItems[7].getHTMLElement().classList.remove("nav__item_hidden");
+    } else {
+      this.navItems[4].getHTMLElement().classList.remove("nav__item_hidden");
+      this.navItems[5].getHTMLElement().classList.remove("nav__item_hidden");
+      this.navItems[6].getHTMLElement().classList.add("nav__item_hidden");
+      this.navItems[7].getHTMLElement().classList.add("nav__item_hidden");
+    }
   }
 
   getHTMLElement(): HTMLElement {

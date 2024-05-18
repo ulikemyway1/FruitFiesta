@@ -1,7 +1,9 @@
 import { router, Hash } from "../routing";
 import AppModel from "./appModel";
 import AppView from "./appView";
-import requestAPI from "../../shared/api/APIRootBuilder";
+
+import user from "../../entities/user";
+import header from "../../widgets/header";
 
 class AppController {
   model: AppModel;
@@ -10,16 +12,19 @@ class AppController {
 
   constructor(model: AppModel, view: AppView) {
     this.model = model;
+
     this.view = view;
+
+    user.attach(header);
   }
 
   run() {
     router.run();
-    if (this.model.userIsLoggedIn) {
-      requestAPI.apiRoot().me().get().execute();
+
+    if (user.userIsLoggedIn) {
       router.navigate(Hash.MAIN);
     } else {
-      router.navigate(Hash.REGISTRATION);
+      router.navigate(Hash.LOGIN);
     }
   }
 }
