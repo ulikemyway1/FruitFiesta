@@ -8,6 +8,7 @@ import SwitchRout from "../../../shared/routs/SwitchRout";
 export default function sendRequestCustomerCreation(
   customerData: MyCustomerDraft,
   button: HTMLInputElement,
+  callback: () => void,
 ) {
   const initiator = button;
   initiator.disabled = true;
@@ -61,6 +62,8 @@ export default function sendRequestCustomerCreation(
                   document.body.append(popup);
                   setTimeout(() => {
                     SwitchRout.to(SwitchRout.path.MAIN);
+                    callback();
+                    console.log(callback);
                   }, 2000);
                 } else {
                   popupController.setStatus("fail");

@@ -154,6 +154,7 @@ export class RegFormController {
           sendRequestCustomerCreation(
             customerData,
             this.view.singUpBtn.getHTMLElement(),
+            this.resetForm.bind(this),
           );
         }
       });
@@ -275,6 +276,10 @@ export class RegFormController {
   }
 
   private resetForm(): void {
+    this.view.lastNameInput.value = "";
+    this.view.emailInput.value = "";
+    this.view.passwordInput.value = "";
+    this.view.firstNameInput.value = "";
     this.view.billingCityInput.value = "";
     this.view.billingCodeInput.value = "";
     this.view.billingCountryInput.value = "PL";

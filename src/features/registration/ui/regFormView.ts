@@ -423,6 +423,14 @@ export class RegFormView {
     if (pageNumber >= 0 && pageNumber <= this.maxPageIndex) {
       this.currentPageIndex = pageNumber;
       this.showPageContent(this.currentPageIndex);
+      if (pageNumber === 0) {
+        this.prevBtn.remove();
+      }
+      if (pageNumber !== this.maxPageIndex) {
+        this.singUpBtn.getHTMLElement().remove();
+        this.paginationWrapper.append(this.nextBtn);
+        this.nextBtn.disabled = false;
+      }
     }
   }
 
