@@ -21,11 +21,11 @@
   color: var(--green-text-color);
 }
 
-.nav {
+.navigation {
   flex-grow: 1;
 }
 
-.nav__list {
+.nav {
   display: flex;
 }
 
@@ -41,7 +41,10 @@
   }
 
   .nav__link {
-    display: block;
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+
     padding: 0.5rem 1rem;
     text-decoration: none;
     color: var(--dark-brown-text-color);
@@ -51,5 +54,15 @@
     .nav__link {
       color: var(--green-text-color);
     }
+
+    .nav__icon {
+      filter: invert(42%) sepia(11%) saturate(5861%) hue-rotate(57deg)
+        brightness(96%) contrast(88%);
+    }
+  }
+
+  .nav__icon {
+    width: 24px;
+    height: 24px;
   }
 }
