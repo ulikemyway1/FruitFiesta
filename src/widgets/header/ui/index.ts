@@ -83,9 +83,11 @@ class Header {
       this.navItems.push(navItem);
     });
 
-    this.navItems[7].getHTMLElement().addEventListener("click", () => {
+    this.navItems[7].getHTMLElement().addEventListener("click", (event) => {
+      event.preventDefault();
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
+      window.location.hash = Hash.LOGIN;
     });
 
     setTimeout(() => {
