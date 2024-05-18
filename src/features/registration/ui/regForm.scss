@@ -10,6 +10,7 @@
   align-items: center;
   min-height: 600px;
   background: rgba($color: #ffffff, $alpha: 0.1);
+  transition: all 0.4s;
 
   &__logo {
     align-self: flex-end;
@@ -153,6 +154,28 @@
     &__input-wide {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 470px) {
+  .registration-form {
+    padding: 30px 0;
+
+    &__logo {
+      align-self: center;
+    }
+
+    &__page-title {
+      font-size: 22px;
+    }
+  }
+
+  .switcher__wrapper {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+  .switcher__text-box {
+    font-size: 16px;
   }
 }
 
