@@ -24,7 +24,7 @@ class AppController {
     if (user.userIsLoggedIn) {
       router.navigate(Hash.MAIN);
     } else {
-      router.navigate(Hash.REGISTRATION);
+      router.navigate(Hash.LOGIN);
     }
   }
 }
