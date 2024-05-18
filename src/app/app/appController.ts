@@ -2,6 +2,7 @@ import { router, Hash } from "../routing";
 import AppModel from "./appModel";
 import AppView from "./appView";
 import requestAPI from "../../shared/api/APIRootBuilder";
+import user from "../../entities/user";
 
 class AppController {
   model: AppModel;
@@ -15,7 +16,8 @@ class AppController {
 
   run() {
     router.run();
-    if (this.model.userIsLoggedIn) {
+    // if (this.model.userIsLoggedIn) {
+    if (user.userIsLoggedIn) {
       requestAPI.apiRoot().me().get().execute();
       router.navigate(Hash.MAIN);
     } else {

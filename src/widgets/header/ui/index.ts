@@ -4,6 +4,7 @@ import logo from "../../../assets/images/logo.svg";
 import CreateElement from "../../../shared/helpers/element-create";
 import PAGES from "./PAGES";
 import Hash from "../../../shared/routs/enumHash";
+import user from "../../../entities/user";
 
 class Header {
   private container = new CreateElement({
@@ -66,6 +67,8 @@ class Header {
 
       this.navItems.push(navItem);
     });
+
+    console.log(user.userIsLoggedIn);
 
     this.navList.addInnerElements(this.navItems);
     this.nav.addInnerElements(this.navList);
