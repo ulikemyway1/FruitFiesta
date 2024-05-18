@@ -347,6 +347,12 @@ export class RegFormView {
         this.billingCountryInput.value = this.shippingCountryInput.value;
         this.billingStreetInput.value = this.shippingStreetInput.value;
         this.currentPageIndex += 2;
+      } else if (this.currentPageIndex === 1 && !this.shippingSetAsBilling) {
+        this.billingCityInput.value = "";
+        this.billingCodeInput.value = "";
+        this.billingCountryInput.value = "PL";
+        this.billingStreetInput.value = "";
+        this.currentPageIndex += 1;
       } else {
         this.currentPageIndex += 1;
       }
