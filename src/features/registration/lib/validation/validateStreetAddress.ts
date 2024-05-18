@@ -7,15 +7,10 @@ export default function validateStreetAddress(
     status: "ok",
     validationMessage: "",
   };
-  if (!/^[a-zA-Z0-9\s.,#-]+$/.test(address) || !(address.length > 0)) {
+  if (!(address.trim().length > 0)) {
     validationResult.status = "fail";
-    if (!(address.length > 0)) {
-      validationResult.validationMessage =
-        "Street address must contain at least one character";
-    } else {
-      validationResult.validationMessage =
-        "Street address must contain no special characters";
-    }
+    validationResult.validationMessage =
+      "Street address must contain at least one character";
   }
   return validationResult;
 }
