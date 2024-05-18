@@ -2,8 +2,8 @@ import Hash from "../../../shared/routs/enumHash";
 import CustomerAuthData from "../model/ICustomerAuthData";
 import { LoginFormView } from "../ui/loginFormView";
 import loginCustomer from "../../../shared/api/loginCustomer";
-// eslint-disable-next-line import/no-cycle
-import appController from "../../../app/app/appController";
+
+import user from "../../../entities/user";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
@@ -17,7 +17,8 @@ export default function sendRequestCustomerAuth(
         window.location.hash = Hash.MAIN;
         // save token as auth on success log ing for auto re-login
         localStorage.setItem("auth-token", localStorage.getItem("token")!);
-        appController.model.userIsLoggedIn = true;
+
+        user.userIsLoggedIn = true;
       }
     })
     .catch(() => {
