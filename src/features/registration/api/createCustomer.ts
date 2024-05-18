@@ -65,6 +65,8 @@ export default function sendRequestCustomerCreation(
                   setTimeout(() => {
                     SwitchRout.to(SwitchRout.path.MAIN);
                     callback();
+                    popupController.toggleSiblings("on");
+                    popupController.getViw().remove();
                   }, 2000);
                 } else {
                   popupController.setStatus("fail");

@@ -42,7 +42,8 @@
     border-radius: 40px;
     background: var(--dark-brown-text-color);
     color: #ffffff;
-    font-size: 18px;
+    font-size: 24px;
+    text-transform: uppercase;
     border: none;
     cursor: pointer;
     transition: all 0.6s;
@@ -99,5 +100,20 @@
       transform: scale(1.05);
       filter: brightness(1.2);
     }
+  }
+}
+
+.fade-out {
+  filter: blur(3px);
+}
+
+.disabled-pointer {
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 420px) {
+  .popup {
+    width: 290px;
   }
 }
