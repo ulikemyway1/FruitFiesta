@@ -1,26 +1,24 @@
 import "./index.scss";
 import logoIcon from "../../../assets/images/logo.svg";
+import loginIcon from "../../../assets/images/log-in-svgrepo-com.svg";
+import cartIcon from "../../../assets/images/cart-icon.svg";
+import profileIcon from "../../../assets/images/user-profile-svgrepo-com.svg";
 
 import CreateElement from "../../../shared/helpers/element-create";
-import HEADER_LINKS from "./HEADER_LINKS";
+// import HEADER_LINKS from "./HEADER_LINKS";
 import Hash from "../../../shared/routs/enumHash";
 
 import user from "../../../entities/user";
 
 class Header {
-  private container = new CreateElement({
-    tag: "header",
-    cssClasses: ["header"],
-  });
-
-  private logo = new CreateElement({
+  private logo = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["header__logo"],
     attributes: {
       href: Hash.MAIN,
     },
     children: [
-      new CreateElement({
+      new CreateElement<HTMLImageElement>({
         tag: "img",
         cssClasses: ["header__logo-img"],
         attributes: {
@@ -31,59 +29,156 @@ class Header {
     ],
   });
 
-  private title = new CreateElement({
+  private title = new CreateElement<HTMLDivElement>({
     tag: "div",
     cssClasses: ["header__title"],
     textContent: "Fruit Fiesta",
   });
 
-  private nav = new CreateElement({
-    tag: "nav",
-    cssClasses: ["navigation"],
+  // private navItems: CreateElement<HTMLElement>[] = [];
+
+  private homeLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["nav__link"],
+    attributes: { href: "#main" },
+    textContent: "Home",
   });
 
-  private navList = new CreateElement({
+  private homeLi = new CreateElement<HTMLLIElement>({
+    tag: "li",
+    cssClasses: ["nav__item"],
+    children: [this.homeLink],
+  });
+
+  private catalogLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["nav__link"],
+    attributes: { href: "#catalog" },
+    textContent: "Catalog",
+  });
+
+  private catalogLi = new CreateElement<HTMLLIElement>({
+    tag: "li",
+    cssClasses: ["nav__item"],
+    children: [this.catalogLink],
+  });
+
+  private aboutLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["nav__link"],
+    attributes: { href: "#about" },
+    textContent: "About",
+  });
+
+  private aboutLi = new CreateElement<HTMLLIElement>({
+    tag: "li",
+    cssClasses: ["nav__item"],
+    children: [this.aboutLink],
+  });
+
+  private navList = new CreateElement<HTMLUListElement>({
     tag: "ul",
     cssClasses: ["nav"],
+    children: [this.homeLi, this.catalogLi, this.aboutLi],
   });
 
-  private navItems: CreateElement<HTMLElement>[] = [];
+  private nav = new CreateElement<HTMLElement>({
+    tag: "nav",
+    cssClasses: ["navigation"],
+    children: [this.navList],
+  });
+
+  private keyIcon = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["header__icon-key"],
+    attributes: {
+      src: loginIcon,
+      alt: "key-logo",
+    },
+  });
+
+  private profileIcon = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["header__icon-profile"],
+    attributes: {
+      src: profileIcon,
+      alt: "key-logo",
+    },
+  });
+
+  private cartIcon = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["header__icon-cart"],
+    attributes: {
+      src: cartIcon,
+      alt: "cart-logo",
+    },
+  });
+
+  private registerLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["header__link"],
+    attributes: { href: "#registration" },
+    textContent: "Register",
+  });
+
+  private loginLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["header__link"],
+    attributes: { href: "#login" },
+    textContent: "Log in",
+  });
+
+  private logoutLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["header__link"],
+    attributes: { href: "#logout" },
+    textContent: "Log out",
+  });
+
+  private profileLink = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["header__link"],
+    attributes: { href: "#profile" },
+    textContent: "Profile",
+  });
+
+  private keyIconPopUp = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["header__icons-key-popup"],
+    children: [
+      this.registerLink,
+      this.loginLink,
+      this.profileLink,
+      this.logoutLink,
+    ],
+  });
+
+  private userIconsWrapper = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["header__icons-wrapper"],
+    children: [
+      this.keyIcon,
+      this.profileIcon,
+      this.cartIcon,
+      this.keyIconPopUp,
+    ],
+  });
+
+  private content = new CreateElement({
+    tag: "article",
+    cssClasses: ["header__content"],
+    children: [this.logo, this.title, this.nav, this.userIconsWrapper],
+  });
+
+  private container = new CreateElement({
+    tag: "header",
+    cssClasses: ["header"],
+    children: [this.content],
+  });
 
   constructor() {
-    HEADER_LINKS.forEach(([textContent, href, icon]) => {
-      const navItem = new CreateElement({
-        tag: "li",
-        cssClasses: ["nav__item"],
-        children: [
-          new CreateElement({
-            tag: "a",
-            cssClasses: ["nav__link"],
-            attributes: {
-              href,
-            },
-            children: [
-              new CreateElement({
-                tag: "img",
-                cssClasses: ["nav__icon"],
-                attributes: {
-                  src: icon,
-                  alt: textContent,
-                },
-              }),
-              new CreateElement({
-                tag: "div",
-                cssClasses: ["nav__text"],
-                textContent,
-              }),
-            ],
-          }),
-        ],
-      });
-
-      this.navItems.push(navItem);
-    });
-
-    this.navItems[7].getHTMLElement().addEventListener("click", (event) => {
+    this.logoutLink.getHTMLElement().addEventListener("click", (event) => {
       event.preventDefault();
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
@@ -93,39 +188,29 @@ class Header {
     setTimeout(() => {
       this.update();
     }, 0);
-
-    console.log(user.userIsLoggedIn);
-
-    this.navList.addInnerElements(this.navItems);
-    this.nav.addInnerElements(this.navList);
-    this.container.addInnerElements([this.logo, this.title, this.nav]);
   }
 
   public toggleActiveLink() {
     const { hash } = document.location;
-    this.navItems.forEach((navItem) => {
-      navItem.getHTMLElement().classList.remove("nav__item_active");
-      if (
-        navItem.getHTMLElement().firstElementChild?.getAttribute("href") ===
-        hash
-      ) {
-        navItem.getHTMLElement().classList.add("nav__item_active");
+    Array.from(this.navList.getHTMLElement().children).forEach((link) => {
+      link.classList.remove("nav__item_active");
+      if (link.firstElementChild?.getAttribute("href") === hash) {
+        link.classList.add("nav__item_active");
       }
     });
   }
 
   public update() {
-    console.log("Header was updated");
     if (user.userIsLoggedIn) {
-      this.navItems[4].getHTMLElement().classList.add("nav__item_hidden");
-      this.navItems[5].getHTMLElement().classList.add("nav__item_hidden");
-      this.navItems[6].getHTMLElement().classList.remove("nav__item_hidden");
-      this.navItems[7].getHTMLElement().classList.remove("nav__item_hidden");
+      this.loginLink.getHTMLElement().classList.add("nav__item_hidden");
+      this.registerLink.getHTMLElement().classList.add("nav__item_hidden");
+      this.profileLink.getHTMLElement().classList.remove("nav__item_hidden");
+      this.loginLink.getHTMLElement().classList.remove("nav__item_hidden");
     } else {
-      this.navItems[4].getHTMLElement().classList.remove("nav__item_hidden");
-      this.navItems[5].getHTMLElement().classList.remove("nav__item_hidden");
-      this.navItems[6].getHTMLElement().classList.add("nav__item_hidden");
-      this.navItems[7].getHTMLElement().classList.add("nav__item_hidden");
+      this.loginLink.getHTMLElement().classList.remove("nav__item_hidden");
+      this.registerLink.getHTMLElement().classList.remove("nav__item_hidden");
+      this.profileLink.getHTMLElement().classList.add("nav__item_hidden");
+      this.logoutLink.getHTMLElement().classList.add("nav__item_hidden");
     }
   }
 

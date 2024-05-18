@@ -1,10 +1,10 @@
 .login-form {
   &__container {
+    background-color: var(--additional-pages-background);
     border: 3px solid var(--login-register-border);
     padding: 40px 30px;
     border-radius: 40px;
     width: 100%;
-    background-color: var(--background-glass-effect);
   }
   &__logo {
     width: 80px;
@@ -60,9 +60,9 @@
     cursor: pointer;
     font-family: "Roboto Slab", serif;
     transition: 0.3s ease-in-out;
-    &:hover {
-      background-color: var(--button-hover-background);
-    }
+    // &:hover {
+    //   background-color: var(--button-hover-background);
+    // }
   }
   &__hint-box {
     display: flex;
@@ -129,5 +129,17 @@
   &__password-eye.show {
     background: url("../../../assets/images/eye.svg") 0 0 no-repeat;
     background-size: cover;
+  }
+}
+
+@media (hover: hover) {
+  .login-form__button:hover {
+    background-color: var(--button-hover-background);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .login-form__button:hover {
+    background-color: var(--button-hover-background);
   }
 }

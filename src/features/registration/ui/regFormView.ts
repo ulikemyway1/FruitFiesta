@@ -280,21 +280,23 @@ export class RegFormView {
     this.maxPageIndex = this.pages.length - 1;
     this.pageTitle.textContent = this.pages[this.currentPageIndex].title;
     this.statusBar.append(this.progressLine, this.progressText);
-    this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
+    this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+      this.maxPageIndex + 1
+    }`;
     this.pages[this.currentPageIndex].elements.forEach((element) =>
-      this.pageContentWrapper.append(element),
+      this.pageContentWrapper.append(element)
     );
     this.paginationWrapper.append(this.nextBtn);
 
     this.footerLinkWrapper.append(this.linkToSignIn);
 
     this.form.append(
-      this.statusBar,
       this.logoImage,
       this.pageTitle,
       this.pageContentWrapper,
+      this.statusBar,
       this.paginationWrapper,
-      this.footerLinkWrapper,
+      this.footerLinkWrapper
     );
 
     countryOptions.forEach((country) => {
@@ -360,8 +362,12 @@ export class RegFormView {
       } else {
         this.currentPageIndex += 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
-      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+        this.maxPageIndex + 1
+      }`;
+      this.progressLine.style.transform = `translateX(-${
+        100 - (100 * this.currentPageIndex) / this.maxPageIndex
+      }%)`;
     }
     if (this.currentPageIndex === this.maxPageIndex) {
       this.nextBtn.remove();
@@ -388,8 +394,12 @@ export class RegFormView {
       } else {
         this.currentPageIndex -= 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
-      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+        this.maxPageIndex + 1
+      }`;
+      this.progressLine.style.transform = `translateX(-${
+        100 - (100 * this.currentPageIndex) / this.maxPageIndex
+      }%)`;
       if (this.currentPageIndex !== this.maxPageIndex) {
         this.singUpBtn.getHTMLElement().remove();
         this.paginationWrapper.append(this.nextBtn);
@@ -405,7 +415,7 @@ export class RegFormView {
     }
     this.pageTitle.textContent = this.pages[pageIndex].title;
     this.pages[pageIndex].elements.forEach((element) =>
-      this.pageContentWrapper.append(element),
+      this.pageContentWrapper.append(element)
     );
   }
 
