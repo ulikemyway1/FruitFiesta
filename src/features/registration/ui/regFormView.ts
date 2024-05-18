@@ -280,7 +280,7 @@ export class RegFormView {
     this.pages[this.currentPageIndex].elements.forEach((element) =>
       this.pageContentWrapper.append(element),
     );
-    this.paginationWrapper.append(this.prevBtn, this.nextBtn);
+    this.paginationWrapper.append(this.nextBtn);
 
     this.footerLinkWrapper.append(this.linkToSignIn);
 
@@ -338,6 +338,9 @@ export class RegFormView {
   public goNextPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex + 1 <= this.maxPageIndex) {
+      if (this.currentPageIndex === 0) {
+        this.paginationWrapper.prepend(this.prevBtn);
+      }
       if (this.currentPageIndex === 1 && this.shippingSetAsBilling) {
         this.billingCityInput.value = this.shippingCityInput.value;
         this.billingCodeInput.value = this.shippingCodeInput.value;
@@ -364,6 +367,9 @@ export class RegFormView {
   private goPrevPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex - 1 >= 0) {
+      if (this.currentPageIndex === 1) {
+        this.prevBtn.remove();
+      }
       if (
         this.currentPageIndex === this.maxPageIndex &&
         this.shippingSetAsBilling
