@@ -1,12 +1,17 @@
+import { MyCustomerDraft } from "@commercetools/platform-sdk";
 import popup from "../../../shared/ui/popup";
 import popupController from "../../../shared/ui/popup/model/popupController";
-import CustomerData from "../model/ICustomerData";
-import immediateLogin from "./immediateLogin";
 import requestAPI from "../../../shared/api/APIRootBuilder";
+import loginCustomer from "../../../shared/api/loginCustomer";
+import SwitchRout from "../../../shared/routs/SwitchRout";
 
 export default function sendRequestCustomerCreation(
-  customerData: CustomerData,
-): void {
+  customerData: MyCustomerDraft,
+  button: HTMLInputElement,
+  callback: () => void,
+) {
+  const initiator = button;
+  initiator.disabled = true;
   const apiRoot = requestAPI.withAnonymousSessionFlow();
   apiRoot
     .me()
@@ -14,29 +19,59 @@ export default function sendRequestCustomerCreation(
     .post({
       body: {
         email: customerData.email,
-        password: customerData.password,
+        password: customerData.password!,
         firstName: customerData.firstName,
         lastName: customerData.lastName,
-        dateOfBirth: customerData.birthDate,
-        addresses: [customerData.shippingAddress, customerData.billingAddress],
-        defaultShippingAddress: 0,
-        defaultBillingAddress: 1,
+        defaultShippingAddress: customerData.defaultShippingAddress,
+        defaultBillingAddress: customerData.defaultBillingAddress,
+        addresses: customerData.addresses,
       },
     })
     .execute()
     .then((response) => {
       if (response.statusCode === 201) {
-        popupController.setStatus(
-          "ok",
-          response.body.customer.firstName || " ",
+        loginCustomer(customerData.email, customerData.password).then(
+          (loginRequest) => {
+            // save token as auth on success log ing for auto re-login
+            localStorage.setItem("auth-token", localStorage.getItem("token")!);
+            requestAPI
+              .apiRoot()
+              .me()
+              .post({
+                body: {
+                  version: 1,
+                  actions: [
+                    {
+                      action: "addShippingAddressId",
+                      addressId: loginRequest.body.customer.addresses[1].id,
+                    },
+                    {
+                      action: "addBillingAddressId",
+                      addressId: loginRequest.body.customer.addresses[0].id,
+                    },
+                  ],
+                },
+              })
+              .execute()
+              .then((addressResponse) => {
+                if (addressResponse.statusCode === 200) {
+                  popupController.setStatus(
+                    "ok",
+                    response.body.customer.firstName || " ",
+                  );
+                  document.body.append(popup);
+                  setTimeout(() => {
+                    SwitchRout.to(SwitchRout.path.MAIN);
+                    callback();
+                    console.log(callback);
+                  }, 2000);
+                } else {
+                  popupController.setStatus("fail");
+                  document.body.append(popup);
+                }
+              });
+          },
         );
-        document.body.append(popup);
-        // save token as auth on success for auto re-login
-        localStorage.setItem("auth-token", localStorage.getItem("token")!);
-        immediateLogin(customerData.email, customerData.password);
-      } else {
-        popupController.setStatus("fail");
-        document.body.append(popup);
       }
     })
     .catch((error) => {
@@ -56,5 +91,8 @@ export default function sendRequestCustomerCreation(
         }
         document.body.append(popup);
       }
+    })
+    .finally(() => {
+      initiator.disabled = false;
     });
 }

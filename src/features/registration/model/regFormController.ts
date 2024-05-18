@@ -13,7 +13,7 @@ import validateStreetAddress from "../lib/validation/validateStreetAddress";
 import regFormView, { RegFormView } from "../ui/regFormView";
 import regFormModel, { RegFormModel } from "./regFormModel";
 
-class RegFormController {
+export class RegFormController {
   view: RegFormView;
 
   model: RegFormModel;
@@ -144,14 +144,20 @@ class RegFormController {
       }
     });
 
-    this.view.singUpBtn.getHTMLElement().addEventListener("click", (e) => {
-      e.preventDefault();
-      this.startPageValidation();
-      if (this.checkFormValidity()) {
-        const customerData = this.view.collectData();
-        sendRequestCustomerCreation(customerData);
-      }
-    });
+    this.view.singUpBtn
+      .getHTMLElement()
+      .addEventListener("click", async (e) => {
+        e.preventDefault();
+        this.startPageValidation();
+        if (this.checkFormValidity()) {
+          const customerData = this.view.collectData();
+          sendRequestCustomerCreation(
+            customerData,
+            this.view.singUpBtn.getHTMLElement(),
+            this.resetForm.bind(this),
+          );
+        }
+      });
 
     this.view.pageContentWrapper.addEventListener("input", (e) => {
       if (
@@ -171,6 +177,17 @@ class RegFormController {
         }
       }
     });
+
+    this.view.setAsBillingAddress
+      .getSwitcher()
+      .addEventListener("input", () => {
+        const alreadyChosen = !this.view.setAsBillingAddress.getStatus();
+        if (alreadyChosen) {
+          this.view.shippingSetAsBilling = false;
+        } else {
+          this.view.shippingSetAsBilling = true;
+        }
+      });
 
     this.view.nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -256,6 +273,28 @@ class RegFormController {
     if (validationResult.status === "fail") {
       this.showValidationError.call(target, validationResult.validationMessage);
     }
+  }
+
+  private resetForm(): void {
+    this.view.lastNameInput.value = "";
+    this.view.emailInput.value = "";
+    this.view.passwordInput.value = "";
+    this.view.firstNameInput.value = "";
+    this.view.billingCityInput.value = "";
+    this.view.billingCodeInput.value = "";
+    this.view.billingCountryInput.value = "PL";
+    this.view.billingStreetInput.value = "";
+    this.view.birthDateInput.value = "";
+    this.view.shippingCityInput.value = "";
+    this.view.shippingCodeInput.value = "";
+    this.view.shippingCountryInput.value = "PL";
+    this.view.shippingStreetInput.value = "";
+    this.view.setDefaultShipping.setStatus(false);
+    this.view.setDefaultBilling.setStatus(false);
+    this.view.setAsBillingAddress.setStatus(false);
+    this.view.shippingSetAsBilling = false;
+    this.view.currentPageIndex = 0;
+    this.view.goToPage(0);
   }
 
   static navigateToLogin(): void {

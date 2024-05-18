@@ -48,6 +48,7 @@
     "@commercetools/sdk-client-v2": "^2.5.0",
     "@types/node": "^20.12.8",
     "@types/node-fetch": "^2.6.11",
+    "email-validator": "^2.0.4",
     "node-fetch": "^2.5.0"
   }
 }

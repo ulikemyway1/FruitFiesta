@@ -1,11 +1,14 @@
+import * as EmailValidator from "email-validator";
 import ValidationObject from "./IValidationObject";
+
+EmailValidator.validate("test@email.com"); // true
 
 export default function validateEmail(email: string): ValidationObject {
   const validationResult: ValidationObject = {
     status: "ok",
     validationMessage: "",
   };
-  if (!/^\S+@\S+\.\S+$/.test(email) || !(email.length > 0)) {
+  if (!EmailValidator.validate(email)) {
     validationResult.status = "fail";
     validationResult.validationMessage = "Please, check e-mail";
   }

@@ -1,10 +1,13 @@
+import { MyCustomerDraft } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import CustomerData from "../model/ICustomerData";
 import countryOptions from "../model/countries";
 import "./regForm.scss";
 import logo from "../../../assets/images/logo.svg";
+import SwitcherUI from "../../../shared/ui/switcherUI/UI/switcher";
 
 export class RegFormView {
+  public shippingSetAsBilling: boolean = false;
+
   private logoImage = new CreateElement<HTMLImageElement>({
     tag: "img",
     cssClasses: ["registration-form__logo"],
@@ -127,6 +130,10 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  public setDefaultShipping = new SwitcherUI("Set as default shipping address");
+
+  public setAsBillingAddress = new SwitcherUI("Use as billing address");
+
   public billingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
     attributes: {
@@ -169,6 +176,8 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  public setDefaultBilling = new SwitcherUI("Set as default billing address");
+
   private footerLinkWrapper = new CreateElement({
     tag: "div",
     cssClasses: ["registration-form__footer-link-wrapper"],
@@ -181,7 +190,7 @@ export class RegFormView {
     textContent: "Login",
   }).getHTMLElement();
 
-  pages: { title: string; elements: HTMLElement[] }[] = [
+  public pages: { title: string; elements: HTMLElement[] }[] = [
     {
       title: "Some about you...",
       elements: [
@@ -197,6 +206,12 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
         RegFormView.insertWrapperWithElements([this.shippingCityInput]),
         RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.setDefaultShipping.getSwitcher(),
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.setAsBillingAddress.getSwitcher(),
+        ]),
       ],
     },
     {
@@ -206,6 +221,9 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.billingStreetInput]),
         RegFormView.insertWrapperWithElements([this.billingCityInput]),
         RegFormView.insertWrapperWithElements([this.billingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.setDefaultBilling.getSwitcher(),
+        ]),
       ],
     },
     {
@@ -262,7 +280,7 @@ export class RegFormView {
     this.pages[this.currentPageIndex].elements.forEach((element) =>
       this.pageContentWrapper.append(element),
     );
-    this.paginationWrapper.append(this.prevBtn, this.nextBtn);
+    this.paginationWrapper.append(this.nextBtn);
 
     this.footerLinkWrapper.append(this.linkToSignIn);
 
@@ -287,32 +305,57 @@ export class RegFormView {
     return this.form;
   }
 
-  public collectData(): CustomerData {
+  public collectData(): MyCustomerDraft {
+    const shippingAsDefault = this.setDefaultShipping.getStatus();
+    const billingAsDefault = this.setDefaultBilling.getStatus();
+    const shippingDefaultIndex = shippingAsDefault ? 1 : undefined;
+    const billingDefaultIndex = billingAsDefault ? 0 : undefined;
     return {
       email: this.emailInput.value,
       password: this.passwordInput.value,
       firstName: this.firstNameInput.value,
       lastName: this.lastNameInput.value,
-      birthDate: this.birthDateInput.value,
-      billingAddress: {
-        country: this.billingCountryInput.value,
-        street: this.billingStreetInput.value,
-        city: this.billingCityInput.value,
-        postCode: this.billingCodeInput.value,
-      },
-      shippingAddress: {
-        country: this.shippingCountryInput.value,
-        street: this.shippingStreetInput.value,
-        city: this.shippingCityInput.value,
-        postCode: this.shippingCodeInput.value,
-      },
+      dateOfBirth: this.birthDateInput.value,
+      addresses: [
+        {
+          country: this.billingCountryInput.value,
+          streetName: this.billingStreetInput.value,
+          city: this.billingCityInput.value,
+          postalCode: this.billingCodeInput.value,
+        },
+        {
+          country: this.shippingCountryInput.value,
+          streetName: this.shippingStreetInput.value,
+          city: this.shippingCityInput.value,
+          postalCode: this.shippingCodeInput.value,
+        },
+      ],
+      defaultShippingAddress: shippingDefaultIndex,
+      defaultBillingAddress: billingDefaultIndex,
     };
   }
 
   public goNextPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex + 1 <= this.maxPageIndex) {
-      this.currentPageIndex += 1;
+      if (this.currentPageIndex === 0) {
+        this.paginationWrapper.prepend(this.prevBtn);
+      }
+      if (this.currentPageIndex === 1 && this.shippingSetAsBilling) {
+        this.billingCityInput.value = this.shippingCityInput.value;
+        this.billingCodeInput.value = this.shippingCodeInput.value;
+        this.billingCountryInput.value = this.shippingCountryInput.value;
+        this.billingStreetInput.value = this.shippingStreetInput.value;
+        this.currentPageIndex += 2;
+      } else if (this.currentPageIndex === 1 && !this.shippingSetAsBilling) {
+        this.billingCityInput.value = "";
+        this.billingCodeInput.value = "";
+        this.billingCountryInput.value = "PL";
+        this.billingStreetInput.value = "";
+        this.currentPageIndex += 1;
+      } else {
+        this.currentPageIndex += 1;
+      }
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
     }
@@ -330,9 +373,23 @@ export class RegFormView {
   private goPrevPage(e: Event): void {
     e.preventDefault();
     if (this.currentPageIndex - 1 >= 0) {
-      this.currentPageIndex -= 1;
+      if (this.currentPageIndex === 1) {
+        this.prevBtn.remove();
+      }
+      if (
+        this.currentPageIndex === this.maxPageIndex &&
+        this.shippingSetAsBilling
+      ) {
+        this.currentPageIndex -= 2;
+      } else {
+        this.currentPageIndex -= 1;
+      }
       this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
       this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      if (this.currentPageIndex !== this.maxPageIndex) {
+        this.singUpBtn.getHTMLElement().remove();
+        this.paginationWrapper.append(this.nextBtn);
+      }
     }
     this.showPageContent(this.currentPageIndex);
     this.checkPagination();
@@ -359,6 +416,21 @@ export class RegFormView {
       this.prevBtn.disabled = false;
     } else {
       this.prevBtn.disabled = true;
+    }
+  }
+
+  public goToPage(pageNumber: number) {
+    if (pageNumber >= 0 && pageNumber <= this.maxPageIndex) {
+      this.currentPageIndex = pageNumber;
+      this.showPageContent(this.currentPageIndex);
+      if (pageNumber === 0) {
+        this.prevBtn.remove();
+      }
+      if (pageNumber !== this.maxPageIndex) {
+        this.singUpBtn.getHTMLElement().remove();
+        this.paginationWrapper.append(this.nextBtn);
+        this.nextBtn.disabled = false;
+      }
     }
   }
 
