@@ -5,10 +5,10 @@ export default function validateName(name: string): ValidationObject {
     status: "ok",
     validationMessage: "",
   };
-  if (!/^[a-zA-Zа-яА-ЯёЁ]*$/.test(name) || !(name.length > 0)) {
+  if (!/^[a-zA-Zа-яА-ЯёЁ\s]*$/.test(name) || !(name.trim().length > 0)) {
     validationResult.status = "fail";
-    if (!(name.length > 0)) {
-      validationResult.validationMessage = "Required one and more symbols";
+    if (!(name.trim().length > 0)) {
+      validationResult.validationMessage = "Required at least one symbol";
     } else {
       validationResult.validationMessage = "Only letters accepted";
     }

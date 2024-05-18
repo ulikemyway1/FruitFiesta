@@ -5,9 +5,9 @@ export default function validateCityAddress(address: string): ValidationObject {
     status: "ok",
     validationMessage: "",
   };
-  if (!/^[a-zA-Zа-яА-ЯёЁ]*$/.test(address) || !(address.length > 0)) {
+  if (!/^[a-zA-Zа-яА-ЯёЁ\s]*$/.test(address) || !(address.trim().length > 0)) {
     validationResult.status = "fail";
-    if (!(address.length > 0)) {
+    if (!(address.trim().length > 0)) {
       validationResult.validationMessage =
         "City address must contain at least one character";
     } else {
