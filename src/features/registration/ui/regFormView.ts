@@ -307,7 +307,7 @@ export class RegFormView {
 
   public collectData(): MyCustomerDraft {
     const shippingAsDefault = this.setDefaultShipping.getStatus();
-    const billingAsDefault = this.setDefaultShipping.getStatus();
+    const billingAsDefault = this.setDefaultBilling.getStatus();
     const shippingDefaultIndex = shippingAsDefault ? 1 : undefined;
     const billingDefaultIndex = billingAsDefault ? 0 : undefined;
     return {
