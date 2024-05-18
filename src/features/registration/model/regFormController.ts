@@ -144,6 +144,24 @@ export class RegFormController {
       }
     });
 
+    this.view.setAsBillingAddress
+      .getSwitcher()
+      .addEventListener("input", (e) => {
+        if (
+          this.view.setAsBillingAddress.getStatus() &&
+          e.target instanceof HTMLElement &&
+          e.target.parentElement
+        ) {
+          this.view.shippingWrapper.nextElementSibling?.append(
+            this.view.setDefaultBilling.getSwitcher(),
+          );
+        } else {
+          this.view.billingWrapper.append(
+            this.view.setDefaultBilling.getSwitcher(),
+          );
+        }
+      });
+
     this.view.singUpBtn
       .getHTMLElement()
       .addEventListener("click", async (e) => {
@@ -295,6 +313,7 @@ export class RegFormController {
     this.view.shippingSetAsBilling = false;
     this.view.currentPageIndex = 0;
     this.view.goToPage(0);
+    this.view.billingWrapper.append(this.view.setDefaultBilling.getSwitcher());
   }
 
   static navigateToLogin(): void {

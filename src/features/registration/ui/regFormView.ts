@@ -190,6 +190,14 @@ export class RegFormView {
     textContent: "Login",
   }).getHTMLElement();
 
+  public billingWrapper = RegFormView.insertWrapperWithElements([
+    this.setDefaultBilling.getSwitcher(),
+  ]);
+
+  public shippingWrapper = RegFormView.insertWrapperWithElements([
+    this.setDefaultShipping.getSwitcher(),
+  ]);
+
   public pages: { title: string; elements: HTMLElement[] }[] = [
     {
       title: "Some about you...",
@@ -206,9 +214,7 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
         RegFormView.insertWrapperWithElements([this.shippingCityInput]),
         RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
-        RegFormView.insertWrapperWithElements([
-          this.setDefaultShipping.getSwitcher(),
-        ]),
+        this.shippingWrapper,
         RegFormView.insertWrapperWithElements([
           this.setAsBillingAddress.getSwitcher(),
         ]),
@@ -221,9 +227,7 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([this.billingStreetInput]),
         RegFormView.insertWrapperWithElements([this.billingCityInput]),
         RegFormView.insertWrapperWithElements([this.billingCodeInput]),
-        RegFormView.insertWrapperWithElements([
-          this.setDefaultBilling.getSwitcher(),
-        ]),
+        this.billingWrapper,
       ],
     },
     {
