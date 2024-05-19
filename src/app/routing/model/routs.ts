@@ -1,19 +1,26 @@
+import CreateElement from "../../../shared/helpers/element-create";
 import Router from "./router";
+import user from "../../../entities/user";
 import mainPage from "../../../pages/main";
 import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
-
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
-
-import CreateElement from "../../../shared/helpers/element-create";
 
 const router = new Router();
 
 router.route(Hash.LOGIN, () => {
+  if (user.userIsLoggedIn) {
+    window.history.back();
+    return;
+  }
   Router.switchContent(loginPage.draw().getHTMLElement());
 });
 router.route(Hash.REGISTRATION, () => {
+  if (user.userIsLoggedIn) {
+    window.history.back();
+    return;
+  }
   Router.switchContent(registrationPage);
 });
 router.route(Hash.MAIN, () => {
@@ -32,14 +39,6 @@ router.route(Hash.DETAIL, () => {
     new CreateElement({
       tag: "h1",
       textContent: "Detail",
-    }).getHTMLElement(),
-  );
-});
-router.route(Hash.USER, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "User",
     }).getHTMLElement(),
   );
 });
@@ -68,12 +67,11 @@ router.route(Hash.NOT_FOUND, () => {
   );
 });
 router.route(Hash.PROFILE, () => {
+  if (!user.userIsLoggedIn) {
+    window.history.back();
+    return;
+  }
   Router.switchContent(userProfileController.getView());
 });
-
-// router.route(Hash.EMPTY, () => {
-//   console.log("empty hash");
-//   document.body.innerHTML = "<h1>Empty hash</h1>";
-// });
 
 export default router;
