@@ -11,7 +11,8 @@ const router = new Router();
 
 router.route(Hash.LOGIN, () => {
   if (user.userIsLoggedIn) {
-    window.history.back();
+    window.history.replaceState(null, "", Hash.MAIN);
+    router.navigate(Hash.MAIN);
     return;
   }
   Router.switchContent(loginPage.draw().getHTMLElement());
