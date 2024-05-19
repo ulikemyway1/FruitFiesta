@@ -1,6 +1,5 @@
 import "./index.scss";
 import logoIcon from "../../../assets/images/logo.svg";
-import profileIcon from "../../../assets/images/user-profile-svgrepo-com.svg";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 
@@ -59,9 +58,7 @@ class Header {
     tag: "li",
     cssClasses: ["nav__item"],
     children: [this.catalogLink],
-    eventType: "click",
-    callback: this.closeBurger.bind(this),
-  }).getHTMLElement();
+  });
 
   private aboutLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
@@ -111,13 +108,11 @@ class Header {
   }).getHTMLElement();
 
   private profileIcon = new CreateElement<HTMLImageElement>({
-    tag: "img",
+    tag: "div",
     cssClasses: ["header__icon-profile"],
-    attributes: {
-      src: profileIcon,
-      alt: "key-logo",
-    },
-  });
+    eventType: "click",
+    callback: this.toggleKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private cartIcon = new CreateElement<HTMLImageElement>({
     tag: "a",
@@ -147,7 +142,7 @@ class Header {
     tag: "a",
     cssClasses: ["header__link"],
     attributes: { href: "#logout" },
-    textContent: "Log out",
+    textContent: "Logout",
     eventType: "click",
     callback: this.closeKeyIconPopUp.bind(this),
   }).getHTMLElement();
@@ -204,8 +199,15 @@ class Header {
   constructor() {
     document.addEventListener("click", (event) => {
       const target = <HTMLElement>event.target;
-      if (!target.classList.contains("header__icon-key")) {
-        this.closeKeyIconPopUp();
+      if (user.userIsLoggedIn) {
+        if (!target.classList.contains("header__icon-profile")) {
+          this.closeKeyIconPopUp();
+        }
+      }
+      if (!user.userIsLoggedIn) {
+        if (!target.classList.contains("header__icon-key")) {
+          this.closeKeyIconPopUp();
+        }
       }
       if (
         !target.classList.contains("header__burger-lines") &&
@@ -242,19 +244,29 @@ class Header {
     if (user.userIsLoggedIn) {
       this.loginLink.classList.add("nav__item_hidden");
       this.registerLink.classList.add("nav__item_hidden");
+      this.profileIcon.classList.remove("nav__item_hidden");
       this.profileLink.classList.remove("nav__item_hidden");
-      this.loginLink.classList.remove("nav__item_hidden");
+      this.keyIcon.classList.add("nav__item_hidden");
+      this.logoutLink.classList.remove("nav__item_hidden");
     } else {
       this.loginLink.classList.remove("nav__item_hidden");
+      this.keyIcon.classList.remove("nav__item_hidden");
       this.registerLink.classList.remove("nav__item_hidden");
       this.profileLink.classList.add("nav__item_hidden");
       this.logoutLink.classList.add("nav__item_hidden");
+      this.profileIcon.classList.add("nav__item_hidden");
+      this.profileLink.classList.add("nav__item_hidden");
     }
   }
 
   toggleKeyIconPopUp() {
-    this.keyIconPopUp.classList.toggle("active");
-    this.keyIcon.classList.toggle("active");
+    if (user.userIsLoggedIn) {
+      this.profileIcon.classList.toggle("active");
+      this.keyIconPopUp.classList.toggle("active");
+    } else {
+      this.keyIcon.classList.toggle("active");
+      this.keyIconPopUp.classList.toggle("active");
+    }
   }
 
   closeKeyIconPopUp() {

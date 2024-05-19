@@ -46,10 +46,11 @@
     }
   }
   &__icon-profile {
-    width: 25px;
+    width: 30px;
     height: 25px;
-    display: none;
+    display: flex;
     cursor: pointer;
+    background-image: url("../../../assets/images/user-profile-svgrepo-com-green.svg");
   }
   &__icon-cart {
     width: 35px;

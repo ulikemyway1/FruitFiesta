@@ -1,17 +1,17 @@
-// import homeIcon from "../../../assets/images/home-svgrepo-com.svg";
-// import catalogIcon from "../../../assets/images/product-catalog-svgrepo-com.svg";
+import homeIcon from "../../../assets/images/home-svgrepo-com.svg";
+import catalogIcon from "../../../assets/images/product-catalog-svgrepo-com.svg";
 import cartIcon from "../../../assets/images/shopping-cart-svgrepo-com.svg";
-// import aboutIcon from "../../../assets/images/about-svgrepo-com.svg";
+import aboutIcon from "../../../assets/images/about-svgrepo-com.svg";
 import loginIcon from "../../../assets/images/log-in-svgrepo-com.svg";
 import registrationIcon from "../../../assets/images/add-svgrepo-com.svg";
 import profileIcon from "../../../assets/images/user-profile-svgrepo-com.svg";
 import LogoutIcon from "../../../assets/images/log-out-svgrepo-com.svg";
 
 const HEADER_LINKS = [
-  ["Home", "#main"],
-  ["Catalog", "#catalog"],
+  ["Home", "#main", homeIcon],
+  ["Catalog", "#catalog", catalogIcon],
   ["Basket", "#basket", cartIcon],
-  ["About", "#about"],
+  ["About", "#about", aboutIcon],
   ["Login", "#login", loginIcon],
   ["Registration", "#registration", registrationIcon],
   ["Profile", "#profile", profileIcon],

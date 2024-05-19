@@ -363,7 +363,7 @@ export class RegFormView {
       this.maxPageIndex + 1
     }`;
     this.pages[this.currentPageIndex].elements.forEach((element) =>
-      this.pageContentWrapper.append(element)
+      this.pageContentWrapper.append(element),
     );
     this.paginationWrapper.append(this.nextBtn);
 
@@ -375,7 +375,7 @@ export class RegFormView {
       this.pageContentWrapper,
       this.statusBar,
       this.paginationWrapper,
-      this.footerLinkWrapper
+      this.footerLinkWrapper,
     );
 
     countryOptions.forEach((country) => {
@@ -494,7 +494,7 @@ export class RegFormView {
     }
     this.pageTitle.textContent = this.pages[pageIndex].title;
     this.pages[pageIndex].elements.forEach((element) =>
-      this.pageContentWrapper.append(element)
+      this.pageContentWrapper.append(element),
     );
   }
 
