@@ -5,13 +5,46 @@ export default function validatePassword(password: string): ValidationObject {
     status: "ok",
     validationMessage: "",
   };
-  if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{8,}$/.test(password)) {
+  if (password.length < 8) {
     validationResult.status = "fail";
-    if (password.includes(" ")) {
-      validationResult.validationMessage = "Spaces are not allowed";
-    } else
-      validationResult.validationMessage =
-        "Password must contain minimum 8 characters, at least 1 uppercase letter, at least 1 lowercase letter, and  at least 1 number";
+    validationResult.validationMessage =
+      "Password must contain minimum 8 characters";
+    return validationResult;
   }
+
+  if (!/[A-Z]/.test(password)) {
+    validationResult.status = "fail";
+    validationResult.validationMessage =
+      "Password must contain at least 1 uppercase letter";
+    return validationResult;
+  }
+
+  if (!/[a-z]/.test(password)) {
+    validationResult.status = "fail";
+    validationResult.validationMessage =
+      "Password must contain at least 1 lowercase letter";
+    return validationResult;
+  }
+
+  if (!/[0-9]/.test(password)) {
+    validationResult.status = "fail";
+    validationResult.validationMessage =
+      "Password must contain at least 1 number";
+    return validationResult;
+  }
+
+  if (!/[!@#$%^&*]/.test(password)) {
+    validationResult.status = "fail";
+    validationResult.validationMessage =
+      "Password must contain at least 1 special character (!@#$%^&*)";
+    return validationResult;
+  }
+
+  if (/\s/.test(password)) {
+    validationResult.status = "fail";
+    validationResult.validationMessage = "Spaces are not allowed";
+    return validationResult;
+  }
+
   return validationResult;
 }
