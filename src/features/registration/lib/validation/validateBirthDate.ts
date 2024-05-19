@@ -5,9 +5,12 @@ function calculateAge(customerDate: number) {
   const currentDate = new Date(Date.now());
 
   let age = currentDate.getFullYear() - birthdate.getFullYear();
-  const m = currentDate.getMonth() - birthdate.getMonth();
+  const month = currentDate.getMonth() - birthdate.getMonth();
 
-  if (m < 0 || (m === 0 && currentDate.getDate() < birthdate.getDate())) {
+  if (
+    month < 0 ||
+    (month === 0 && currentDate.getDate() < birthdate.getDate())
+  ) {
     age -= 1;
   }
   return age;
@@ -24,10 +27,14 @@ export default function validateBirthDate(date: number): ValidationObject {
   }
   const customerDate = date;
   const customerAge = calculateAge(customerDate);
-  if (!(customerAge >= 12)) {
+  if (!(customerAge >= 12) && customerAge >= 0) {
     validationResult.status = "fail";
     validationResult.validationMessage =
       "Apologies for any inconvenience, but you must be at least 12 years old to make a purchase in our store.";
+  } else if (customerAge < 0) {
+    validationResult.status = "fail";
+    validationResult.validationMessage =
+      "The birth date cannot be in the future.";
   }
   return validationResult;
 }
