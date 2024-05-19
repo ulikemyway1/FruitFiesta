@@ -39,14 +39,26 @@ export class RegFormView {
     cssClasses: ["registration-form__page-title"],
   }).getHTMLElement();
 
+  private emailInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Email",
+  }).getHTMLElement();
+
   public emailInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "email",
       required: "true",
-      placeholder: "jondoe@gmail.com",
+      placeholder: "username@gmail.com",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private passwordInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Password",
   }).getHTMLElement();
 
   public passwordInput = new CreateElement<HTMLInputElement>({
@@ -54,9 +66,15 @@ export class RegFormView {
     attributes: {
       type: "password",
       required: "true",
-      placeholder: "PASSWORD",
+      placeholder: "Password",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private firstNameInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "First name",
   }).getHTMLElement();
 
   public firstNameInput = new CreateElement<HTMLInputElement>({
@@ -69,6 +87,12 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  private lastNameInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Last name",
+  }).getHTMLElement();
+
   public lastNameInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
@@ -77,6 +101,12 @@ export class RegFormView {
       placeholder: "Doe",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private birthDateInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Birthday",
   }).getHTMLElement();
 
   public birthDateInput = new CreateElement<HTMLInputElement>({
@@ -88,11 +118,17 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  private shippingCountryInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Country",
+  }).getHTMLElement();
+
   public shippingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
     attributes: {
       required: "true",
-      placeholder: "Country",
+      placeholder: "Poland",
     },
     cssClasses: [
       "registration-form__input-wide",
@@ -100,14 +136,26 @@ export class RegFormView {
     ],
   }).getHTMLElement();
 
+  private shippingStreetInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Street",
+  }).getHTMLElement();
+
   public shippingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Street",
+      placeholder: "Marszalkowska street",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private shippingCityInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "City",
   }).getHTMLElement();
 
   public shippingCityInput = new CreateElement<HTMLInputElement>({
@@ -115,9 +163,15 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "City",
+      placeholder: "Warsaw",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private shippingCodeInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Post code",
   }).getHTMLElement();
 
   public shippingCodeInput = new CreateElement<HTMLInputElement>({
@@ -125,7 +179,7 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Post code",
+      placeholder: "00-007",
     },
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
@@ -200,20 +254,39 @@ export class RegFormView {
 
   public pages: { title: string; elements: HTMLElement[] }[] = [
     {
-      title: "Some about you...",
+      title: "Create an account",
       elements: [
-        RegFormView.insertWrapperWithElements([this.firstNameInput]),
-        RegFormView.insertWrapperWithElements([this.lastNameInput]),
-        RegFormView.insertWrapperWithElements([this.birthDateInput]),
+        RegFormView.insertWrapperWithElements([
+          this.firstNameInputTitle,
+          this.firstNameInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.lastNameInputTitle,
+          this.lastNameInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.birthDateInputTitle,
+          this.birthDateInput,
+        ]),
       ],
     },
     {
       title: "Shipping address",
       elements: [
+        this.shippingCountryInputTitle,
         this.shippingCountryInput,
-        RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
-        RegFormView.insertWrapperWithElements([this.shippingCityInput]),
-        RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingStreetInputTitle,
+          this.shippingStreetInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingCityInputTitle,
+          this.shippingCityInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingCodeInputTitle,
+          this.shippingCodeInput,
+        ]),
         this.shippingWrapper,
         RegFormView.insertWrapperWithElements([
           this.setAsBillingAddress.getSwitcher(),
@@ -231,10 +304,16 @@ export class RegFormView {
       ],
     },
     {
-      title: "Your login and password",
+      title: "Login and password",
       elements: [
-        RegFormView.insertWrapperWithElements([this.emailInput]),
-        RegFormView.insertWrapperWithElements([this.passwordInput]),
+        RegFormView.insertWrapperWithElements([
+          this.emailInputTitle,
+          this.emailInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.passwordInputTitle,
+          this.passwordInput,
+        ]),
       ],
     },
   ];
@@ -280,7 +359,7 @@ export class RegFormView {
     this.maxPageIndex = this.pages.length - 1;
     this.pageTitle.textContent = this.pages[this.currentPageIndex].title;
     this.statusBar.append(this.progressLine, this.progressText);
-    this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+    this.progressText.textContent = `${this.currentPageIndex + 1} of ${
       this.maxPageIndex + 1
     }`;
     this.pages[this.currentPageIndex].elements.forEach((element) =>
@@ -362,7 +441,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex += 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+      this.progressText.textContent = `${this.currentPageIndex + 1} of ${
         this.maxPageIndex + 1
       }`;
       this.progressLine.style.transform = `translateX(-${
@@ -394,7 +473,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex -= 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${
+      this.progressText.textContent = `${this.currentPageIndex + 1} of ${
         this.maxPageIndex + 1
       }`;
       this.progressLine.style.transform = `translateX(-${

@@ -2,8 +2,8 @@
   font-size: 17px;
   position: relative;
   display: inline-block;
-  width: 3.5em;
-  height: 2em;
+  width: 43px;
+  height: 20px;
 
   &__wrapper {
     display: flex;
@@ -33,17 +33,20 @@
     &:before {
       position: absolute;
       content: "";
-      height: 1.4em;
-      width: 1.4em;
-      border-radius: 20px;
-      left: 0.27em;
-      bottom: 0.25em;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      left: 0px;
+      bottom: 1px;
       background-color: var(--button-default-background);
       transition: 0.4s;
     }
   }
 }
-
+.switcher__text-box {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
 .switcher__checkbox:checked + .switcher__slider {
   background-color: var(--green-text-color);
   border: 1px solid var(--button-default-background);

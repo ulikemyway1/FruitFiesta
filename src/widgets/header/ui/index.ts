@@ -1,11 +1,7 @@
 import "./index.scss";
 import logoIcon from "../../../assets/images/logo.svg";
-import loginIcon from "../../../assets/images/log-in-svgrepo-com.svg";
-import cartIcon from "../../../assets/images/cart-icon.svg";
 import profileIcon from "../../../assets/images/user-profile-svgrepo-com.svg";
-
 import CreateElement from "../../../shared/helpers/element-create";
-// import HEADER_LINKS from "./HEADER_LINKS";
 import Hash from "../../../shared/routs/enumHash";
 
 import user from "../../../entities/user";
@@ -35,14 +31,14 @@ class Header {
     textContent: "Fruit Fiesta",
   });
 
-  // private navItems: CreateElement<HTMLElement>[] = [];
-
   private homeLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["nav__link"],
     attributes: { href: "#main" },
     textContent: "Home",
-  });
+    eventType: "click",
+    callback: this.closeBurger.bind(this),
+  }).getHTMLElement();
 
   private homeLi = new CreateElement<HTMLLIElement>({
     tag: "li",
@@ -55,20 +51,26 @@ class Header {
     cssClasses: ["nav__link"],
     attributes: { href: "#catalog" },
     textContent: "Catalog",
-  });
+    eventType: "click",
+    callback: this.closeBurger.bind(this),
+  }).getHTMLElement();
 
   private catalogLi = new CreateElement<HTMLLIElement>({
     tag: "li",
     cssClasses: ["nav__item"],
     children: [this.catalogLink],
-  });
+    eventType: "click",
+    callback: this.closeBurger.bind(this),
+  }).getHTMLElement();
 
   private aboutLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["nav__link"],
     attributes: { href: "#about" },
     textContent: "About",
-  });
+    eventType: "click",
+    callback: this.closeBurger.bind(this),
+  }).getHTMLElement();
 
   private aboutLi = new CreateElement<HTMLLIElement>({
     tag: "li",
@@ -86,16 +88,27 @@ class Header {
     tag: "nav",
     cssClasses: ["navigation"],
     children: [this.navList],
-  });
+  }).getHTMLElement();
 
-  private keyIcon = new CreateElement<HTMLImageElement>({
-    tag: "img",
+  private burgerLines = new CreateElement<HTMLSpanElement>({
+    tag: "span",
+    cssClasses: ["header__burger-lines"],
+  }).getHTMLElement();
+
+  private burger = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["header__burger"],
+    children: [this.burgerLines],
+    eventType: "click",
+    callback: this.toggleBurger.bind(this),
+  }).getHTMLElement();
+
+  private keyIcon = new CreateElement<HTMLDivElement>({
+    tag: "div",
     cssClasses: ["header__icon-key"],
-    attributes: {
-      src: loginIcon,
-      alt: "key-logo",
-    },
-  });
+    eventType: "click",
+    callback: this.toggleKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private profileIcon = new CreateElement<HTMLImageElement>({
     tag: "img",
@@ -107,12 +120,9 @@ class Header {
   });
 
   private cartIcon = new CreateElement<HTMLImageElement>({
-    tag: "img",
+    tag: "a",
     cssClasses: ["header__icon-cart"],
-    attributes: {
-      src: cartIcon,
-      alt: "cart-logo",
-    },
+    attributes: { href: "#basket" },
   });
 
   private registerLink = new CreateElement<HTMLLinkElement>({
@@ -120,28 +130,36 @@ class Header {
     cssClasses: ["header__link"],
     attributes: { href: "#registration" },
     textContent: "Register",
-  });
+    eventType: "click",
+    callback: this.closeKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private loginLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["header__link"],
     attributes: { href: "#login" },
     textContent: "Log in",
-  });
+    eventType: "click",
+    callback: this.closeKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private logoutLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["header__link"],
     attributes: { href: "#logout" },
     textContent: "Log out",
-  });
+    eventType: "click",
+    callback: this.closeKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private profileLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["header__link"],
     attributes: { href: "#profile" },
     textContent: "Profile",
-  });
+    eventType: "click",
+    callback: this.closeKeyIconPopUp.bind(this),
+  }).getHTMLElement();
 
   private keyIconPopUp = new CreateElement<HTMLDivElement>({
     tag: "div",
@@ -152,7 +170,7 @@ class Header {
       this.profileLink,
       this.logoutLink,
     ],
-  });
+  }).getHTMLElement();
 
   private userIconsWrapper = new CreateElement<HTMLDivElement>({
     tag: "div",
@@ -168,7 +186,13 @@ class Header {
   private content = new CreateElement({
     tag: "article",
     cssClasses: ["header__content"],
-    children: [this.logo, this.title, this.nav, this.userIconsWrapper],
+    children: [
+      this.logo,
+      this.title,
+      this.nav,
+      this.userIconsWrapper,
+      this.burger,
+    ],
   });
 
   private container = new CreateElement({
@@ -178,11 +202,25 @@ class Header {
   });
 
   constructor() {
-    this.logoutLink.getHTMLElement().addEventListener("click", (event) => {
+    document.addEventListener("click", (event) => {
+      const target = <HTMLElement>event.target;
+      if (!target.classList.contains("header__icon-key")) {
+        this.closeKeyIconPopUp();
+      }
+      if (
+        !target.classList.contains("header__burger-lines") &&
+        !target.classList.contains("header__burger")
+      ) {
+        this.closeBurger();
+      }
+    });
+
+    this.logoutLink.addEventListener("click", (event) => {
       event.preventDefault();
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
       window.location.hash = Hash.LOGIN;
+      this.closeKeyIconPopUp();
     });
 
     setTimeout(() => {
@@ -202,16 +240,38 @@ class Header {
 
   public update() {
     if (user.userIsLoggedIn) {
-      this.loginLink.getHTMLElement().classList.add("nav__item_hidden");
-      this.registerLink.getHTMLElement().classList.add("nav__item_hidden");
-      this.profileLink.getHTMLElement().classList.remove("nav__item_hidden");
-      this.loginLink.getHTMLElement().classList.remove("nav__item_hidden");
+      this.loginLink.classList.add("nav__item_hidden");
+      this.registerLink.classList.add("nav__item_hidden");
+      this.profileLink.classList.remove("nav__item_hidden");
+      this.loginLink.classList.remove("nav__item_hidden");
     } else {
-      this.loginLink.getHTMLElement().classList.remove("nav__item_hidden");
-      this.registerLink.getHTMLElement().classList.remove("nav__item_hidden");
-      this.profileLink.getHTMLElement().classList.add("nav__item_hidden");
-      this.logoutLink.getHTMLElement().classList.add("nav__item_hidden");
+      this.loginLink.classList.remove("nav__item_hidden");
+      this.registerLink.classList.remove("nav__item_hidden");
+      this.profileLink.classList.add("nav__item_hidden");
+      this.logoutLink.classList.add("nav__item_hidden");
     }
+  }
+
+  toggleKeyIconPopUp() {
+    this.keyIconPopUp.classList.toggle("active");
+    this.keyIcon.classList.toggle("active");
+  }
+
+  closeKeyIconPopUp() {
+    this.keyIconPopUp.classList.remove("active");
+    this.keyIcon.classList.remove("active");
+  }
+
+  toggleBurger() {
+    this.nav.classList.toggle("active");
+    this.burgerLines.classList.toggle("active");
+    this.burger.classList.toggle("active");
+  }
+
+  closeBurger() {
+    this.nav.classList.remove("active");
+    this.burgerLines.classList.remove("active");
+    this.burger.classList.remove("active");
   }
 
   getHTMLElement(): HTMLElement {
