@@ -1,8 +1,6 @@
 import validateBirthDate from "../../src/features/registration/lib/validation/validateBirthDate";
 
-describe('validateBirthDate', () => {
-    // ... your existing tests ...
-  
+describe('validateBirthDate', () => {  
     it('should fail when date is in the future', () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
