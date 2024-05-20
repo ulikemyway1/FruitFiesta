@@ -336,7 +336,10 @@ export class LoginFormView {
     this.passwordInput.value = "";
   }
 
-  showBadRequestError() {
+  showBadRequestError(message?: string) {
+    if (message) {
+      this.invalidLoginOrPassword.textContent = message;
+    }
     this.invalidLoginOrPassword.classList.add("error");
   }
 
