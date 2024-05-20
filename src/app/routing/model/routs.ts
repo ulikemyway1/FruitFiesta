@@ -27,7 +27,7 @@ router.route(Hash.REGISTRATION, () => {
 router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
-router.route(Hash.CATALOG, () => {
+router.route(new RegExp(`^${Hash.CATALOG}(\\/\\d*)?$`), () => {
   Router.switchContent(
     new CreateElement({
       tag: "h1",
