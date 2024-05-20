@@ -16,3 +16,19 @@
   font-style: normal;
   background-color: var(--pages-background);
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--button-default-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--placeholder-text-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green-text-color);
+}
