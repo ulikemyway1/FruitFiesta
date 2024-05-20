@@ -21,7 +21,9 @@ export default function sendRequestCustomerAuth(
         user.userIsLoggedIn = true;
       }
     })
-    .catch(() => {
-      loginForm.showBadRequestError();
+    .catch((e) => {
+      if (e instanceof Error) {
+        loginForm.showBadRequestError(e.message);
+      }
     });
 }
