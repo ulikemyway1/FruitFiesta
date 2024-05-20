@@ -37,18 +37,23 @@ export default class Router {
 
     for (let i = 0; i < this.routes.length; i += 1) {
       // string
+
       if (
         typeof this.routes[i].pattern === "string" &&
         this.routes[i].pattern === hash
       ) {
-        // console.log("router catch string");
+        // console.log("router catch string", hash);
         this.routes[i].handler(hash);
         return;
       }
+
       // RegExp
       // TODO: configure it to work with the catalog
-      if (hash.match(this.routes[i].pattern)) {
-        // console.log("router catch regexp");
+      if (
+        this.routes[i].pattern instanceof RegExp &&
+        hash.match(this.routes[i].pattern)
+      ) {
+        // console.log("router catch regexp", hash);
         this.routes[i].handler(hash);
         return;
       }
