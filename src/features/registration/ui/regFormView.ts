@@ -441,12 +441,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex += 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} of ${
-        this.maxPageIndex + 1
-      }`;
-      this.progressLine.style.transform = `translateX(-${
-        100 - (100 * this.currentPageIndex) / this.maxPageIndex
-      }%)`;
+      this.updateProgressBar();
     }
     if (this.currentPageIndex === this.maxPageIndex) {
       this.nextBtn.remove();
@@ -473,12 +468,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex -= 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} of ${
-        this.maxPageIndex + 1
-      }`;
-      this.progressLine.style.transform = `translateX(-${
-        100 - (100 * this.currentPageIndex) / this.maxPageIndex
-      }%)`;
+      this.updateProgressBar();
       if (this.currentPageIndex !== this.maxPageIndex) {
         this.singUpBtn.getHTMLElement().remove();
         this.paginationWrapper.append(this.nextBtn);
@@ -524,7 +514,17 @@ export class RegFormView {
         this.paginationWrapper.append(this.nextBtn);
         this.nextBtn.disabled = false;
       }
+      this.updateProgressBar();
     }
+  }
+
+  private updateProgressBar(): void {
+    this.progressText.textContent = `${this.currentPageIndex + 1} of ${
+      this.maxPageIndex + 1
+    }`;
+    this.progressLine.style.transform = `translateX(-${
+      100 - (100 * this.currentPageIndex) / this.maxPageIndex
+    }%)`;
   }
 
   static insertWrapperWithElements(elements: HTMLElement[]): HTMLElement {
