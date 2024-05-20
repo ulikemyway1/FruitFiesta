@@ -1,5 +1,5 @@
 import "./notFoundPage.scss";
-import pageNotFoundImg from "../../../assets/images/page404.jpeg";
+import pageNotFoundImg from "../../../assets/images/page404.png";
 
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
@@ -8,7 +8,7 @@ class NotFoundPageView {
   private title = new CreateElement({
     tag: "h1",
     cssClasses: ["not-found-page__title"],
-    textContent: "404 Page not found",
+    textContent: "404 Page not found :(",
   });
 
   private image = new CreateElement({
@@ -38,8 +38,8 @@ class NotFoundPageView {
     tag: "main",
     cssClasses: ["not-found-page"],
     children: [
-      this.image,
       this.title,
+      this.image,
       this.additionalInfo,
       this.buttonToMainPage,
     ],
