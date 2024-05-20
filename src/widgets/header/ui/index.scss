@@ -22,6 +22,8 @@
     font-size: 1.4rem;
     margin-right: 60px;
     color: var(--beige-text-color);
+    text-decoration: none;
+    cursor: pointer;
   }
   &__icons-wrapper {
     position: absolute;
@@ -123,8 +125,7 @@
     }
 
     .nav__icon {
-      filter: invert(42%) sepia(11%) saturate(5861%) hue-rotate(57deg)
-        brightness(96%) contrast(88%);
+      filter: invert(42%) sepia(11%) saturate(5861%) hue-rotate(57deg) brightness(96%) contrast(88%);
     }
   }
 
@@ -222,7 +223,7 @@
     position: absolute;
     padding: 30px 54px;
     right: 0px;
-    top: -226px;
+    top: -250px;
     background-color: var(--header-background);
     transition: 0.5s linear;
     border-bottom-right-radius: 5px;
@@ -237,10 +238,14 @@
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 480px) {
   .header {
     &__title {
       margin-right: 0;
+      font-size: 1rem;
+    }
+    .navigation {
+      padding: 30px 40px;
     }
   }
 }

@@ -6,6 +6,15 @@ import Hash from "../../../shared/routs/enumHash";
 import user from "../../../entities/user";
 
 class Header {
+  private title = new CreateElement<HTMLDivElement>({
+    tag: "a",
+    cssClasses: ["header__title"],
+    attributes: {
+      href: Hash.MAIN,
+    },
+    textContent: "Fruit Fiesta",
+  });
+
   private logo = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["header__logo"],
@@ -22,12 +31,6 @@ class Header {
         },
       }),
     ],
-  });
-
-  private title = new CreateElement<HTMLDivElement>({
-    tag: "div",
-    cssClasses: ["header__title"],
-    textContent: "Fruit Fiesta",
   });
 
   private homeLink = new CreateElement<HTMLLinkElement>({
@@ -103,6 +106,7 @@ class Header {
   private keyIcon = new CreateElement<HTMLDivElement>({
     tag: "div",
     cssClasses: ["header__icon-key"],
+    attributes: { title: "Register or Login" },
     eventType: "click",
     callback: this.toggleKeyIconPopUp.bind(this),
   }).getHTMLElement();
@@ -110,6 +114,7 @@ class Header {
   private profileIcon = new CreateElement<HTMLImageElement>({
     tag: "div",
     cssClasses: ["header__icon-profile"],
+    attributes: { title: "Profile or Logout" },
     eventType: "click",
     callback: this.toggleKeyIconPopUp.bind(this),
   }).getHTMLElement();
@@ -117,7 +122,7 @@ class Header {
   private cartIcon = new CreateElement<HTMLImageElement>({
     tag: "a",
     cssClasses: ["header__icon-cart"],
-    attributes: { href: "#basket" },
+    attributes: { title: "Cart", href: "#basket" },
   });
 
   private registerLink = new CreateElement<HTMLLinkElement>({
