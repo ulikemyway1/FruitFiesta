@@ -111,7 +111,7 @@ export class LoginFormView {
   private whitespaceError = new CreateElement<HTMLParagraphElement>({
     tag: "p",
     cssClasses: ["login-form__error"],
-    textContent: "No leading or trailing whitespace",
+    textContent: "Password must not contain spaces",
   }).getHTMLElement();
 
   invalidLoginOrPassword = new CreateElement<HTMLParagraphElement>({
@@ -272,7 +272,8 @@ export class LoginFormView {
   }
 
   private checkWhitespaces(value: string) {
-    const hasWhitespaces = value.charAt(0) || value.charAt(-1);
+    const hasWhitespaces = /^\S+$/.test(value);
+
     if (hasWhitespaces) {
       this.whitespaceError.classList.remove("error");
     } else {

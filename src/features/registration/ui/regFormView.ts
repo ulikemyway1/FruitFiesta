@@ -4,6 +4,7 @@ import countryOptions from "../model/countries";
 import "./regForm.scss";
 import logo from "../../../assets/images/logo.svg";
 import SwitcherUI from "../../../shared/ui/switcherUI/UI/switcher";
+import postcodeValidationRules from "../lib/validation/postcodeValidationRules";
 
 export class RegFormView {
   public shippingSetAsBilling: boolean = false;
@@ -39,14 +40,26 @@ export class RegFormView {
     cssClasses: ["registration-form__page-title"],
   }).getHTMLElement();
 
+  private emailInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Email",
+  }).getHTMLElement();
+
   public emailInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "email",
       required: "true",
-      placeholder: "jondoe@gmail.com",
+      placeholder: "username@gmail.com",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private passwordInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Password",
   }).getHTMLElement();
 
   public passwordInput = new CreateElement<HTMLInputElement>({
@@ -54,9 +67,15 @@ export class RegFormView {
     attributes: {
       type: "password",
       required: "true",
-      placeholder: "PASSWORD",
+      placeholder: "Password",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private firstNameInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "First name",
   }).getHTMLElement();
 
   public firstNameInput = new CreateElement<HTMLInputElement>({
@@ -69,6 +88,12 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  private lastNameInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Last name",
+  }).getHTMLElement();
+
   public lastNameInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
@@ -77,6 +102,12 @@ export class RegFormView {
       placeholder: "Doe",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private birthDateInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Birthday",
   }).getHTMLElement();
 
   public birthDateInput = new CreateElement<HTMLInputElement>({
@@ -88,11 +119,17 @@ export class RegFormView {
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
 
+  private shippingCountryInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Country",
+  }).getHTMLElement();
+
   public shippingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
     attributes: {
       required: "true",
-      placeholder: "Country",
+      placeholder: "Poland",
     },
     cssClasses: [
       "registration-form__input-wide",
@@ -100,14 +137,26 @@ export class RegFormView {
     ],
   }).getHTMLElement();
 
+  private shippingStreetInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Street",
+  }).getHTMLElement();
+
   public shippingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Street",
+      placeholder: "Marszalkowska street",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private shippingCityInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "City",
   }).getHTMLElement();
 
   public shippingCityInput = new CreateElement<HTMLInputElement>({
@@ -115,9 +164,15 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "City",
+      placeholder: "Warsaw",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private shippingCodeInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Post code",
   }).getHTMLElement();
 
   public shippingCodeInput = new CreateElement<HTMLInputElement>({
@@ -125,7 +180,7 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Post code",
+      placeholder: "00-007",
     },
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
@@ -133,6 +188,12 @@ export class RegFormView {
   public setDefaultShipping = new SwitcherUI("Set as default shipping address");
 
   public setAsBillingAddress = new SwitcherUI("Use as billing address");
+
+  private billingCountryInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Country",
+  }).getHTMLElement();
 
   public billingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
@@ -146,14 +207,26 @@ export class RegFormView {
     ],
   }).getHTMLElement();
 
+  private billingStreetInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Street",
+  }).getHTMLElement();
+
   public billingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Street",
+      placeholder: "Marszalkowska street",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private billingCityInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "City",
   }).getHTMLElement();
 
   public billingCityInput = new CreateElement<HTMLInputElement>({
@@ -161,9 +234,15 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "City",
+      placeholder: "Warsaw",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private billingCodeInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Post code",
   }).getHTMLElement();
 
   public billingCodeInput = new CreateElement<HTMLInputElement>({
@@ -171,7 +250,7 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Post code",
+      placeholder: "00-007",
     },
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
@@ -200,20 +279,39 @@ export class RegFormView {
 
   public pages: { title: string; elements: HTMLElement[] }[] = [
     {
-      title: "Some about you...",
+      title: "Create an account",
       elements: [
-        RegFormView.insertWrapperWithElements([this.firstNameInput]),
-        RegFormView.insertWrapperWithElements([this.lastNameInput]),
-        RegFormView.insertWrapperWithElements([this.birthDateInput]),
+        RegFormView.insertWrapperWithElements([
+          this.firstNameInputTitle,
+          this.firstNameInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.lastNameInputTitle,
+          this.lastNameInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.birthDateInputTitle,
+          this.birthDateInput,
+        ]),
       ],
     },
     {
       title: "Shipping address",
       elements: [
+        this.shippingCountryInputTitle,
         this.shippingCountryInput,
-        RegFormView.insertWrapperWithElements([this.shippingStreetInput]),
-        RegFormView.insertWrapperWithElements([this.shippingCityInput]),
-        RegFormView.insertWrapperWithElements([this.shippingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingStreetInputTitle,
+          this.shippingStreetInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingCityInputTitle,
+          this.shippingCityInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.shippingCodeInputTitle,
+          this.shippingCodeInput,
+        ]),
         this.shippingWrapper,
         RegFormView.insertWrapperWithElements([
           this.setAsBillingAddress.getSwitcher(),
@@ -223,18 +321,36 @@ export class RegFormView {
     {
       title: "Billing address",
       elements: [
-        this.billingCountryInput,
-        RegFormView.insertWrapperWithElements([this.billingStreetInput]),
-        RegFormView.insertWrapperWithElements([this.billingCityInput]),
-        RegFormView.insertWrapperWithElements([this.billingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCountryInputTitle,
+          this.billingCountryInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingStreetInputTitle,
+          this.billingStreetInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCityInputTitle,
+          this.billingCityInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCodeInputTitle,
+          this.billingCodeInput,
+        ]),
         this.billingWrapper,
       ],
     },
     {
-      title: "Your login and password",
+      title: "Login and password",
       elements: [
-        RegFormView.insertWrapperWithElements([this.emailInput]),
-        RegFormView.insertWrapperWithElements([this.passwordInput]),
+        RegFormView.insertWrapperWithElements([
+          this.emailInputTitle,
+          this.emailInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.passwordInputTitle,
+          this.passwordInput,
+        ]),
       ],
     },
   ];
@@ -280,7 +396,9 @@ export class RegFormView {
     this.maxPageIndex = this.pages.length - 1;
     this.pageTitle.textContent = this.pages[this.currentPageIndex].title;
     this.statusBar.append(this.progressLine, this.progressText);
-    this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
+    this.progressText.textContent = `${this.currentPageIndex + 1} of ${
+      this.maxPageIndex + 1
+    }`;
     this.pages[this.currentPageIndex].elements.forEach((element) =>
       this.pageContentWrapper.append(element),
     );
@@ -289,10 +407,10 @@ export class RegFormView {
     this.footerLinkWrapper.append(this.linkToSignIn);
 
     this.form.append(
-      this.statusBar,
       this.logoImage,
       this.pageTitle,
       this.pageContentWrapper,
+      this.statusBar,
       this.paginationWrapper,
       this.footerLinkWrapper,
     );
@@ -302,6 +420,48 @@ export class RegFormView {
       const optionForBilling = new Option(country.name, country.short);
       this.shippingCountryInput.add(optionForShipping);
       this.billingCountryInput.add(optionForBilling);
+    });
+
+    this.shippingCountryInput.addEventListener("input", () => {
+      const selectedOptionIndex =
+        this.shippingCountryInput.options.selectedIndex;
+      if (selectedOptionIndex || selectedOptionIndex === 0) {
+        const selectedCountryName =
+          this.shippingCountryInput.options.item(selectedOptionIndex)?.text;
+        this.shippingCodeInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].postCodeInputPlaceholder;
+        this.shippingCityInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].cityInputPlaceholder;
+        this.shippingStreetInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].streetInputPlaceholder;
+      }
+    });
+
+    this.billingCountryInput.addEventListener("input", () => {
+      const selectedOptionIndex =
+        this.billingCountryInput.options.selectedIndex;
+      if (selectedOptionIndex || selectedOptionIndex === 0) {
+        const selectedCountryName =
+          this.billingCountryInput.options.item(selectedOptionIndex)?.text;
+        this.billingCodeInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].postCodeInputPlaceholder;
+        this.billingCityInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].cityInputPlaceholder;
+        this.billingStreetInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].streetInputPlaceholder;
+      }
     });
   }
 
@@ -360,8 +520,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex += 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
-      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      this.updateProgressBar();
     }
     if (this.currentPageIndex === this.maxPageIndex) {
       this.nextBtn.remove();
@@ -388,8 +547,7 @@ export class RegFormView {
       } else {
         this.currentPageIndex -= 1;
       }
-      this.progressText.textContent = `${this.currentPageIndex + 1} / ${this.maxPageIndex + 1}`;
-      this.progressLine.style.transform = `translateX(-${100 - (100 * this.currentPageIndex) / this.maxPageIndex}%)`;
+      this.updateProgressBar();
       if (this.currentPageIndex !== this.maxPageIndex) {
         this.singUpBtn.getHTMLElement().remove();
         this.paginationWrapper.append(this.nextBtn);
@@ -435,7 +593,17 @@ export class RegFormView {
         this.paginationWrapper.append(this.nextBtn);
         this.nextBtn.disabled = false;
       }
+      this.updateProgressBar();
     }
+  }
+
+  private updateProgressBar(): void {
+    this.progressText.textContent = `${this.currentPageIndex + 1} of ${
+      this.maxPageIndex + 1
+    }`;
+    this.progressLine.style.transform = `translateX(-${
+      100 - (100 * this.currentPageIndex) / this.maxPageIndex
+    }%)`;
   }
 
   static insertWrapperWithElements(elements: HTMLElement[]): HTMLElement {

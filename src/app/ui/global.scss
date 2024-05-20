@@ -1,21 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
-
-:root {
-  --login-register-pages-background: #bbb192;
-  --background-glass-effect: #ffffff1f;
-  --main-pages-background: #f8f4e7;
-  --button-default-background: #403b30;
-  --button-hover-background: #488a0f;
-  --button-disabled-background: #bfbfbf;
-  --button-text: #f8f4e7;
-  --button-disabled-text-border: #cbccd3;
-  --login-register-border: #403b30;
-  --dark-brown-text-color: #24221f;
-  --white-text-color: #ffffff;
-  --green-text-color: #488a0f;
-  --placeholder-text-color: #9a9b9c;
-  --error-text-border: #d42020;
-}
+@import "variables.scss";
 
 * {
   margin: 0;
@@ -24,13 +8,11 @@
 }
 
 .body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
   font-family: "Roboto Slab", serif;
   font-style: normal;
-  background-color: var(--login-register-pages-background);
+  background-color: var(--pages-background);
 }

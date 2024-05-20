@@ -238,7 +238,7 @@ export class RegFormController {
   private startPageValidation(): void {
     let currentInputWrapper = this.view.pageContentWrapper.firstElementChild;
     while (currentInputWrapper) {
-      const input = currentInputWrapper.firstElementChild;
+      const input = currentInputWrapper.querySelector("input");
       if (input instanceof HTMLInputElement) {
         input.dispatchEvent(new Event("blur"));
         if (input.type === "date") {

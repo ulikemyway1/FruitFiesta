@@ -1,32 +1,42 @@
 .registration-form {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  max-width: 820px;
-  border: 1px solid black;
+  border: 3px solid var(--login-register-border);
   border-radius: 40px;
-  padding: 20px;
-  gap: 20px;
-  align-items: center;
-  min-height: 600px;
-  background: rgba($color: #ffffff, $alpha: 0.1);
-  transition: all 0.4s;
+  padding: 40px 30px;
+  background-color: var(--additional-pages-background);
+  transition: 0.3s linear;
 
   &__logo {
     align-self: flex-end;
     -webkit-user-drag: none;
+    width: 80px;
   }
-
+  &__page-title {
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 36px;
+    color: var(--dark-brown-text-color);
+  }
+  &__input-text {
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--dark-brown-text-color);
+    margin-bottom: 5px;
+  }
   &__status-bar {
     position: relative;
-    border: 1px solid black;
-    width: 90%;
-    text-align: center;
-    padding: 2px 0;
-    height: 26px;
+    border: 1px solid var(--login-register-border);
+    width: 70%;
+    height: 20px;
     border-radius: 6px;
     overflow: hidden;
     user-select: none;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10px;
   }
 
   &__progress-line {
@@ -34,7 +44,7 @@
     height: 100%;
     width: 100%;
     background: var(--green-text-color);
-    border-radius: 6px;
+    border-radius: 4px;
     transform: translateX(-100%);
     transition: all 0.6s;
   }
@@ -48,24 +58,32 @@
   &__page-content-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    gap: 15px;
-    width: 90%;
-    flex-grow: 1;
-    border-radius: 6px;
   }
 
   &__input-wide,
   &__input-short,
   &__sign-up {
-    height: 50px;
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid var(--placeholder-text-color);
     border-radius: 10px;
-    padding: 5px 15px;
-    border: none;
-    font-size: 16px;
+    margin-bottom: 10px;
+    outline: var(--placeholder-text-color);
     &:has(+ .validation-error) {
       border: 2px solid var(--error-text-border);
     }
+  }
+  &__input-wide::placeholder,
+  &__input-short::placeholder,
+  &__sign-up::placeholder {
+    color: var(--placeholder-text-color);
+    font-size: 14px;
+  }
+  &__input-wide[type="date"] {
+    color: var(--placeholder-text-color);
+    font-size: 14px;
+    padding-top: 13px;
+    padding-bottom: 13px;
   }
   &__input-wide {
     width: 100%;
@@ -75,8 +93,16 @@
   }
 
   &__country-input {
-    margin-bottom: 30px;
+    color: var(--placeholder-text-color);
+    font-size: 14px;
+    padding: 13px 5px;
     cursor: pointer;
+    &::placeholder {
+      color: var(--placeholder-text-color);
+      font-size: 14px;
+      padding-top: 13px;
+      padding-bottom: 13px;
+    }
   }
 
   &__pagination-wrapper {
@@ -87,17 +113,19 @@
   &__next-btn,
   &__prev-btn,
   &__sign-up {
-    height: 50px;
-    font-size: 20px;
-    font-weight: 800;
-    padding: 0 15px;
-    border-radius: 10px;
+    width: 100%;
+    background-color: var(--button-default-background);
     border: none;
-    color: #ffffff;
-    background: var(--button-default-background);
+    padding: 10px 0;
+    border-radius: 10px;
+    color: var(--button-text);
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 20px;
     cursor: pointer;
-    transition: all 0.6s ease-out;
-    width: 115px;
+    font-family: "Roboto Slab", serif;
+    transition: 0.3s ease-in-out;
 
     &:disabled {
       background: var(--button-disabled-background);
@@ -113,25 +141,24 @@
     display: flex;
     gap: 20px;
     font-size: 14px;
+    justify-content: center;
   }
 
   &__footer-link {
     color: var(--green-text-color);
-    font-weight: 800;
+    font-weight: 600;
     cursor: pointer;
 
     &::after {
-      content: "";
-      position: relative;
-      top: 2px;
       display: block;
-      margin: 0 auto;
+      content: "";
       height: 2px;
-      background: var(--green-text-color);
+      width: 0%;
+      background-color: var(--green-text-color);
+      transition: width 0.3s ease-in-out;
+    }
+    &:hover::after {
       width: 100%;
-      transform: scaleX(0);
-      opacity: 0;
-      transition: all 0.6s;
     }
   }
 }
@@ -144,8 +171,6 @@
 .input-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 80px;
-  gap: 6px;
 }
 
 @media (max-width: 670px) {
@@ -158,24 +183,9 @@
 }
 
 @media (max-width: 470px) {
-  .registration-form {
-    padding: 30px 0;
-
-    &__logo {
-      align-self: center;
-    }
-
-    &__page-title {
-      font-size: 22px;
-    }
-  }
-
   .switcher__wrapper {
     flex-direction: column-reverse;
     text-align: center;
-  }
-  .switcher__text-box {
-    font-size: 16px;
   }
 }
 
