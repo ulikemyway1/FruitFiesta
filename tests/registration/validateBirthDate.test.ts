@@ -24,4 +24,15 @@ describe('validateBirthDate', () => {
       expect(result.validationMessage).toBe('');
     });
   });
+
+  it("should fail if the customer is younger than 12", () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 10); // Set the date to 10 years ago
+    const result = validateBirthDate(date.getTime());
+    expect(result.status).toBe("fail");
+    expect(result.validationMessage).toBe(
+      "Apologies for any inconvenience, but you must be at least 12 years old to make a purchase in our store.",
+    );
+  });
+  
   
