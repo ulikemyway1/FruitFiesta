@@ -1,6 +1,6 @@
 import ValidationObject from "./IValidationObject";
 
-function calculateAge(customerDate: number) {
+export function calculateAge(customerDate: number) {
   const birthdate = new Date(customerDate);
   const currentDate = new Date(Date.now());
 
