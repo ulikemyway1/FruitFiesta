@@ -4,6 +4,7 @@ import countryOptions from "../model/countries";
 import "./regForm.scss";
 import logo from "../../../assets/images/logo.svg";
 import SwitcherUI from "../../../shared/ui/switcherUI/UI/switcher";
+import postcodeValidationRules from "../lib/validation/postcodeValidationRules";
 
 export class RegFormView {
   public shippingSetAsBilling: boolean = false;
@@ -188,6 +189,12 @@ export class RegFormView {
 
   public setAsBillingAddress = new SwitcherUI("Use as billing address");
 
+  private billingCountryInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Country",
+  }).getHTMLElement();
+
   public billingCountryInput = new CreateElement<HTMLSelectElement>({
     tag: "select",
     attributes: {
@@ -200,14 +207,26 @@ export class RegFormView {
     ],
   }).getHTMLElement();
 
+  private billingStreetInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Street",
+  }).getHTMLElement();
+
   public billingStreetInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Street",
+      placeholder: "Marszalkowska street",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private billingCityInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "City",
   }).getHTMLElement();
 
   public billingCityInput = new CreateElement<HTMLInputElement>({
@@ -215,9 +234,15 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "City",
+      placeholder: "Warsaw",
     },
     cssClasses: ["registration-form__input-wide"],
+  }).getHTMLElement();
+
+  private billingCodeInputTitle = new CreateElement<HTMLParagraphElement>({
+    tag: "p",
+    cssClasses: ["registration-form__input-text"],
+    textContent: "Post code",
   }).getHTMLElement();
 
   public billingCodeInput = new CreateElement<HTMLInputElement>({
@@ -225,7 +250,7 @@ export class RegFormView {
     attributes: {
       type: "text",
       required: "true",
-      placeholder: "Post code",
+      placeholder: "00-007",
     },
     cssClasses: ["registration-form__input-wide"],
   }).getHTMLElement();
@@ -296,10 +321,22 @@ export class RegFormView {
     {
       title: "Billing address",
       elements: [
-        this.billingCountryInput,
-        RegFormView.insertWrapperWithElements([this.billingStreetInput]),
-        RegFormView.insertWrapperWithElements([this.billingCityInput]),
-        RegFormView.insertWrapperWithElements([this.billingCodeInput]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCountryInputTitle,
+          this.billingCountryInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingStreetInputTitle,
+          this.billingStreetInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCityInputTitle,
+          this.billingCityInput,
+        ]),
+        RegFormView.insertWrapperWithElements([
+          this.billingCodeInputTitle,
+          this.billingCodeInput,
+        ]),
         this.billingWrapper,
       ],
     },
@@ -383,6 +420,48 @@ export class RegFormView {
       const optionForBilling = new Option(country.name, country.short);
       this.shippingCountryInput.add(optionForShipping);
       this.billingCountryInput.add(optionForBilling);
+    });
+
+    this.shippingCountryInput.addEventListener("input", () => {
+      const selectedOptionIndex =
+        this.shippingCountryInput.options.selectedIndex;
+      if (selectedOptionIndex || selectedOptionIndex === 0) {
+        const selectedCountryName =
+          this.shippingCountryInput.options.item(selectedOptionIndex)?.text;
+        this.shippingCodeInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].postCodeInputPlaceholder;
+        this.shippingCityInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].cityInputPlaceholder;
+        this.shippingStreetInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].streetInputPlaceholder;
+      }
+    });
+
+    this.billingCountryInput.addEventListener("input", () => {
+      const selectedOptionIndex =
+        this.billingCountryInput.options.selectedIndex;
+      if (selectedOptionIndex || selectedOptionIndex === 0) {
+        const selectedCountryName =
+          this.billingCountryInput.options.item(selectedOptionIndex)?.text;
+        this.billingCodeInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].postCodeInputPlaceholder;
+        this.billingCityInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].cityInputPlaceholder;
+        this.billingStreetInput.placeholder =
+          postcodeValidationRules[
+            selectedCountryName || "Poland"
+          ].streetInputPlaceholder;
+      }
     });
   }
 
