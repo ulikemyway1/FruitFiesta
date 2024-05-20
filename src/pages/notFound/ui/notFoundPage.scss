@@ -1,10 +1,11 @@
 .not-found-page {
   display: flex;
+  flex-grow: 1;
+  padding: 40px 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
-  height: 100vh;
   color: var(--dark-brown-text-color);
 
   &__image {
