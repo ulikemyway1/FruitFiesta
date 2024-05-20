@@ -161,6 +161,23 @@
       width: 100%;
     }
   }
+
+  &__password-eye {
+    position: absolute;
+    top: 38px;
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: url("../../../assets/images/eye-off.svg") 0 0 no-repeat;
+    background-size: cover;
+    filter: contrast(50%);
+  }
+  &__password-eye.show {
+    background: url("../../../assets/images/eye.svg") 0 0 no-repeat;
+    background-size: cover;
+  }
 }
 
 .validation-error {
@@ -170,6 +187,7 @@
 
 .input-wrapper {
   display: flex;
+  position: relative;
   flex-direction: column;
 }
 

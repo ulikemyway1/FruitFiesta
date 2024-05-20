@@ -277,6 +277,13 @@ export class RegFormView {
     this.setDefaultShipping.getSwitcher(),
   ]);
 
+  private eyeHint = new CreateElement<HTMLInputElement>({
+    tag: "span",
+    cssClasses: ["registration-form__password-eye"],
+    eventType: "click",
+    callback: this.showHidePassword.bind(this),
+  }).getHTMLElement();
+
   public pages: { title: string; elements: HTMLElement[] }[] = [
     {
       title: "Create an account",
@@ -350,6 +357,7 @@ export class RegFormView {
         RegFormView.insertWrapperWithElements([
           this.passwordInputTitle,
           this.passwordInput,
+          this.eyeHint,
         ]),
       ],
     },
@@ -604,6 +612,24 @@ export class RegFormView {
     this.progressLine.style.transform = `translateX(-${
       100 - (100 * this.currentPageIndex) / this.maxPageIndex
     }%)`;
+  }
+
+  private showHidePassword(event: Event): boolean {
+    const { target } = event;
+    const input = this.passwordInput;
+
+    if (input.getAttribute("type") === "password") {
+      if (target instanceof HTMLElement) {
+        target.classList.add("show");
+      }
+      input.setAttribute("type", "text");
+    } else {
+      if (target instanceof HTMLElement) {
+        target.classList.remove("show");
+      }
+      input.setAttribute("type", "password");
+    }
+    return false;
   }
 
   static insertWrapperWithElements(elements: HTMLElement[]): HTMLElement {
