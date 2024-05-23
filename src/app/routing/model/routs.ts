@@ -6,6 +6,7 @@ import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
+import notFoundPageView from "../../../pages/notFound";
 
 const router = new Router();
 
@@ -60,12 +61,7 @@ router.route(Hash.ABOUT, () => {
   );
 });
 router.route(Hash.NOT_FOUND, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Not found",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(notFoundPageView);
 });
 router.route(Hash.PROFILE, () => {
   if (!user.userIsLoggedIn) {

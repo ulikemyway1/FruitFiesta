@@ -21,6 +21,11 @@ class AppController {
   run() {
     router.run();
 
+    if (window.location.hash === Hash.NOT_FOUND) {
+      router.navigate(Hash.NOT_FOUND);
+      return;
+    }
+
     if (user.userIsLoggedIn) {
       router.navigate(Hash.MAIN);
     } else {
