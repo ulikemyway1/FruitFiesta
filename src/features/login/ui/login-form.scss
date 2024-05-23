@@ -1,0 +1,143 @@
+.login-form {
+  &__container {
+    background-color: var(--additional-pages-background);
+    border: 3px solid var(--login-register-border);
+    padding: 40px 30px;
+    border-radius: 40px;
+    width: 100%;
+  }
+  &__logo {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin-left: auto;
+    -webkit-user-drag: none;
+  }
+  &__title {
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-size: 36px;
+    color: var(--dark-brown-text-color);
+  }
+  &__email-title,
+  &__password-title {
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--dark-brown-text-color);
+    margin-bottom: 5px;
+  }
+  &__password-title {
+    margin-top: 5px;
+  }
+  &__email,
+  &__password {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid var(--placeholder-text-color);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    outline: var(--placeholder-text-color);
+  }
+  &__email.error,
+  &__password.error {
+    border: 1px solid var(--error-text-border);
+  }
+  &__email::placeholder,
+  &__password::placeholder {
+    color: var(--placeholder-text-color);
+    font-size: 14px;
+  }
+  &__button {
+    width: 100%;
+    background-color: var(--button-default-background);
+    border: none;
+    padding: 10px 0;
+    border-radius: 10px;
+    color: var(--button-text);
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-family: "Roboto Slab", serif;
+    transition: 0.3s ease-in-out;
+  }
+  &__hint-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    &-text,
+    &-link {
+      color: var(--dark-brown-text-color);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    &-link {
+      color: var(--green-text-color);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      &::after {
+        display: block;
+        content: "";
+        height: 2px;
+        width: 0%;
+        background-color: var(--green-text-color);
+        transition: width 0.3s ease-in-out;
+      }
+      &:hover::after {
+        width: 100%;
+      }
+    }
+  }
+  &__error,
+  &__request-error {
+    display: block;
+    height: 0;
+    opacity: 0;
+    color: var(--error-text-border);
+    font-size: 14px;
+    transition: 0.3s linear;
+  }
+  &__error.error,
+  &__request-error.error {
+    height: 100%;
+    opacity: 1;
+  }
+  &__request-error.error {
+    font-size: 18px;
+  }
+  &__password-box {
+    position: relative;
+  }
+  &__password-eye {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background: url("../../../assets/images/eye-off.svg") 0 0 no-repeat;
+    background-size: cover;
+    filter: contrast(50%);
+  }
+  &__password-eye.show {
+    background: url("../../../assets/images/eye.svg") 0 0 no-repeat;
+    background-size: cover;
+  }
+}
+
+@media (hover: hover) {
+  .login-form__button:hover {
+    background-color: var(--button-hover-background);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .login-form__button:hover {
+    background-color: var(--button-hover-background);
+  }
+}

@@ -35,6 +35,7 @@ module.exports = {
   rules: {
     indent: ["warn", 2],
     "linebreak-style": ["warn", "unix"],
+    "class-methods-use-this": 'off'
   },
   ignorePatterns: [
     "webpack.config.js",

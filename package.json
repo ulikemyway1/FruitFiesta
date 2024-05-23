@@ -8,7 +8,7 @@
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
     "ci:lint": "npx eslint 'src/**/*.{ts, js}' ",
-    "lint": "npx eslint 'src/**/*.{ts, js}'  --fix",
+    "lint": "npx eslint src --fix",
     "ci:format": "prettier --check src",
     "format": "prettier --write src",
     "prepare": "husky .husky"
@@ -48,6 +48,7 @@
     "@commercetools/sdk-client-v2": "^2.5.0",
     "@types/node": "^20.12.8",
     "@types/node-fetch": "^2.6.11",
+    "email-validator": "^2.0.4",
     "node-fetch": "^2.5.0"
   }
 }

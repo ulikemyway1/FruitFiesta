@@ -1,0 +1,41 @@
+.not-found-page {
+  display: flex;
+  flex-grow: 1;
+  padding: 40px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: var(--dark-brown-text-color);
+
+  &__image {
+    display: block;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 6px;
+  }
+
+  &__additional-info {
+    padding: 0 10px;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  &__button {
+    display: block;
+    text-decoration: none;
+    padding: 15px;
+    text-transform: uppercase;
+    color: var(--button-text);
+    background: var(--green-text-color);
+    border-radius: 6px;
+    transition: all 0.6s;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .not-found-page__button:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+  }
+}
