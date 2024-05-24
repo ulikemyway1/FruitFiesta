@@ -18,7 +18,7 @@ if (!process.env.CTP_PROJECT_KEY) {
 } else if (!process.env.CTP_API_URL) {
   throw new Error("CTP_API_URL is not set");
 } else if (!process.env.CTP_SCOPES) {
-  throw new Error("CTP_API_URL is not set");
+  throw new Error("CTP_SCOPES is not set");
 }
 
 const requestAPIConfig: IRequestAPIConfig = {

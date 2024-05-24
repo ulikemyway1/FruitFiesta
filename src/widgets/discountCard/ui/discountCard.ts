@@ -29,7 +29,7 @@ export default class DiscountCardView {
   promoCode = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card__promo-code"],
-    textContent: "Some promo code",
+    textContent: "Promo code: ",
   });
 
   content = new CreateElement({
@@ -41,7 +41,7 @@ export default class DiscountCardView {
   container = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card"],
-    children: [this.img, this.content],
+    children: [this.content],
   });
 
   constructor(discount: DiscountCode) {
@@ -51,7 +51,7 @@ export default class DiscountCardView {
     this.text.getHTMLElement().textContent = discount.description
       ? discount.description["en-GB"]
       : "";
-    this.promoCode.getHTMLElement().textContent = discount.code;
+    this.promoCode.getHTMLElement().append(discount.code);
   }
 
   getHTMLElement(): HTMLElement {

@@ -1,0 +1,35 @@
+.discount-block {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  padding: 1rem 1rem;
+  margin: 0 auto;
+  gap: 1rem;
+  background: var(--additional-pages-background);
+}
+
+.discount-block__title {
+  align-self: flex-start;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.discount-block__content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+
+  & > :nth-child(odd) {
+    transform: rotate(-7deg);
+    margin-right: -15px;
+  }
+
+  & > :nth-child(even) {
+    transform: rotate(4deg);
+    margin-left: -15px;
+  }
+}
