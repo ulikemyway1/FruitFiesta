@@ -2,35 +2,60 @@ import "./productCard.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 
-export default class DiscountCardView {
-  img = new CreateElement({
+export default class ProductCardView {
+  private img = new CreateElement({
     tag: "img",
     cssClasses: ["product-card__img"],
     attributes: {
-      // src: discountSvg,
       alt: "ProductImg",
     },
   });
 
-  title = new CreateElement({
+  private title = new CreateElement({
     tag: "h2",
     cssClasses: ["product-card__title"],
     textContent: "Some title",
   });
 
-  text = new CreateElement({
+  private text = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__description"],
     textContent: "Some text.",
   });
 
-  content = new CreateElement({
+  private price = new CreateElement({
     tag: "div",
-    cssClasses: ["product-card__content"],
-    children: [this.img, this.title, this.text],
+    cssClasses: ["product-card__price"],
+    textContent: "Price: Some",
   });
 
-  container = new CreateElement({
+  private discountPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-card__discount-price"],
+    textContent: "Discount price: Some",
+  });
+
+  // можно сделать какую надо и вынести в компоненты
+  private buyButton = new CreateElement({
+    tag: "button",
+    cssClasses: ["buy-button"],
+    textContent: "BUY",
+  });
+
+  private content = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-card__content"],
+    children: [
+      this.img,
+      this.title,
+      this.text,
+      this.price,
+      this.discountPrice,
+      this.buyButton,
+    ],
+  });
+
+  private container = new CreateElement({
     tag: "div",
     cssClasses: ["product-card"],
     children: [this.img, this.content],

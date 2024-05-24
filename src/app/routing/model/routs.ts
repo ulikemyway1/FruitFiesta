@@ -6,6 +6,7 @@ import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
+import catalogPage from "../../../pages/catalog";
 
 const router = new Router();
 
@@ -28,12 +29,8 @@ router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
 router.route(new RegExp(`^${Hash.CATALOG}(\\/\\d*)?$`), () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Catalog",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(catalogPage.getView());
+  // catalogPage.loadProducts();  // If we want lazy loading of products
 });
 router.route(Hash.DETAIL, () => {
   Router.switchContent(
