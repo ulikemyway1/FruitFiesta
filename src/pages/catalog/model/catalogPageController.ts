@@ -9,8 +9,8 @@ class CatalogPageController {
 
   // loadProducts() {  // If we want lazy loading of products
   constructor() {
-    this.model.getRandomProducts().then((randomProducts) => {
-      randomProducts.forEach((product) => {
+    this.model.getProducts().then((products) => {
+      products.forEach((product) => {
         console.log(product);
         this.view.appendContent(new ProductCardView(product).getHTMLElement());
       });

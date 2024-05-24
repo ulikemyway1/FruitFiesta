@@ -26,13 +26,13 @@ export default class ProductCardView {
   private price = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__price"],
-    textContent: "Price: Some",
+    textContent: "Price: ",
   });
 
   private discountPrice = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__discount-price"],
-    textContent: "Discount price: Some",
+    textContent: "Discount price: ",
   });
 
   // можно сделать какую надо и вынести в компоненты
@@ -68,9 +68,23 @@ export default class ProductCardView {
     this.text.getHTMLElement().textContent = product.description
       ? product.description["en-GB"]
       : "";
-    this.img
-      .getHTMLElement()
-      .setAttribute("src", product?.masterVariant?.images?.[0]?.url ?? "");
+    product.masterVariant.prices?.forEach((price) => {
+      this.price
+        .getHTMLElement()
+        .append(`${price.value.centAmount / 100} ${price.value.currencyCode}`);
+      if (price.discounted) {
+        this.discountPrice
+          .getHTMLElement()
+          .append(
+            `${price.discounted.value.centAmount / 100} ${price.discounted.value.currencyCode}`,
+          );
+      }
+    });
+    if (product.masterVariant.images?.[0]?.url) {
+      this.img
+        .getHTMLElement()
+        .setAttribute("src", product.masterVariant.images[0].url);
+    }
   }
 
   getHTMLElement(): HTMLElement {
