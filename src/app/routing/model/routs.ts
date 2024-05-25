@@ -7,6 +7,7 @@ import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
 import catalogPage from "../../../pages/catalog";
+import notFoundPageView from "../../../pages/notFound";
 
 const router = new Router();
 
@@ -28,18 +29,29 @@ router.route(Hash.REGISTRATION, () => {
 router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
-router.route(new RegExp(`^${Hash.CATALOG}(\\/\\d*)?$`), () => {
-  Router.switchContent(catalogPage.getView());
-  // catalogPage.loadProducts();  // If we want lazy loading of products
+router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (match) => {
+  const key = match.replace(`${Hash.CATALOG}`, "").replace("/", "");
+
+  if (!key) {
+    // catalogPage.loadProducts();  // If we want lazy loading of products
+    Router.switchContent(catalogPage.getView());
+  } else {
+    Router.switchContent(
+      new CreateElement({
+        tag: "h1",
+        textContent: key,
+      }).getHTMLElement(),
+    );
+  }
 });
-router.route(Hash.DETAIL, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Detail",
-    }).getHTMLElement(),
-  );
-});
+// router.route(Hash.DETAIL, () => {
+//   Router.switchContent(
+//     new CreateElement({
+//       tag: "h1",
+//       textContent: "Detail",
+//     }).getHTMLElement(),
+//   );
+// });
 router.route(Hash.BASKET, () => {
   Router.switchContent(
     new CreateElement({
@@ -57,12 +69,7 @@ router.route(Hash.ABOUT, () => {
   );
 });
 router.route(Hash.NOT_FOUND, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Not found",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(notFoundPageView);
 });
 router.route(Hash.PROFILE, () => {
   if (!user.userIsLoggedIn) {

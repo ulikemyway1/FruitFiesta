@@ -5,6 +5,19 @@ import AppView from "./appView";
 import user from "../../entities/user";
 import header from "../../widgets/header";
 
+// kill it
+import requestAPI from "../../shared/api/APIRootBuilder";
+
+// kill it
+function fetchProductByProductKey(key: string) {
+  return requestAPI
+    .apiRoot()
+    .productProjections()
+    .withKey({ key })
+    .get()
+    .execute();
+}
+
 class AppController {
   model: AppModel;
 
@@ -26,6 +39,15 @@ class AppController {
     } else {
       router.navigate(Hash.LOGIN);
     }
+
+    // kill it
+    this.printProduct("ambarella");
+  }
+
+  // kill it
+  async printProduct(key: string) {
+    const { body } = await fetchProductByProductKey(key);
+    console.log(body);
   }
 }
 

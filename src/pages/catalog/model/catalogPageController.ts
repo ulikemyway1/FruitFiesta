@@ -11,7 +11,7 @@ class CatalogPageController {
   constructor() {
     this.model.getProducts().then((products) => {
       products.forEach((product) => {
-        console.log(product);
+        // console.log(product);
         this.view.appendContent(new ProductCardView(product).getHTMLElement());
       });
     });

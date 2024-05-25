@@ -1,6 +1,7 @@
 import "./productCard.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
+import Hash from "../../../shared/routs/enumHash";
 
 export default class ProductCardView {
   private product: ProductProjection;
@@ -102,6 +103,7 @@ export default class ProductCardView {
 
   private handleProductDetails() {
     console.log("Product clicked");
+    window.location.href = `${Hash.CATALOG}/${this.product.key}`;
   }
 
   getHTMLElement(): HTMLElement {
