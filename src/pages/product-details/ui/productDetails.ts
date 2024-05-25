@@ -3,6 +3,8 @@ import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 import fetchProductByProductKey from "../api";
+import Router from "../../../app/routing/model/router";
+import notFoundPageView from "../../notFound";
 
 export default class ProductDetailsView {
   private product: ProductProjection | undefined;
@@ -69,10 +71,14 @@ export default class ProductDetailsView {
   });
 
   constructor(key: string) {
-    this.getProductByProductKey(key).then((product) => {
-      this.product = product;
-      this.render();
-    });
+    this.getProductByProductKey(key)
+      .then((product) => {
+        this.product = product;
+        this.render();
+      })
+      .catch(() => {
+        Router.switchContent(notFoundPageView);
+      });
   }
 
   async getProductByProductKey(key: string) {
