@@ -85,15 +85,33 @@ export default class PlateView {
 
       this.model.plateSections[sectionName].inEditMode = false;
       const applyBtn = this.createApplyBtn(props.apiHandler);
-      editMark.addEventListener("click", (event) =>
-        this.switchMode.call(
-          this,
-          sectionName,
-          sectionContent,
-          event,
-          applyBtn,
-        ),
-      );
+      editMark.addEventListener("click", (event) => {
+        if (!this.model.plateSections[sectionName].inEditMode) {
+          const savedValues: string[] = [];
+          const sectionContentElements = Object.values(
+            this.model.plateSections[sectionName].sectionContentWrapper,
+          );
+          sectionContentElements.forEach((contentElement) =>
+            savedValues.push(contentElement.content.value),
+          );
+          this.model.plateSections[sectionName].savedValues = savedValues;
+          this.switchMode.call(
+            this,
+            sectionName,
+            sectionContent,
+            event,
+            applyBtn,
+          );
+        } else {
+          this.switchMode.call(
+            this,
+            sectionName,
+            sectionContent,
+            event,
+            applyBtn,
+          );
+        }
+      });
       newSection.append(editMark);
       sectionModel.editMark = editMark;
     }
@@ -157,14 +175,12 @@ export default class PlateView {
     sectionName: string,
     sectionContetInView: SectionContent[],
   ): void {
-    const sectionContentElements = Object.values(
-      this.model.plateSections[sectionName].sectionContentWrapper,
-    );
-    sectionContentElements.forEach((sectionElement) => {
-      sectionContetInView.forEach((sectionElementInView) => {
-        const elementInView = sectionElementInView.content;
-        elementInView.value = sectionElement.content.value;
+    const { savedValues } = this.model.plateSections[sectionName];
+    if (savedValues) {
+      savedValues.forEach((prevValue, index) => {
+        const elementInView = sectionContetInView[index].content;
+        elementInView.value = prevValue;
       });
-    });
+    }
   }
 }

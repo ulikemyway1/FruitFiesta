@@ -11,6 +11,7 @@ export type PlateSectionModel = {
   sectionContentWrapper: PlateSectionContentWrapper;
   editMark?: HTMLButtonElement;
   inEditMode?: boolean;
+  savedValues?: string[];
 };
 
 export type PlateSectionContentWrapper = {
