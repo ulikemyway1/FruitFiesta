@@ -7,6 +7,12 @@
   min-width: 400px;
   background: var(--header-background);
   border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    transform: rotate(-1deg);
+  }
 }
 .discount-card__content {
   display: flex;
