@@ -8,6 +8,7 @@ import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
 import catalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
+import ProductDetailsView from "../../../pages/product-details";
 
 const router = new Router();
 
@@ -36,12 +37,7 @@ router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (match) => {
     // catalogPage.loadProducts();  // If we want lazy loading of products
     Router.switchContent(catalogPage.getView());
   } else {
-    Router.switchContent(
-      new CreateElement({
-        tag: "h1",
-        textContent: key,
-      }).getHTMLElement(),
-    );
+    Router.switchContent(new ProductDetailsView(key).getHTMLElement());
   }
 });
 // router.route(Hash.DETAIL, () => {
