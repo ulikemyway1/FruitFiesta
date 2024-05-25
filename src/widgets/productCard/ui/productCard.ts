@@ -3,6 +3,8 @@ import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 
 export default class ProductCardView {
+  private product: ProductProjection;
+
   private img = new CreateElement({
     tag: "img",
     cssClasses: ["product-card__img"],
@@ -40,6 +42,8 @@ export default class ProductCardView {
     tag: "button",
     cssClasses: ["buy-button"],
     textContent: "BUY",
+    eventType: "click",
+    callback: this.handleBuyButton.bind(this),
   });
 
   private content = new CreateElement({
@@ -59,9 +63,13 @@ export default class ProductCardView {
     tag: "div",
     cssClasses: ["product-card"],
     children: [this.img, this.content],
+    eventType: "click",
+    callback: this.handleProductDetails.bind(this),
   });
 
   constructor(product: ProductProjection) {
+    this.product = product;
+
     this.title.getHTMLElement().textContent = product.name
       ? product.name["en-GB"]
       : "";
@@ -85,6 +93,15 @@ export default class ProductCardView {
         .getHTMLElement()
         .setAttribute("src", product.masterVariant.images[0].url);
     }
+  }
+
+  private handleBuyButton(event: Event) {
+    event.stopPropagation();
+    console.log("Buy button clicked");
+  }
+
+  private handleProductDetails() {
+    console.log("Product clicked");
   }
 
   getHTMLElement(): HTMLElement {

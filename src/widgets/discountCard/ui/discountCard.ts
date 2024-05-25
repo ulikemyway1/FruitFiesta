@@ -5,9 +5,9 @@ import CreateElement from "../../../shared/helpers/element-create";
 import discountSvg from "../../../assets/images/coupon-svgrepo-com.svg";
 
 export default class DiscountCardView {
-  discount: DiscountCode;
+  private discount: DiscountCode;
 
-  img = new CreateElement({
+  private img = new CreateElement({
     tag: "img",
     cssClasses: ["discount-card__img"],
     attributes: {
@@ -16,37 +16,37 @@ export default class DiscountCardView {
     },
   });
 
-  title = new CreateElement({
+  private title = new CreateElement({
     tag: "h2",
     cssClasses: ["discount-card__title"],
     textContent: "Some title",
   });
 
-  text = new CreateElement({
+  private text = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card__description"],
     textContent: "Some text.",
   });
 
-  promoCode = new CreateElement({
+  private promoCode = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card__promo-code"],
     textContent: "Promo code: ",
   });
 
-  advice = new CreateElement({
+  private advice = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card__advice"],
     textContent: "Click card to copy promo code to clipboard.",
   });
 
-  content = new CreateElement({
+  private content = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card__content"],
     children: [this.img, this.title, this.text, this.promoCode, this.advice],
   });
 
-  container = new CreateElement({
+  private container = new CreateElement({
     tag: "div",
     cssClasses: ["discount-card"],
     children: [this.content],
@@ -66,7 +66,7 @@ export default class DiscountCardView {
     this.promoCode.getHTMLElement().append(discount.code);
   }
 
-  copyToClipboard() {
+  private copyToClipboard() {
     if (!this.discount.code) {
       return;
     }
