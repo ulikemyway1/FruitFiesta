@@ -1,3 +1,3 @@
-import ProductDetailsView from "./ui/productDetails";
+import ProductDetails from "./ui/productDetails";
 
-export default ProductDetailsView;
+export default ProductDetails;
