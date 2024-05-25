@@ -1,0 +1,32 @@
+.plate {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  background: var(--placeholder-text-color);
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    &-content-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
+
+  &__edit-mark,
+  &__apply-btn {
+    width: 90px;
+    padding: 10px 15px;
+    align-self: flex-end;
+  }
+
+  &__inner-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
