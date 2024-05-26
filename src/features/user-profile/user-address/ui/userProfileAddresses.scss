@@ -1,4 +1,5 @@
-.user-profile__shipping {
+.user-profile__shipping-card,
+.user-profile__billing-card {
   background: var(--profile-plate-background);
   color: var(--button-text);
   filter: brightness(0.9);
@@ -13,6 +14,12 @@
       font-size: 30px;
     }
   }
+}
+
+.user-profile__shipping-block {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
 @media (hover: hover) and (pointer: fine) {

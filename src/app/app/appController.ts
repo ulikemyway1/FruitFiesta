@@ -5,7 +5,7 @@ import AppView from "./appView";
 import user from "../../entities/user";
 import header from "../../widgets/header";
 import userBasicProfileController from "../../features/user-profile/user-basic";
-import userShippingProfileController from "../../features/user-profile/user-shipping-address";
+import userShippingProfileController from "../../features/user-profile/user-address";
 
 class AppController {
   model: AppModel;

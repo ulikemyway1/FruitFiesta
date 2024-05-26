@@ -12,7 +12,8 @@
     font-size: 30px;
   }
 
-  &__shipping-addresses-block {
+  &__shipping-addresses-block,
+  &__billing-addresses-block {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +22,8 @@
     font-weight: 800;
   }
 
-  &__shipping-addresses-wrapper {
+  &__shipping-addresses-wrapper,
+  &__billing-addresses-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
