@@ -36,23 +36,39 @@
   }
 
   &__button {
-    min-width: 120px;
-    padding: 10px 15px;
     align-self: flex-end;
-    border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: all 0.4s;
+
+    &-wrapper {
+      display: flex;
+      gap: 20px;
+      align-self: flex-end;
+    }
   }
 
   &__apply-btn {
-    background: var(--profile-plate-apply-btn);
-    color: var(--button-text);
+    background: url("../../../../assets/images/apply-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+  }
+
+  &__edit-mark {
+    background: url("../../../../assets/images/edit-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
   }
 
   &__cancel-btn {
-    background: var(--profile-plate-cancel-btn);
-    color: var(--button-text);
+    background: url("../../../../assets/images/cancel-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
   }
 
   &__inner-wrapper {
