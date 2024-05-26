@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: 5px;
   padding: 10px;
-  border: 1px solid black;
+  border: 3px solid var(--login-register-border);
   border-radius: 6px;
   max-width: 740px;
   background: var(--placeholder-text-color);
@@ -35,15 +35,44 @@
     }
   }
 
-  &__edit-mark,
-  &__apply-btn {
-    width: 90px;
+  &__button {
+    min-width: 120px;
     padding: 10px 15px;
     align-self: flex-end;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+
+  &__apply-btn {
+    background: var(--profile-plate-apply-btn);
+    color: var(--button-text);
+  }
+
+  &__cancel-btn {
+    background: var(--profile-plate-cancel-btn);
+    color: var(--button-text);
   }
 
   &__inner-wrapper {
     display: flex;
     flex-direction: column;
+  }
+
+  &__edit-mode {
+    position: relative;
+    background: var(--profile-plate-edit-mode) !important;
+    box-shadow: 0 0 20px var(--profile-plate-apply-btn);
+
+    .plate__section-input {
+      color: black;
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .plate__button:hover {
+    filter: brightness(1.1);
   }
 }

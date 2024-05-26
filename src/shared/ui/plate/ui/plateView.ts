@@ -79,8 +79,8 @@ export default class PlateView {
     if (props?.editable) {
       const editMark = new CreateElement<HTMLButtonElement>({
         tag: "button",
-        cssClasses: ["plate__edit-mark"],
-        textContent: "edit",
+        cssClasses: ["plate__button", "plate__edit-mark"],
+        textContent: "Edit",
       }).getHTMLElement();
 
       this.model.plateSections[sectionName].inEditMode = false;
@@ -139,8 +139,10 @@ export default class PlateView {
       });
       this.model.plateSections[sectionName].inEditMode = false;
       if (event.target instanceof HTMLButtonElement) {
+        this.view.classList.remove("plate__edit-mode");
         const editBtn = event.target;
         editBtn.textContent = "Edit";
+        editBtn.classList.remove("plate__cancel-btn");
         applyBtn.remove();
       }
       this.cancelChanges(sectionName, sectionContent);
@@ -151,8 +153,10 @@ export default class PlateView {
           input.disabled = false;
           this.model.plateSections[sectionName].inEditMode = true;
           if (event.target instanceof HTMLButtonElement) {
+            this.view.classList.add("plate__edit-mode");
             const editBtn = event.target;
             editBtn.textContent = "Cancel";
+            editBtn.classList.add("plate__cancel-btn");
             const parent = editBtn.parentElement;
             if (parent) parent.insertBefore(applyBtn, editBtn);
           }
@@ -165,7 +169,7 @@ export default class PlateView {
     const applyBtn = new CreateElement<HTMLButtonElement>({
       tag: "button",
       textContent: "Apply",
-      cssClasses: ["button", "plate__apply-btn"],
+      cssClasses: ["plate__button", "plate__apply-btn"],
     }).getHTMLElement();
     if (apiHandler) applyBtn.addEventListener("click", apiHandler);
     return applyBtn;
