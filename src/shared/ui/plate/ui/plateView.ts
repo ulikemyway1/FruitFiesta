@@ -62,7 +62,7 @@ export default class PlateView {
       }).getHTMLElement();
       const sectionSubTitle = new CreateElement({
         tag: "span",
-        cssClasses: ["plate__section-subtile"],
+        cssClasses: ["plate__section-subtitle"],
         textContent: sectionElement.sesctionSubTile,
       }).getHTMLElement();
       innerWrapper.append(sectionSubTitle, sectionElement.content);

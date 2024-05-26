@@ -1,19 +1,21 @@
-import userProfileController from "../../../features/user-profile";
-import userProfileView, { UserProfileView } from "../UI/userProfilePageView";
+import userBasicProfile from "../../../features/user-profile/user-basic/model/userBasicProfileController";
+import userProfileView from "../UI/userProfilePageView";
 
 export class UserProfileController {
-  private view: UserProfileView;
+  private view = userProfileView;
 
-  constructor(view: UserProfileView) {
-    this.view = view;
-    this.view.getView().append(userProfileController.getView()!);
+  constructor() {
+    this.addSection(userBasicProfile.getView());
   }
 
   public getView(): HTMLElement {
     return this.view.getView();
   }
+
+  private addSection(section: HTMLElement) {
+    this.view.addSection(section);
+  }
 }
 
-const userProfilePageController = new UserProfileController(userProfileView);
-
-export default userProfilePageController;
+const userProfilePage = new UserProfileController();
+export default userProfilePage;

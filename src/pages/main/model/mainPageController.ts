@@ -19,7 +19,6 @@ class MainPageController {
 
     this.model.getRandomProducts().then((randomProducts) => {
       randomProducts.forEach((product) => {
-        console.log(product);
         this.view.appendContent(new ProductCardView(product).getHTMLElement());
       });
     });

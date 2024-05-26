@@ -1,5 +1,7 @@
 .plate {
   display: flex;
+  width: 80%;
+  margin: 0 auto;
   flex-direction: column;
   gap: 5px;
   padding: 10px;
@@ -14,7 +16,21 @@
     &-content-wrapper {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-subtitle {
+      font-weight: 800;
+    }
+
+    &-input {
+      text-align: center;
+      padding: 8px;
+      border-radius: 6px;
+      color: var(--button-text);
+      width: 100%;
     }
   }
 
