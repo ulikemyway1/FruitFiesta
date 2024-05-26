@@ -4,4 +4,28 @@
   gap: 20px;
   padding: 40px 0;
   text-align: center;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    font-size: 30px;
+  }
+
+  &__shipping-addresses-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-weight: 800;
+  }
+
+  &__shipping-addresses-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
 }

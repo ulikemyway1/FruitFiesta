@@ -5,6 +5,7 @@ import AppView from "./appView";
 import user from "../../entities/user";
 import header from "../../widgets/header";
 import userBasicProfileController from "../../features/user-profile/user-basic";
+import userShippingProfileController from "../../features/user-profile/user-shipping-address";
 
 class AppController {
   model: AppModel;
@@ -18,6 +19,7 @@ class AppController {
 
     user.attach(header);
     user.attach(userBasicProfileController);
+    user.attach(userShippingProfileController);
   }
 
   run() {
