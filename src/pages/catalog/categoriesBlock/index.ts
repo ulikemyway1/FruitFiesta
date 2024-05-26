@@ -25,6 +25,7 @@ export default class CategoriesBlockView {
             eventType: "click",
             callback: () => {
               console.log(category.id);
+              window.location.hash = `#catalog/${category.id}`;
             },
           }).getHTMLElement(),
         );

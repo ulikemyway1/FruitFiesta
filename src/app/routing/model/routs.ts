@@ -6,7 +6,7 @@ import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
-import catalogPage from "../../../pages/catalog";
+import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
 import ProductDetails from "../../../pages/product-details";
 
@@ -60,10 +60,14 @@ router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
 
   if (!queryParam) {
     // catalogPage.loadProducts();  // If we want lazy loading of products
-    Router.switchContent(catalogPage.getView());
+    Router.switchContent(new CatalogPage().getView());
   } else {
     // Router.switchContent(new ProductDetails(key).getHTMLElement());
     console.log("Query param: ", queryParam);
+    const queryArgs = {
+      filter: `categories.id: subtree("${queryParam}")`,
+    };
+    Router.switchContent(new CatalogPage(queryArgs).getView());
     // распарсить кверипараметры
     // если есть кверипараметры - отфильтровать продукты
     // если нет - показать все продукты

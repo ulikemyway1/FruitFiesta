@@ -9,10 +9,10 @@ class CatalogPageController {
   view = new CatalogPageView();
 
   // loadProducts() {  // If we want lazy loading of products
-  constructor() {
+  constructor(queryArgs?: { filter: string }) {
     this.view.appendContent(new CategoriesBlockView().getHTMLElement());
 
-    this.view.appendContent(new ProductsBlockView().getHTMLElement());
+    this.view.appendContent(new ProductsBlockView(queryArgs).getHTMLElement());
   }
 
   getView() {
@@ -20,4 +20,4 @@ class CatalogPageController {
   }
 }
 
-export default new CatalogPageController();
+export default CatalogPageController;

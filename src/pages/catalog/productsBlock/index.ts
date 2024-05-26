@@ -21,8 +21,8 @@ export default class ProductsBlockView {
     children: [this.content],
   });
 
-  constructor() {
-    this.getProducts().then((products) => {
+  constructor(queryArgs?: { filter: string }) {
+    this.getProducts(queryArgs).then((products) => {
       products.forEach((product) => {
         // console.log(product);
         this.content.addInnerElements(
@@ -32,8 +32,8 @@ export default class ProductsBlockView {
     });
   }
 
-  async getProducts() {
-    const response = await fetchProductProjections();
+  async getProducts(queryArgs?: { filter: string }) {
+    const response = await fetchProductProjections(queryArgs);
     return response.body.results;
   }
 
