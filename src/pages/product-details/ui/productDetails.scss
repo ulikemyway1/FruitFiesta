@@ -6,16 +6,16 @@
   max-width: 380px;
   background: var(--additional-pages-background);
   border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
+  // cursor: pointer;
+  // transition: 0.3s;
 
-  &:hover {
-    transform: scale(1.005);
-  }
+  // &:hover {
+  //   transform: scale(1.005);
+  // }
 
-  &:active {
-    transform: scale(1);
-  }
+  // &:active {
+  //   transform: scale(1);
+  // }
 }
 .product-details__img {
   max-width: 100%;

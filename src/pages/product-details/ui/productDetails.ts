@@ -1,7 +1,6 @@
 import "./productDetails.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import Hash from "../../../shared/routs/enumHash";
 import fetchProductByProductKey from "../api";
 import Router from "../../../app/routing/model/router";
 import notFoundPageView from "../../notFound";
@@ -66,8 +65,6 @@ export default class ProductDetailsView {
     tag: "div",
     cssClasses: ["product-details"],
     children: [this.img, this.content],
-    eventType: "click",
-    callback: this.handleProductDetails.bind(this),
   });
 
   constructor(key: string) {
@@ -118,11 +115,6 @@ export default class ProductDetailsView {
   private handleBuyButton(event: Event) {
     event.stopPropagation();
     console.log("Buy button clicked");
-  }
-
-  private handleProductDetails() {
-    console.log("Product clicked");
-    window.location.href = `${Hash.CATALOG}/${this.product?.key}`;
   }
 
   getHTMLElement(): HTMLElement {
