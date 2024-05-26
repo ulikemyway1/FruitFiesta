@@ -21,13 +21,15 @@ class AppController {
   run() {
     router.run();
 
-    if (user.userIsLoggedIn) {
-      router.navigate(Hash.MAIN);
-    } else {
-      router.navigate(Hash.LOGIN);
-    }
+    // if (user.userIsLoggedIn) {
+    //   router.navigate(Hash.MAIN);
+    // } else {
+    //   router.navigate(Hash.LOGIN);
+    // }
   }
 }
+// my development
+router.navigate(Hash.DETAIL);
 
 const appController = new AppController(new AppModel(), new AppView());
 
