@@ -70,6 +70,7 @@ export default class ProductDetailsView {
   constructor(key: string) {
     this.getProductByProductKey(key)
       .then((product) => {
+        console.log(product);
         this.product = product;
         this.render();
       })

@@ -3,7 +3,7 @@ enum Hash {
   REGISTRATION = "#registration",
   MAIN = "#main",
   CATALOG = "#catalog",
-  CATEGORY = "#category",
+  // CATEGORY = "#category",
   PRODUCT = "#product",
   BASKET = "#basket",
   ABOUT = "#about",

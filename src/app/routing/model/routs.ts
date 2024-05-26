@@ -30,6 +30,7 @@ router.route(Hash.REGISTRATION, () => {
 router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
+
 // router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
 //   const key = hash.replace(`${Hash.CATALOG}`, "").replace("/", "");
 
@@ -40,21 +41,38 @@ router.route(Hash.MAIN, () => {
 //     Router.switchContent(new ProductDetails(key).getHTMLElement());
 //   }
 // });
-router.route(Hash.CATALOG, () => {
-  Router.switchContent(catalogPage.getView());
+
+// router.route(Hash.CATALOG, () => {
+//   Router.switchContent(catalogPage.getView());
+// });
+// router.route(new RegExp(`^${Hash.CATEGORY}(\\/[\\w-]+)$`), (hash) => {
+//   const categoryKey = hash.replace(`${Hash.CATEGORY}/`, "");
+//   Router.switchContent(
+//     new CreateElement({
+//       tag: "h1",
+//       textContent: `Category: ${categoryKey}`,
+//     }).getHTMLElement(),
+//   );
+// });
+
+router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
+  const queryParam = hash.replace(`${Hash.CATALOG}`, "").replace("/", "");
+
+  if (!queryParam) {
+    // catalogPage.loadProducts();  // If we want lazy loading of products
+    Router.switchContent(catalogPage.getView());
+  } else {
+    // Router.switchContent(new ProductDetails(key).getHTMLElement());
+    console.log("Query param: ", queryParam);
+    // распарсить кверипараметры
+    // если есть кверипараметры - отфильтровать продукты
+    // если нет - показать все продукты
+  }
 });
-router.route(new RegExp(`^${Hash.CATEGORY}(\\/[\\w-]+)$`), (hash) => {
-  const key = hash.replace(`${Hash.CATEGORY}/`, "");
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: `Category: ${key}`,
-    }).getHTMLElement(),
-  );
-});
+
 router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
-  const key = hash.replace(`${Hash.PRODUCT}/`, "");
-  Router.switchContent(new ProductDetails(key).getHTMLElement());
+  const productKey = hash.replace(`${Hash.PRODUCT}/`, "");
+  Router.switchContent(new ProductDetails(productKey).getHTMLElement());
 });
 router.route(Hash.BASKET, () => {
   Router.switchContent(
