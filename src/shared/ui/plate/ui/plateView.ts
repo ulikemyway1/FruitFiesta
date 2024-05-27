@@ -13,6 +13,8 @@ export default class PlateView {
 
   private submitBtn: HTMLButtonElement | null = null;
 
+  private editBtn: HTMLButtonElement | null = null;
+
   private model: PlateModel;
 
   constructor(model: PlateModel, cssClasses?: string[]) {
@@ -86,6 +88,8 @@ export default class PlateView {
         },
       }).getHTMLElement();
 
+      this.editBtn = editMark;
+
       this.model.plateSections[sectionName].inEditMode = false;
       const applyBtn = this.createApplyBtn();
       editMark.addEventListener("click", (event) => {
@@ -131,6 +135,10 @@ export default class PlateView {
 
   public getSubmitBtn(): HTMLButtonElement | null {
     return this.submitBtn;
+  }
+
+  public getEditBtn(): HTMLButtonElement | null {
+    return this.editBtn;
   }
 
   private switchMode(
@@ -189,7 +197,7 @@ export default class PlateView {
     return applyBtn;
   }
 
-  private cancelChanges(
+  public cancelChanges(
     sectionName: string,
     sectionContetInView: SectionContent[],
   ): void {

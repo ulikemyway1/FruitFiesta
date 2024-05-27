@@ -54,13 +54,14 @@ class UserBasicProfile {
   private setAPIHandler() {
     const applyBtn = this.model.getApplyBtn();
     if (applyBtn) {
-      applyBtn.addEventListener("click", () =>
+      applyBtn.addEventListener("click", async () =>
         updateBasic(
+          this.view,
           this.model.getInputValueInSection("Some about you", "First Name"),
           this.model.getInputValueInSection("Some about you", "Last Name"),
           this.model.getInputValueInSection("Some about you", "Your e-mail"),
           this.model.getInputValueInSection("Some about you", "Date of birth"),
-        ),
+        ).then(() => this.model.switchModeAfterUpdate("Some about you")),
       );
     }
   }

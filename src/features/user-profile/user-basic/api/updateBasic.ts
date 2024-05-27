@@ -2,11 +2,13 @@ import user from "../../../../entities/user";
 import requestAPI from "../../../../shared/api/APIRootBuilder";
 
 export default function updateBasic(
+  targetPlate: HTMLElement,
   firstName: string,
   lastName: string,
   email: string,
   dateOfBirth: string,
-): Promise<Response> {
+) {
+  targetPlate.classList.add("plate__pending");
   return requestAPI
     .apiRoot()
     .me()
@@ -34,7 +36,9 @@ export default function updateBasic(
       },
     })
     .execute()
-    .then((response) => response)
+    .then(() =>
+      setTimeout(() => targetPlate.classList.remove("plate__pending"), 1000),
+    )
     .catch((error) => error);
 }
 

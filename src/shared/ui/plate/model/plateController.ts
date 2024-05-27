@@ -67,4 +67,25 @@ export default class PlateController {
       inputName
     ].content.value;
   }
+
+  public switchModeAfterUpdate(sectionName: string): void {
+    this.view.getView().classList.remove("plate__edit-mode");
+    const editBtn = this.view.getEditBtn();
+    const submitBtn = this.view.getSubmitBtn();
+    if (editBtn && submitBtn) {
+      editBtn.classList.remove("plate__cancel-btn");
+      editBtn.title = "Edit";
+      submitBtn.remove();
+    }
+
+    const sectionSubsections = Object.values(
+      this.model.plateSections[sectionName].sectionContentWrapper,
+    );
+    sectionSubsections.forEach((subsection) => {
+      const input = subsection.content;
+      if (input instanceof HTMLInputElement) {
+        input.disabled = true;
+      }
+    });
+  }
 }

@@ -87,8 +87,8 @@
   }
 
   &__pending {
-    pointer-events: none;
-    filter: saturate(0.2);
+    pointer-events: none !important;
+    filter: saturate(0.2) !important;
   }
 }
 
