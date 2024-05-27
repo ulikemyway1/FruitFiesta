@@ -27,7 +27,7 @@ export default class PlateView {
     props?: {
       cssClasses?: string[];
       editable?: boolean;
-      apiHandler?: () => Promise<void>;
+      apiHandler?: () => Promise<Response>;
     },
   ): void {
     const newSection = new CreateElement({
@@ -172,7 +172,9 @@ export default class PlateView {
     }
   }
 
-  private createApplyBtn(apiHandler?: () => Promise<void>): HTMLButtonElement {
+  private createApplyBtn(
+    apiHandler?: () => Promise<Response>,
+  ): HTMLButtonElement {
     const applyBtn = new CreateElement<HTMLButtonElement>({
       tag: "button",
       cssClasses: ["plate__button", "plate__apply-btn"],
@@ -180,7 +182,12 @@ export default class PlateView {
         title: "Apply",
       },
     }).getHTMLElement();
-    if (apiHandler) applyBtn.addEventListener("click", apiHandler);
+    if (apiHandler) {
+      applyBtn.addEventListener("click", () => {
+        this.view.classList.add("plate__pending");
+        apiHandler().then(() => this.view.classList.remove("plate__pending"));
+      });
+    }
     return applyBtn;
   }
 

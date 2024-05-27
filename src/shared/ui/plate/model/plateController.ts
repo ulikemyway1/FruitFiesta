@@ -19,7 +19,11 @@ export default class PlateController {
   public addSection(
     sectionName: string,
     sectionContent: SectionContent[],
-    props?: { cssClasses?: string[]; editable?: boolean },
+    props?: {
+      cssClasses?: string[];
+      editable?: boolean;
+      apiHandler?: () => Promise<Response>;
+    },
   ): void {
     this.view.addSection(sectionName, sectionContent, props);
   }
