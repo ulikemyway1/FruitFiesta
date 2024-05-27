@@ -11,6 +11,8 @@ export default class PlateView {
     cssClasses: ["plate"],
   }).getHTMLElement();
 
+  private submitBtn: HTMLButtonElement | null = null;
+
   private model: PlateModel;
 
   constructor(model: PlateModel, cssClasses?: string[]) {
@@ -27,7 +29,6 @@ export default class PlateView {
     props?: {
       cssClasses?: string[];
       editable?: boolean;
-      apiHandler?: () => Promise<Response>;
     },
   ): void {
     const newSection = new CreateElement({
@@ -86,7 +87,7 @@ export default class PlateView {
       }).getHTMLElement();
 
       this.model.plateSections[sectionName].inEditMode = false;
-      const applyBtn = this.createApplyBtn(props.apiHandler);
+      const applyBtn = this.createApplyBtn();
       editMark.addEventListener("click", (event) => {
         if (!this.model.plateSections[sectionName].inEditMode) {
           const savedValues: string[] = [];
@@ -126,6 +127,10 @@ export default class PlateView {
 
   public getView(): HTMLElement {
     return this.view;
+  }
+
+  public getSubmitBtn(): HTMLButtonElement | null {
+    return this.submitBtn;
   }
 
   private switchMode(
@@ -172,9 +177,7 @@ export default class PlateView {
     }
   }
 
-  private createApplyBtn(
-    apiHandler?: () => Promise<Response>,
-  ): HTMLButtonElement {
+  private createApplyBtn(): HTMLButtonElement {
     const applyBtn = new CreateElement<HTMLButtonElement>({
       tag: "button",
       cssClasses: ["plate__button", "plate__apply-btn"],
@@ -182,12 +185,7 @@ export default class PlateView {
         title: "Apply",
       },
     }).getHTMLElement();
-    if (apiHandler) {
-      applyBtn.addEventListener("click", () => {
-        this.view.classList.add("plate__pending");
-        apiHandler().then(() => this.view.classList.remove("plate__pending"));
-      });
-    }
+    this.submitBtn = applyBtn;
     return applyBtn;
   }
 

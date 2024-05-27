@@ -54,4 +54,8 @@ export default class PlateController {
       sectionWrapper.lastElementChild.remove();
     }
   }
+
+  public getPlateData() {
+    return this.model.plateSections;
+  }
 }
