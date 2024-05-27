@@ -9,8 +9,15 @@ class CatalogPageController {
   view = new CatalogPageView();
 
   // loadProducts() {  // If we want lazy loading of products
-  constructor(queryArgs?: { filter: string }) {
-    this.view.appendContent(new CategoriesBlockView().getHTMLElement());
+  constructor(path?: string[]) {
+    let queryArgs;
+    if (path) {
+      // console.log("Path: ", path);
+      queryArgs = {
+        filter: `categories.id: subtree("${path.pop()}")`,
+      };
+    }
+    this.view.appendContent(new CategoriesBlockView(path).getHTMLElement());
 
     this.view.appendContent(new ProductsBlockView(queryArgs).getHTMLElement());
   }

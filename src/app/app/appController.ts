@@ -1,4 +1,5 @@
-import { router, Hash } from "../routing";
+import { router } from "../routing";
+import Hash from "../../shared/routs/enumHash";
 import AppModel from "./appModel";
 import AppView from "./appView";
 

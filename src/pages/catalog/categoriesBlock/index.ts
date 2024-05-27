@@ -1,7 +1,11 @@
+import { Category } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import fetchCategories from "./api";
+import Hash from "../../../shared/routs/enumHash";
 
 export default class CategoriesBlockView {
+  private categories: Category[] = [];
+
   private content = new CreateElement({
     tag: "div",
     cssClasses: ["categories-block__content"],
@@ -13,11 +17,20 @@ export default class CategoriesBlockView {
     children: [this.content],
   });
 
-  constructor() {
+  constructor(path?: string[]) {
+    // const pathArray = path?.split("/");
+
+    console.log(path);
+
     this.getCategories().then((categories) => {
+      console.log(categories);
+      this.categories = categories;
+
+      // const mainCategory = categories.filter(
+      //   (category) => category.ancestors.length === 0,
+      // );
       categories.forEach((category) => {
         this.content.addInnerElements(
-          //   new CategoryButtonView(category).getHTMLElement(),
           new CreateElement({
             tag: "button",
             cssClasses: ["category-button"],
@@ -25,7 +38,11 @@ export default class CategoriesBlockView {
             eventType: "click",
             callback: () => {
               console.log(category.id);
-              window.location.hash = `#catalog/${category.id}`;
+              if (category.ancestors.length) {
+                window.location.hash = `${Hash.CATALOG}/${category.ancestors[0].id}/${category.id}`;
+              } else {
+                window.location.hash = `${Hash.CATALOG}/${category.id}`;
+              }
             },
           }).getHTMLElement(),
         );

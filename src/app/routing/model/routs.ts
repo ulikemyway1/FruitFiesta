@@ -55,24 +55,26 @@ router.route(Hash.MAIN, () => {
 //   );
 // });
 
-router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
-  const queryParam = hash.replace(`${Hash.CATALOG}`, "").replace("/", "");
+router.route(
+  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?(\\/[\\w-]*)?$`),
+  (hash) => {
+    const path = hash
+      .replace(`${Hash.CATALOG}`, "")
+      .split("/")
+      .filter((item) => item);
 
-  if (!queryParam) {
-    // catalogPage.loadProducts();  // If we want lazy loading of products
-    Router.switchContent(new CatalogPage().getView());
-  } else {
-    // Router.switchContent(new ProductDetails(key).getHTMLElement());
-    console.log("Query param: ", queryParam);
-    const queryArgs = {
-      filter: `categories.id: subtree("${queryParam}")`,
-    };
-    Router.switchContent(new CatalogPage(queryArgs).getView());
-    // распарсить кверипараметры
-    // если есть кверипараметры - отфильтровать продукты
-    // если нет - показать все продукты
-  }
-});
+    if (path.length === 0) {
+      // catalogPage.loadProducts();  // If we want lazy loading of products
+      Router.switchContent(new CatalogPage().getView());
+    } else {
+      console.log("Path: ", path);
+      // const queryArgs = {
+      //   filter: `categories.id: subtree("${path}")`,
+      // };
+      Router.switchContent(new CatalogPage(path).getView());
+    }
+  },
+);
 
 router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
   const productKey = hash.replace(`${Hash.PRODUCT}/`, "");
