@@ -4,7 +4,7 @@ import productInfo from "../../../features/product/product-info";
 class ProductDetailsPageView {
   private view: HTMLElement = new CreateElement({
     tag: "section",
-    cssClasses: ["product-details-page"],
+    cssClasses: ["product-detail"],
   }).getHTMLElement();
 
   constructor() {
