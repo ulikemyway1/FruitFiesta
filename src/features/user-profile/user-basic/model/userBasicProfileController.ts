@@ -1,6 +1,7 @@
 import user from "../../../../entities/user";
 import PlateController from "../../../../shared/ui/plate";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
+import updateBasic from "../api/updateBasic";
 import "../ui/userBasicProfile.scss";
 
 class UserBasicProfile {
@@ -47,6 +48,21 @@ class UserBasicProfile {
     this.model.addSection("Some about you", this.createContent(), {
       editable: true,
     });
+    this.setAPIHandler();
+  }
+
+  private setAPIHandler() {
+    const applyBtn = this.model.getApplyBtn();
+    if (applyBtn) {
+      applyBtn.addEventListener("click", () =>
+        updateBasic(
+          this.model.getInputValueInSection("Some about you", "First Name"),
+          this.model.getInputValueInSection("Some about you", "Last Name"),
+          this.model.getInputValueInSection("Some about you", "Your e-mail"),
+          this.model.getInputValueInSection("Some about you", "Date of birth"),
+        ),
+      );
+    }
   }
 }
 

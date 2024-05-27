@@ -22,7 +22,6 @@ export default class PlateController {
     props?: {
       cssClasses?: string[];
       editable?: boolean;
-      apiHandler?: () => Promise<Response>;
     },
   ): void {
     this.view.addSection(sectionName, sectionContent, props);
@@ -57,5 +56,15 @@ export default class PlateController {
 
   public getPlateData() {
     return this.model.plateSections;
+  }
+
+  public getApplyBtn(): HTMLButtonElement | null {
+    return this.view.getSubmitBtn();
+  }
+
+  public getInputValueInSection(sectionName: string, inputName: string) {
+    return this.model.plateSections[sectionName].sectionContentWrapper[
+      inputName
+    ].content.value;
   }
 }
