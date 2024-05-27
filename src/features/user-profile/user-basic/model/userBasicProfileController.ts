@@ -18,6 +18,7 @@ class UserBasicProfile {
       const { firstName } = user.userInfo;
       const { lastName } = user.userInfo;
       const { dateOfBirth } = user.userInfo;
+      const { email } = user.userInfo;
       content = [
         PlateController.createSectionContent(
           "First Name",
@@ -31,6 +32,10 @@ class UserBasicProfile {
           "Date of birth",
           dateOfBirth || "Not provided",
         ),
+        PlateController.createSectionContent(
+          "Your e-mail",
+          email || "Not provided",
+        ),
       ];
       return content;
     }
@@ -40,7 +45,7 @@ class UserBasicProfile {
   public update() {
     this.model.deleteAllSections();
     this.model.addSection("Some about you", this.createContent(), {
-      editable: false,
+      editable: true,
     });
   }
 }
