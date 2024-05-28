@@ -8,7 +8,7 @@ import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
 import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
-import ProductDetails from "../../../pages/product-details";
+import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
 
 const router = new Router();
 
@@ -73,19 +73,19 @@ router.route(
       // };
       Router.switchContent(new CatalogPage(path).getView());
     }
-  },
+  }
 );
 
 router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
   const productKey = hash.replace(`${Hash.PRODUCT}/`, "");
-  Router.switchContent(new ProductDetails(productKey).getHTMLElement());
+  Router.switchContent(new ProductDetailsPageView(productKey).getView());
 });
 router.route(Hash.BASKET, () => {
   Router.switchContent(
     new CreateElement({
       tag: "h1",
       textContent: "Basket",
-    }).getHTMLElement(),
+    }).getHTMLElement()
   );
 });
 router.route(Hash.ABOUT, () => {
@@ -93,7 +93,7 @@ router.route(Hash.ABOUT, () => {
     new CreateElement({
       tag: "h1",
       textContent: "About",
-    }).getHTMLElement(),
+    }).getHTMLElement()
   );
 });
 router.route(Hash.NOT_FOUND, () => {

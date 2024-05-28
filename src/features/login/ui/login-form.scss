@@ -130,12 +130,6 @@
   }
 }
 
-@media (hover: hover) {
-  .login-form__button:hover {
-    background-color: var(--button-hover-background);
-  }
-}
-
 @media (hover: hover) and (pointer: fine) {
   .login-form__button:hover {
     background-color: var(--button-hover-background);
