@@ -6,6 +6,9 @@ import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
+import CatalogPage from "../../../pages/catalog";
+import notFoundPageView from "../../../pages/notFound";
+import ProductDetails from "../../../pages/product-details";
 
 const router = new Router();
 
@@ -27,21 +30,55 @@ router.route(Hash.REGISTRATION, () => {
 router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
-router.route(new RegExp(`^${Hash.CATALOG}(\\/\\d*)?$`), () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Catalog",
-    }).getHTMLElement(),
-  );
-});
-router.route(Hash.DETAIL, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Detail",
-    }).getHTMLElement(),
-  );
+
+// router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
+//   const key = hash.replace(`${Hash.CATALOG}`, "").replace("/", "");
+
+//   if (!key) {
+//     // catalogPage.loadProducts();  // If we want lazy loading of products
+//     Router.switchContent(catalogPage.getView());
+//   } else {
+//     Router.switchContent(new ProductDetails(key).getHTMLElement());
+//   }
+// });
+
+// router.route(Hash.CATALOG, () => {
+//   Router.switchContent(catalogPage.getView());
+// });
+// router.route(new RegExp(`^${Hash.CATEGORY}(\\/[\\w-]+)$`), (hash) => {
+//   const categoryKey = hash.replace(`${Hash.CATEGORY}/`, "");
+//   Router.switchContent(
+//     new CreateElement({
+//       tag: "h1",
+//       textContent: `Category: ${categoryKey}`,
+//     }).getHTMLElement(),
+//   );
+// });
+
+router.route(
+  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?(\\/[\\w-]*)?$`),
+  (hash) => {
+    const path = hash
+      .replace(`${Hash.CATALOG}`, "")
+      .split("/")
+      .filter((item) => item);
+
+    if (path.length === 0) {
+      // catalogPage.loadProducts();  // If we want lazy loading of products
+      Router.switchContent(new CatalogPage().getView());
+    } else {
+      console.log("Path: ", path);
+      // const queryArgs = {
+      //   filter: `categories.id: subtree("${path}")`,
+      // };
+      Router.switchContent(new CatalogPage(path).getView());
+    }
+  },
+);
+
+router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
+  const productKey = hash.replace(`${Hash.PRODUCT}/`, "");
+  Router.switchContent(new ProductDetails(productKey).getHTMLElement());
 });
 router.route(Hash.BASKET, () => {
   Router.switchContent(
@@ -60,12 +97,7 @@ router.route(Hash.ABOUT, () => {
   );
 });
 router.route(Hash.NOT_FOUND, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Not found",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(notFoundPageView);
 });
 router.route(Hash.PROFILE, () => {
   if (!user.userIsLoggedIn) {
