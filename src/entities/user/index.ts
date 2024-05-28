@@ -1,3 +1,6 @@
+import { Customer } from "@commercetools/platform-sdk";
+import requestAPI from "../../shared/api/APIRootBuilder";
+
 interface Observer {
   update(subject: User): void;
 }
@@ -9,9 +12,20 @@ class User {
 
   private authToken = localStorage.getItem("auth-token");
 
+  private userData: Customer | null = null;
+
   constructor() {
     if (this.authToken) {
       this.userIsLoggedIn = true;
+      requestAPI
+        .apiRoot()
+        .me()
+        .get()
+        .execute()
+        .then((response) => {
+          this.userData = response.body;
+          this.notify();
+        });
     }
   }
 
@@ -22,6 +36,14 @@ class User {
   set userIsLoggedIn(value: boolean) {
     this.privateUserIsLoggedIn = value;
     this.notify();
+  }
+
+  set userInfo(userData: Customer | null) {
+    this.userData = userData;
+  }
+
+  get userInfo(): Customer | null {
+    return this.userData;
   }
 
   public attach(observer: Observer) {
