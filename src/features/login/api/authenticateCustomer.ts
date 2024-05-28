@@ -17,8 +17,9 @@ export default function sendRequestCustomerAuth(
         window.location.hash = Hash.MAIN;
         // save token as auth on success log ing for auto re-login
         localStorage.setItem("auth-token", localStorage.getItem("token")!);
-
         user.userIsLoggedIn = true;
+        user.userInfo = response.body.customer;
+        user.notify();
       }
     })
     .catch((e) => {

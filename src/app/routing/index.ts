@@ -1,4 +1,4 @@
 import router from "./model/routs";
-import Hash from "../../shared/routs/enumHash";
+import Router from "./model/router";
 
-export { router, Hash };
+export { router, Router };

@@ -1,0 +1,26 @@
+.random-prod-block {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  padding: 1rem 0;
+  margin: 0 auto;
+  gap: 1rem;
+  background: var(--pages-background);
+}
+
+.random-prod-block__title {
+  padding: 1rem;
+  align-self: flex-start;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.random-prod-block__content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
