@@ -13,13 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  &__slider {
-    width: 60%;
-    &-image {
-      max-width: 100%;
-      border-radius: 4px;
-    }
-  }
+
   &__title {
     font-size: 2rem;
     font-weight: 600;
@@ -144,6 +138,13 @@
   }
 }
 
+.swiper {
+  width: 60%;
+  &-image {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+}
 @media (hover: hover) and (pointer: fine) {
   .product__total-button:hover {
     background-color: var(--button-hover-background);

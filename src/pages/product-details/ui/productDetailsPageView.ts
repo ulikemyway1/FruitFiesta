@@ -6,6 +6,7 @@ import Router from "../../../app/routing/model/router";
 import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
+import "../slider/swiper";
 
 export default class ProductDetailsPageView {
   private goodPrice = 0;
@@ -19,19 +20,62 @@ export default class ProductDetailsPageView {
     tag: "img",
     cssClasses: ["product__slider-image"],
     attributes: { alt: "product" },
-    children: [],
+  }).getHTMLElement();
+
+  private secondImage = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["product__slider-image"],
+    attributes: { alt: "product" },
+  }).getHTMLElement();
+
+  private thirdImage = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["product__slider-image"],
+    attributes: { alt: "product" },
+  }).getHTMLElement();
+
+  private sliderPrevButton = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-button-prev"],
+  }).getHTMLElement();
+
+  private sliderNextButton = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-button-next"],
+  }).getHTMLElement();
+
+  private sliderSlideOne = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
+    children: [this.firstImage],
+  }).getHTMLElement();
+
+  private sliderSlideTwo = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
+    children: [this.secondImage],
+  }).getHTMLElement();
+
+  private sliderSlideThree = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
+    children: [this.thirdImage],
   }).getHTMLElement();
 
   private sliderInnerLine = new CreateElement<HTMLDivElement>({
     tag: "div",
-    cssClasses: ["product__slider-inner-line"],
-    children: [this.firstImage],
+    cssClasses: ["swiper-wrapper"],
+    children: [this.sliderSlideOne, this.sliderSlideTwo, this.sliderSlideThree],
   }).getHTMLElement();
 
   private sliderContainer = new CreateElement<HTMLDivElement>({
     tag: "div",
     cssClasses: ["product__slider"],
-    children: [this.sliderInnerLine],
+    children: [
+      this.sliderInnerLine,
+      this.sliderPrevButton,
+      this.sliderNextButton,
+    ],
   }).getHTMLElement();
 
   private orderPlus = new CreateElement<HTMLDivElement>({
@@ -205,6 +249,14 @@ export default class ProductDetailsPageView {
       this.firstImage.src =
         product.masterVariant.images && product.masterVariant.images.length
           ? product.masterVariant.images[0].url
+          : "";
+      this.secondImage.src =
+        product.masterVariant.images && product.masterVariant.images.length
+          ? product.masterVariant.images[1].url
+          : "";
+      this.thirdImage.src =
+        product.masterVariant.images && product.masterVariant.images.length
+          ? product.masterVariant.images[2].url
           : "";
 
       this.productTitle.textContent = product.name ? product.name["en-GB"] : "";
