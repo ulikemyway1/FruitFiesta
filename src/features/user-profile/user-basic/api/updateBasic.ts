@@ -36,9 +36,10 @@ export default function updateBasic(
       },
     })
     .execute()
-    .then(() =>
-      setTimeout(() => targetPlate.classList.remove("plate__pending"), 1000),
-    )
+    .then(() => {
+      user.userVersion += 1;
+      setTimeout(() => targetPlate.classList.remove("plate__pending"), 1000);
+    })
     .catch((error) => error);
 }
 

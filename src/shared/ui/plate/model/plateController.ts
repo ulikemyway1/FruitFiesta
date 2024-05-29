@@ -70,6 +70,7 @@ export default class PlateController {
 
   public switchModeAfterUpdate(sectionName: string): void {
     this.view.getView().classList.remove("plate__edit-mode");
+    this.model.plateSections[sectionName].inEditMode = false;
     const editBtn = this.view.getEditBtn();
     const submitBtn = this.view.getSubmitBtn();
     if (editBtn && submitBtn) {
