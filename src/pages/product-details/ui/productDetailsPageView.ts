@@ -6,6 +6,7 @@ import Router from "../../../app/routing/model/router";
 import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
+import sliderInit from "../slider/swiper";
 
 export default class ProductDetailsPageView {
   private goodPrice = 0;
@@ -15,23 +16,51 @@ export default class ProductDetailsPageView {
     cssClasses: ["product-detail"],
   }).getHTMLElement();
 
-  private firstImage = new CreateElement<HTMLImageElement>({
-    tag: "img",
-    cssClasses: ["product__slider-image"],
-    attributes: { alt: "product" },
-    children: [],
+  private sliderNext = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-button-next"],
+  }).getHTMLElement();
+
+  private sliderPrev = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-button-prev"],
+  }).getHTMLElement();
+
+  private sliderPagination = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-pagination"],
+  }).getHTMLElement();
+
+  private sliderSlideOne = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
+  }).getHTMLElement();
+
+  private sliderSlideTwo = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
+  }).getHTMLElement();
+
+  private sliderSlideThree = new CreateElement<HTMLDivElement>({
+    tag: "div",
+    cssClasses: ["swiper-slide"],
   }).getHTMLElement();
 
   private sliderInnerLine = new CreateElement<HTMLDivElement>({
     tag: "div",
-    cssClasses: ["product__slider-inner-line"],
-    children: [this.firstImage],
+    cssClasses: ["swiper-wrapper"],
+    children: [this.sliderSlideOne, this.sliderSlideTwo, this.sliderSlideThree],
   }).getHTMLElement();
 
   private sliderContainer = new CreateElement<HTMLDivElement>({
     tag: "div",
-    cssClasses: ["product__slider"],
-    children: [this.sliderInnerLine],
+    cssClasses: ["swiper"],
+    children: [
+      this.sliderInnerLine,
+      this.sliderPagination,
+      this.sliderPrev,
+      this.sliderNext,
+    ],
   }).getHTMLElement();
 
   private orderPlus = new CreateElement<HTMLDivElement>({
@@ -202,9 +231,17 @@ export default class ProductDetailsPageView {
 
   private drawProduct(product: ProductProjection) {
     if (product) {
-      this.firstImage.src =
+      this.sliderSlideOne.style.backgroundImage =
         product.masterVariant.images && product.masterVariant.images.length
-          ? product.masterVariant.images[0].url
+          ? `url(${product.masterVariant.images[0].url})`
+          : "";
+      this.sliderSlideTwo.style.backgroundImage =
+        product.masterVariant.images && product.masterVariant.images.length
+          ? `url(${product.masterVariant.images[1].url})`
+          : "";
+      this.sliderSlideThree.style.backgroundImage =
+        product.masterVariant.images && product.masterVariant.images.length
+          ? `url(${product.masterVariant.images[2].url})`
           : "";
 
       this.productTitle.textContent = product.name ? product.name["en-GB"] : "";
@@ -237,6 +274,7 @@ export default class ProductDetailsPageView {
         }
       }
       this.reviewText.textContent = this.getReview(reviews);
+      sliderInit();
     }
   }
 

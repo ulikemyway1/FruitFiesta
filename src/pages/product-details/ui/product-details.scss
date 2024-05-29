@@ -1,11 +1,10 @@
 .container {
   display: flex;
   flex-direction: row;
-  // flex-wrap: wrap;
   gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 35px 16px;
   justify-content: center;
 }
 .product {
@@ -13,13 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  &__slider {
-    width: 60%;
-    &-image {
-      max-width: 100%;
-      border-radius: 4px;
-    }
-  }
+
   &__title {
     font-size: 2rem;
     font-weight: 600;
@@ -144,8 +137,63 @@
   }
 }
 
+.swiper {
+  width: 60%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  &-slide {
+    width: 25%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+  .swiper-pagination-bullet {
+    background-color: var(--pages-background);
+    opacity: 1;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: var(--dark-brown-text-color);
+    opacity: 1;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: var(--pages-background);
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .product__total-button:hover {
     background-color: var(--button-hover-background);
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .swiper {
+    height: 600px;
+    width: 600px;
+  }
+  .product {
+    width: 60%;
+  }
+}
+@media (max-width: 768px) {
+  .swiper {
+    height: 300px;
+    width: 300px;
+  }
+  .product {
+    width: 90%;
+    &__title {
+      font-size: 1.4rem;
+    }
+    &__order-text {
+      font-size: 0.8rem;
+    }
   }
 }
