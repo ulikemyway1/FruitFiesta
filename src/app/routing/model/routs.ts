@@ -73,7 +73,7 @@ router.route(
       // };
       Router.switchContent(new CatalogPage(path).getView());
     }
-  }
+  },
 );
 
 router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
@@ -85,7 +85,7 @@ router.route(Hash.BASKET, () => {
     new CreateElement({
       tag: "h1",
       textContent: "Basket",
-    }).getHTMLElement()
+    }).getHTMLElement(),
   );
 });
 router.route(Hash.ABOUT, () => {
@@ -93,7 +93,7 @@ router.route(Hash.ABOUT, () => {
     new CreateElement({
       tag: "h1",
       textContent: "About",
-    }).getHTMLElement()
+    }).getHTMLElement(),
   );
 });
 router.route(Hash.NOT_FOUND, () => {
