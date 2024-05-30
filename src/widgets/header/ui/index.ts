@@ -246,18 +246,17 @@ class Header {
   }
 
   public update() {
-    // JUST FOR CROSS-CHECK!!!
     if (user.userIsLoggedIn) {
-      // this.loginLink.classList.add("nav__item_hidden");
-      // this.registerLink.classList.add("nav__item_hidden");
+      this.loginLink.classList.add("nav__item_hidden");
+      this.registerLink.classList.add("nav__item_hidden");
       this.profileIcon.classList.remove("nav__item_hidden");
       this.profileLink.classList.remove("nav__item_hidden");
       this.keyIcon.classList.add("nav__item_hidden");
       this.logoutLink.classList.remove("nav__item_hidden");
     } else {
-      // this.loginLink.classList.remove("nav__item_hidden");
+      this.loginLink.classList.remove("nav__item_hidden");
       this.keyIcon.classList.remove("nav__item_hidden");
-      // this.registerLink.classList.remove("nav__item_hidden");
+      this.registerLink.classList.remove("nav__item_hidden");
       this.profileLink.classList.add("nav__item_hidden");
       this.logoutLink.classList.add("nav__item_hidden");
       this.profileIcon.classList.add("nav__item_hidden");
