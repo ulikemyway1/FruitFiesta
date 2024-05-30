@@ -14,8 +14,6 @@ class User {
 
   private userData: Customer | null = null;
 
-  private version: number = 0;
-
   constructor() {
     if (this.authToken) {
       this.userIsLoggedIn = true;
@@ -26,7 +24,6 @@ class User {
         .execute()
         .then((response) => {
           this.userData = response.body;
-          this.version = response.body.version;
           this.notify();
         });
     }
@@ -47,14 +44,6 @@ class User {
 
   get userInfo(): Customer | null {
     return this.userData;
-  }
-
-  set userVersion(version: number) {
-    this.version = version;
-  }
-
-  get userVersion() {
-    return this.version;
   }
 
   public attach(observer: Observer) {

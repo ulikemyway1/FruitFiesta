@@ -14,7 +14,7 @@ export default function updateBasic(
     .me()
     .post({
       body: {
-        version: user.userVersion,
+        version: user.userInfo?.version || 1,
         actions: [
           {
             action: "setFirstName",
@@ -36,8 +36,8 @@ export default function updateBasic(
       },
     })
     .execute()
-    .then(() => {
-      user.userVersion += 1;
+    .then((response) => {
+      user.userInfo = response.body;
       setTimeout(() => targetPlate.classList.remove("plate__pending"), 1000);
     })
     .catch((error) => error);
