@@ -1,6 +1,6 @@
 import "./index.scss";
 import CreateElement from "../../../shared/helpers/element-create";
-import fetchProductProjections from "./api";
+import { fetchProductProjections } from "../api";
 import ProductCardView from "../../../widgets/productCard";
 
 export default class ProductsBlockView {
