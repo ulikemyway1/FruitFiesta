@@ -7,6 +7,8 @@ import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
+import imageDialog from "../../../features/dialog/ui/imageDialog";
+import imageSliderInit from "../../../features/dialog/slider/slider";
 
 export default class ProductDetailsPageView {
   private goodPrice = 0;
@@ -200,12 +202,20 @@ export default class ProductDetailsPageView {
       this.incrementCounter();
       this.updateTotalPrice();
     });
+    this.sliderInnerLine.addEventListener("click", () => {
+      imageDialog.openImageDialog();
+    });
+    imageDialog.crossContainer.addEventListener("click", () => {
+      imageDialog.closeImageDialog();
+    });
   }
 
   async getProduct(key: string) {
     getProductData(key)
       .then((product) => {
         this.drawProduct(product.body);
+        imageDialog.drawEnlargedImage(product.body);
+        imageSliderInit();
       })
       .catch(() => {
         Router.switchContent(notFoundPageView);
@@ -263,6 +273,7 @@ export default class ProductDetailsPageView {
         this.totalPrice.textContent = `${defaultPrice} ${currency}`;
 
         const discount = product.masterVariant.prices[0].discounted;
+
         if (discount) {
           const price = discount.value.centAmount / 100;
           this.goodPrice = +price.toFixed(2);
@@ -289,7 +300,7 @@ export default class ProductDetailsPageView {
   }
 
   public getView(): HTMLElement {
-    this.view.append(this.productInfoContainer);
+    this.view.append(this.productInfoContainer, imageDialog.getFormView());
     return this.view;
   }
 }
