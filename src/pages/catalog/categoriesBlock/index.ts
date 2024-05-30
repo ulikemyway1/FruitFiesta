@@ -18,17 +18,26 @@ export default class CategoriesBlockView {
   });
 
   constructor(categories: Category[], path?: string[]) {
-    // const pathArray = path?.split("/");
+    console.log("Path CategoriesBlockView: ", path);
 
-    console.log(path);
+    this.categories = categories;
+
+    if (!path) {
+      // eslint-disable-next-line no-param-reassign
+      categories = categories.filter(
+        (category) => category.ancestors.length === 0,
+      );
+    } else {
+      const categoryId = this.getLastCategoryIdByPathSlug(path);
+      // eslint-disable-next-line no-param-reassign
+      categories = categories.filter(
+        (category) => category.ancestors[0]?.id === categoryId,
+      );
+    }
 
     // this.getCategories().then((categories) => {
     //   console.log(categories);
-    this.categories = categories;
 
-    // const mainCategory = categories.filter(
-    //   (category) => category.ancestors.length === 0,
-    // );
     categories.forEach((category) => {
       this.content.addInnerElements(
         new CreateElement({
@@ -61,6 +70,14 @@ export default class CategoriesBlockView {
     return this.categories.find((category) => category.id === id)?.slug[
       "en-GB"
     ];
+  }
+
+  private getLastCategoryIdByPathSlug(path: string[]) {
+    const categorySlug = path[path.length - 1];
+    const category = this.categories.find(
+      (item) => item.slug["en-GB"] === categorySlug,
+    );
+    return category?.id;
   }
 
   private getAncestorId(category: Category) {

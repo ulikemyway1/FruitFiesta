@@ -19,8 +19,7 @@ class CatalogPageController {
 
       let queryArgs;
       if (path) {
-        // console.log("Path: ", path);
-        const categoryId = this.getCategoryIdBySlug(path);
+        const categoryId = this.getLastCategoryIdByPathSlug(path);
         queryArgs = {
           // filter: `categories.id: subtree("${path.pop()}")`,
           filter: `categories.id: subtree("${categoryId}")`,
@@ -47,13 +46,13 @@ class CatalogPageController {
     // this.view.appendContent(new ProductsBlockView(queryArgs).getHTMLElement());
   }
 
-  async getCategories() {
+  private async getCategories() {
     const response = await fetchCategories();
     return response.body.results;
   }
 
-  getCategoryIdBySlug(path: string[]) {
-    const categorySlug = path.pop();
+  private getLastCategoryIdByPathSlug(path: string[]) {
+    const categorySlug = path[path.length - 1];
     const category = this.categories.find(
       (item) => item.slug["en-GB"] === categorySlug,
     );

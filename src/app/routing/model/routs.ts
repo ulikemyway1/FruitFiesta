@@ -67,7 +67,7 @@ router.route(
       // catalogPage.loadProducts();  // If we want lazy loading of products
       Router.switchContent(new CatalogPage().getView());
     } else {
-      console.log("Path: ", path);
+      // console.log("Path: ", path);
       // const queryArgs = {
       //   filter: `categories.id: subtree("${path}")`,
       // };

@@ -4,12 +4,6 @@ import { fetchProductProjections } from "../api";
 import ProductCardView from "../../../widgets/productCard";
 
 export default class ProductsBlockView {
-  // private title = new CreateElement({
-  //   tag: "h2",
-  //   cssClasses: ["products-block__title"],
-  //   textContent: "Our products",
-  // });
-
   private content = new CreateElement({
     tag: "div",
     cssClasses: ["products-block__content"],
