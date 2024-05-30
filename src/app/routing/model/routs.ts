@@ -56,7 +56,9 @@ router.route(Hash.MAIN, () => {
 // });
 
 router.route(
-  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?(\\/[\\w-]*)?$`),
+  // new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?(\\/[\\w-]*)?$`),
+  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)*$`),
+
   (hash) => {
     const path = hash
       .replace(`${Hash.CATALOG}`, "")

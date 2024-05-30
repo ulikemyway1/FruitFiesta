@@ -22,25 +22,38 @@ export default class CategoriesBlockView {
 
     this.categories = categories;
 
+    let categoriesToShow: Category[] = [];
     if (!path) {
-      // eslint-disable-next-line no-param-reassign
-      categories = categories.filter(
-        // (category) => category.ancestors.length === 0,
+      categoriesToShow = categories.filter(
         (category) => category.parent === undefined,
       );
     } else {
       const categoryId = this.getLastCategoryIdByPathSlug(path);
-      // eslint-disable-next-line no-param-reassign
-      categories = categories.filter(
-        // (category) => category.ancestors[0]?.id === categoryId,
+      categoriesToShow = categories.filter(
         (category) => category.parent?.id === categoryId,
       );
     }
 
-    // this.getCategories().then((categories) => {
-    //   console.log(categories);
+    this.content.addInnerElements(
+      new CreateElement({
+        tag: "div",
+        cssClasses: ["categories-block__breadcrumbs"],
+        children: [
+          new CreateElement({
+            tag: "span",
+            textContent: `root`,
+          }).getHTMLElement(),
+          ...(path?.map((item) =>
+            new CreateElement({
+              tag: "span",
+              textContent: `/${item}`,
+            }).getHTMLElement(),
+          ) || []),
+        ],
+      }),
+    );
 
-    categories.forEach((category) => {
+    categoriesToShow.forEach((category) => {
       this.content.addInnerElements(
         new CreateElement({
           tag: "button",
@@ -49,18 +62,24 @@ export default class CategoriesBlockView {
           eventType: "click",
           callback: () => {
             console.log(category.id);
-            if (category.ancestors.length) {
-              // window.location.hash = `${Hash.CATALOG}/${category.ancestors[0].id}/${category.id}`;
-              window.location.hash = `${Hash.CATALOG}/${this.getCategorySlugById(this.getAncestorId(category))}/${category.slug["en-GB"]}`;
-            } else {
-              // window.location.hash = `${Hash.CATALOG}/${category.id}`;
-              window.location.hash = `${Hash.CATALOG}/${category.slug["en-GB"]}`;
-            }
+            // if (category.ancestors.length) {
+            //   // window.location.hash = `${Hash.CATALOG}/${category.ancestors[0].id}/${category.id}`;
+            //   window.location.hash = `${Hash.CATALOG}/${this.getCategorySlugById(this.getAncestorId(category))}/${category.slug["en-GB"]}`;
+            // } else {
+            //   // window.location.hash = `${Hash.CATALOG}/${category.id}`;
+            //   window.location.hash = `${Hash.CATALOG}/${category.slug["en-GB"]}`;
+            // }
+
+            const midPath = category.ancestors
+              .map((ancestor) => this.getCategorySlugById(ancestor.id))
+              .join("/");
+            console.log("midPath: ", midPath);
+
+            window.location.hash = `${Hash.CATALOG}/${midPath.length ? midPath.concat("/") : ""}${category.slug["en-GB"]}`;
           },
         }).getHTMLElement(),
       );
     });
-    // });
   }
 
   async getCategories() {
