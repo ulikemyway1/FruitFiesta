@@ -25,13 +25,15 @@ export default class CategoriesBlockView {
     if (!path) {
       // eslint-disable-next-line no-param-reassign
       categories = categories.filter(
-        (category) => category.ancestors.length === 0,
+        // (category) => category.ancestors.length === 0,
+        (category) => category.parent === undefined,
       );
     } else {
       const categoryId = this.getLastCategoryIdByPathSlug(path);
       // eslint-disable-next-line no-param-reassign
       categories = categories.filter(
-        (category) => category.ancestors[0]?.id === categoryId,
+        // (category) => category.ancestors[0]?.id === categoryId,
+        (category) => category.parent?.id === categoryId,
       );
     }
 

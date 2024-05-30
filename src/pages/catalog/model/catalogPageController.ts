@@ -15,6 +15,7 @@ class CatalogPageController {
   // loadProducts() {  // If we want lazy loading of products
   constructor(path?: string[]) {
     this.getCategories().then((categories) => {
+      console.log("Categories: ", categories);
       this.categories = categories;
 
       let queryArgs;
