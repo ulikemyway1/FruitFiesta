@@ -32,6 +32,7 @@ export default class PlateView {
       cssClasses?: string[];
       editable?: boolean;
     },
+    id?: string,
   ): void {
     const newSection = new CreateElement({
       tag: "div",
@@ -91,6 +92,7 @@ export default class PlateView {
       this.editBtn = editMark;
 
       this.model.plateSections[sectionName].inEditMode = false;
+      this.model.plateSections[sectionName].id = id;
       const applyBtn = this.createApplyBtn();
       editMark.addEventListener("click", (event) => {
         if (!this.model.plateSections[sectionName].inEditMode) {

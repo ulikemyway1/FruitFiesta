@@ -24,8 +24,9 @@ export default class PlateController {
       cssClasses?: string[];
       editable?: boolean;
     },
+    id?: string,
   ): void {
-    this.view.addSection(sectionName, sectionContent, props);
+    this.view.addSection(sectionName, sectionContent, props, id);
   }
 
   static createSectionInputElement(

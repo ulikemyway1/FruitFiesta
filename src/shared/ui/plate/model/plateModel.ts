@@ -12,6 +12,7 @@ export type PlateSectionModel = {
   editMark?: HTMLButtonElement;
   inEditMode?: boolean;
   savedValues?: string[];
+  id?: string;
 };
 
 export type PlateSectionContentWrapper = {

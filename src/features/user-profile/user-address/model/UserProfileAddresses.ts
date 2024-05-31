@@ -79,6 +79,7 @@ class UserProfileAddresses {
             {
               editable: true,
             },
+            address.id,
           );
         } else if (
           address.id &&
@@ -100,16 +101,26 @@ class UserProfileAddresses {
             {
               editable: true,
             },
+            address.id,
           );
         }
       });
     }
-    this.shippingModels.forEach((model) =>
-      this.shippingView.append(model.getView()),
-    );
-    this.billingModels.forEach((model) =>
-      this.billingView.append(model.getView()),
-    );
+    this.shippingModels.forEach((model) => {
+      this.shippingView.append(model.getView());
+      this.setAPIHandler(model);
+    });
+    this.billingModels.forEach((model) => {
+      this.billingView.append(model.getView());
+      this.setAPIHandler(model);
+    });
+  }
+
+  private setAPIHandler(model: PlateController) {
+    const applyBtn = model.getApplyBtn();
+    if (applyBtn) {
+      applyBtn.addEventListener("click", async () => console.log("sss"));
+    }
   }
 }
 
