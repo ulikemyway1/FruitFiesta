@@ -3,6 +3,13 @@ import CreateElement from "../../../shared/helpers/element-create";
 import { fetchProductProjections } from "../api";
 import ProductCardView from "../../../widgets/productCard";
 
+interface QueryArgs {
+  filter?: string | string[];
+  sort?: string | string[];
+  limit?: number;
+  offset?: number;
+}
+
 export default class ProductsBlockView {
   private content = new CreateElement({
     tag: "div",
@@ -15,7 +22,7 @@ export default class ProductsBlockView {
     children: [this.content],
   });
 
-  constructor(queryArgs?: { filter: string }) {
+  constructor(queryArgs?: QueryArgs) {
     this.getProducts(queryArgs).then((products) => {
       products.forEach((product) => {
         // console.log(product);
@@ -26,7 +33,7 @@ export default class ProductsBlockView {
     });
   }
 
-  async getProducts(queryArgs?: { filter: string }) {
+  async getProducts(queryArgs?: QueryArgs) {
     const response = await fetchProductProjections(queryArgs);
     return response.body.results;
   }

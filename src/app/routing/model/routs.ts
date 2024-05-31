@@ -31,50 +31,22 @@ router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
 
-// router.route(new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?$`), (hash) => {
-//   const key = hash.replace(`${Hash.CATALOG}`, "").replace("/", "");
-
-//   if (!key) {
-//     // catalogPage.loadProducts();  // If we want lazy loading of products
-//     Router.switchContent(catalogPage.getView());
-//   } else {
-//     Router.switchContent(new ProductDetails(key).getHTMLElement());
-//   }
-// });
-
-// router.route(Hash.CATALOG, () => {
-//   Router.switchContent(catalogPage.getView());
-// });
-// router.route(new RegExp(`^${Hash.CATEGORY}(\\/[\\w-]+)$`), (hash) => {
-//   const categoryKey = hash.replace(`${Hash.CATEGORY}/`, "");
-//   Router.switchContent(
-//     new CreateElement({
-//       tag: "h1",
-//       textContent: `Category: ${categoryKey}`,
-//     }).getHTMLElement(),
-//   );
-// });
-
 router.route(
-  // new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)?(\\/[\\w-]*)?$`),
-  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)*$`),
+  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)*(\\?.*)?$`),
 
   (hash) => {
-    const path = hash
+    const [route, searchStr] = hash.split("?");
+    const searchParams = new URLSearchParams(searchStr);
+    // searchParams.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
+
+    const pathArr = route
       .replace(`${Hash.CATALOG}`, "")
       .split("/")
       .filter((item) => item);
 
-    if (path.length === 0) {
-      // catalogPage.loadProducts();  // If we want lazy loading of products
-      Router.switchContent(new CatalogPage().getView());
-    } else {
-      // console.log("Path: ", path);
-      // const queryArgs = {
-      //   filter: `categories.id: subtree("${path}")`,
-      // };
-      Router.switchContent(new CatalogPage(path).getView());
-    }
+    Router.switchContent(new CatalogPage(searchParams, pathArr).getView());
   },
 );
 

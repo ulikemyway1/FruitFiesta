@@ -7,7 +7,7 @@ import Hash from "../../../shared/routs/enumHash";
 export default class CategoriesBlockView {
   private categories: Category[] = [];
 
-  private catalogPath = new CreateElement({
+  private breadcrumbs = new CreateElement({
     tag: "div",
     cssClasses: ["catalog-header__breadcrumbs"],
   });
@@ -17,10 +17,71 @@ export default class CategoriesBlockView {
     cssClasses: ["catalog-header__categories"],
   });
 
+  private sort = new CreateElement({
+    tag: "div",
+    cssClasses: ["catalog-header__sort"],
+    children: [
+      new CreateElement({ tag: "span", textContent: "Sort by: " }),
+      new CreateElement({
+        tag: "label",
+        cssClasses: ["catalog-header__sort-label"],
+        textContent: "Price",
+        children: [
+          new CreateElement({
+            tag: "select",
+            cssClasses: ["catalog-header__sort-select"],
+            children: [
+              new CreateElement({
+                tag: "option",
+                textContent: "---",
+                attributes: { value: "default" },
+              }),
+              new CreateElement({
+                tag: "option",
+                textContent: "Low to High",
+                attributes: { value: "price asc" },
+              }),
+              new CreateElement({
+                tag: "option",
+                textContent: "High to Low",
+                attributes: { value: "price desc" },
+              }),
+            ],
+            eventType: "change",
+            callback: () => {
+              // const select = event.target as HTMLSelectElement;
+              // const { value } = select.options[select.selectedIndex];
+              // const searchParams = new URLSearchParams(window.location.search);
+              // searchParams.set("sort", value);
+              // window.location.search = searchParams.toString();
+            },
+          }),
+        ],
+      }),
+    ],
+  });
+
+  private search = new CreateElement({
+    tag: "input",
+    cssClasses: ["catalog-header__search"],
+    attributes: { type: "text", placeholder: "Search" },
+  });
+
+  private filter = new CreateElement({
+    tag: "div",
+    cssClasses: ["catalog-header__filter"],
+  });
+
   private content = new CreateElement({
     tag: "div",
     cssClasses: ["catalog-header__content"],
-    children: [this.catalogPath, this.availableCategories],
+    children: [
+      this.breadcrumbs,
+      this.availableCategories,
+      this.sort,
+      this.search,
+      this.filter,
+    ],
   });
 
   private container = new CreateElement({
@@ -62,7 +123,7 @@ export default class CategoriesBlockView {
   }
 
   private renderCatalogPath(path: string[] | undefined) {
-    this.catalogPath.addInnerElements(
+    this.breadcrumbs.addInnerElements(
       new CreateElement({
         tag: "div",
         cssClasses: ["catalog-header__breadcrumbs"],
