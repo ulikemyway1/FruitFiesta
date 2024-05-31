@@ -1,3 +1,4 @@
+import "./index.scss";
 import { Category } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import { fetchCategories } from "../api";
@@ -6,80 +7,91 @@ import Hash from "../../../shared/routs/enumHash";
 export default class CategoriesBlockView {
   private categories: Category[] = [];
 
+  private catalogPath = new CreateElement({
+    tag: "div",
+    cssClasses: ["catalog-header__breadcrumbs"],
+  });
+
+  private availableCategories = new CreateElement({
+    tag: "div",
+    cssClasses: ["catalog-header__categories"],
+  });
+
   private content = new CreateElement({
     tag: "div",
-    cssClasses: ["categories-block__content"],
+    cssClasses: ["catalog-header__content"],
+    children: [this.catalogPath, this.availableCategories],
   });
 
   private container = new CreateElement({
     tag: "div",
-    cssClasses: ["categories-block"],
+    cssClasses: ["catalog-header"],
     children: [this.content],
   });
 
   constructor(categories: Category[], path?: string[]) {
-    console.log("Path CategoriesBlockView: ", path);
-
     this.categories = categories;
 
-    let categoriesToShow: Category[] = [];
-    if (!path) {
-      categoriesToShow = categories.filter(
-        (category) => category.parent === undefined,
-      );
-    } else {
-      const categoryId = this.getLastCategoryIdByPathSlug(path);
-      categoriesToShow = categories.filter(
-        (category) => category.parent?.id === categoryId,
-      );
-    }
+    this.renderCatalogPath(path);
 
-    this.content.addInnerElements(
+    this.renderAvailableCategory(path, categories);
+  }
+
+  private renderAvailableCategory(
+    path: string[] | undefined,
+    categories: Category[],
+  ) {
+    const availableCategories = !path
+      ? categories.filter((category) => category.parent === undefined)
+      : categories.filter(
+          (category) =>
+            category.parent?.id === this.getLastCategoryIdByPathSlug(path),
+        );
+
+    availableCategories.forEach((category) => {
+      this.availableCategories.addInnerElements(
+        new CreateElement({
+          tag: "button",
+          cssClasses: ["catalog-header__category-button"],
+          textContent: category.name["en-GB"],
+          eventType: "click",
+          callback: this.handleCategoryClick.bind(this, category),
+        }).getHTMLElement(),
+      );
+    });
+  }
+
+  private renderCatalogPath(path: string[] | undefined) {
+    this.catalogPath.addInnerElements(
       new CreateElement({
         tag: "div",
-        cssClasses: ["categories-block__breadcrumbs"],
+        cssClasses: ["catalog-header__breadcrumbs"],
         children: [
           new CreateElement({
-            tag: "span",
-            textContent: `root`,
+            tag: "button",
+            cssClasses: ["catalog-header__breadcrumbs-item"],
+            textContent: Hash.CATALOG.slice(1),
+            eventType: "click",
+            callback: () => {
+              window.location.hash = Hash.CATALOG;
+            },
           }).getHTMLElement(),
           ...(path?.map((item) =>
             new CreateElement({
-              tag: "span",
+              tag: "button",
+              cssClasses: ["catalog-header__breadcrumbs-item"],
               textContent: `/${item}`,
+              eventType: "click",
+              callback: () => {
+                window.location.hash = `${Hash.CATALOG}/${path
+                  .slice(0, path.indexOf(item) + 1)
+                  .join("/")}`;
+              },
             }).getHTMLElement(),
           ) || []),
         ],
       }),
     );
-
-    categoriesToShow.forEach((category) => {
-      this.content.addInnerElements(
-        new CreateElement({
-          tag: "button",
-          cssClasses: ["category-button"],
-          textContent: category.name["en-GB"],
-          eventType: "click",
-          callback: () => {
-            console.log(category.id);
-            // if (category.ancestors.length) {
-            //   // window.location.hash = `${Hash.CATALOG}/${category.ancestors[0].id}/${category.id}`;
-            //   window.location.hash = `${Hash.CATALOG}/${this.getCategorySlugById(this.getAncestorId(category))}/${category.slug["en-GB"]}`;
-            // } else {
-            //   // window.location.hash = `${Hash.CATALOG}/${category.id}`;
-            //   window.location.hash = `${Hash.CATALOG}/${category.slug["en-GB"]}`;
-            // }
-
-            const midPath = category.ancestors
-              .map((ancestor) => this.getCategorySlugById(ancestor.id))
-              .join("/");
-            console.log("midPath: ", midPath);
-
-            window.location.hash = `${Hash.CATALOG}/${midPath.length ? midPath.concat("/") : ""}${category.slug["en-GB"]}`;
-          },
-        }).getHTMLElement(),
-      );
-    });
   }
 
   async getCategories() {
@@ -101,8 +113,12 @@ export default class CategoriesBlockView {
     return category?.id;
   }
 
-  private getAncestorId(category: Category) {
-    return category.ancestors[0].id;
+  private handleCategoryClick(category: Category) {
+    const midPath = category.ancestors
+      .map((ancestor) => this.getCategorySlugById(ancestor.id))
+      .join("/");
+
+    window.location.hash = `${Hash.CATALOG}/${midPath.length ? midPath.concat("/") : ""}${category.slug["en-GB"]}`;
   }
 
   getHTMLElement(): HTMLElement {

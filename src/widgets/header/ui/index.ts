@@ -239,7 +239,8 @@ class Header {
     const { hash } = document.location;
     Array.from(this.navList.getHTMLElement().children).forEach((link) => {
       link.classList.remove("nav__item_active");
-      if (link.firstElementChild?.getAttribute("href") === hash) {
+      // if (link.firstElementChild?.getAttribute("href") === hash) {
+      if (hash.startsWith(link.firstElementChild?.getAttribute("href") || "")) {
         link.classList.add("nav__item_active");
       }
     });

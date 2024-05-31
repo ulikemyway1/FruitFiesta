@@ -22,7 +22,6 @@ class CatalogPageController {
       if (path) {
         const categoryId = this.getLastCategoryIdByPathSlug(path);
         queryArgs = {
-          // filter: `categories.id: subtree("${path.pop()}")`,
           filter: `categories.id: subtree("${categoryId}")`,
         };
       }
@@ -34,17 +33,6 @@ class CatalogPageController {
         new ProductsBlockView(queryArgs).getHTMLElement(),
       );
     });
-
-    // let queryArgs;
-    // if (path) {
-    //   // console.log("Path: ", path);
-    //   queryArgs = {
-    //     filter: `categories.id: subtree("${path.pop()}")`,
-    //   };
-    // }
-    // this.view.appendContent(new CategoriesBlockView(path).getHTMLElement());
-
-    // this.view.appendContent(new ProductsBlockView(queryArgs).getHTMLElement());
   }
 
   private async getCategories() {

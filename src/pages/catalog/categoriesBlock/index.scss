@@ -1,0 +1,54 @@
+.catalog-header {
+  display: flex;
+  flex-direction: column;
+  //   border: 1px solid black;
+}
+
+.catalog-header__content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.catalog-header__categories {
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-end;
+}
+
+.catalog-header__category-button {
+  background: none;
+  padding: 0.5rem;
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  &:hover {
+  }
+}
+
+.catalog-header__breadcrumbs-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 2rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  // underscore on hover
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:last-child {
+    cursor: default;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
