@@ -152,7 +152,10 @@ export default class PlateView {
     );
     if (this.model.plateSections[sectionName].inEditMode) {
       sectionContentElements.forEach((sectionContentElement) => {
-        if (sectionContentElement.content instanceof HTMLInputElement) {
+        if (
+          sectionContentElement.content instanceof HTMLInputElement ||
+          sectionContentElement.content instanceof HTMLSelectElement
+        ) {
           const input = sectionContentElement.content;
           input.disabled = true;
         }
@@ -168,7 +171,10 @@ export default class PlateView {
       this.cancelChanges(sectionName, sectionContent);
     } else {
       sectionContentElements.forEach((sectionContentElement) => {
-        if (sectionContentElement.content instanceof HTMLInputElement) {
+        if (
+          sectionContentElement.content instanceof HTMLInputElement ||
+          sectionContentElement.content instanceof HTMLSelectElement
+        ) {
           const input = sectionContentElement.content;
           input.disabled = false;
           this.model.plateSections[sectionName].inEditMode = true;

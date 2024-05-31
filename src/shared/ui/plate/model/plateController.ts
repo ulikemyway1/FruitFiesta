@@ -1,4 +1,5 @@
 import CreateElement from "../../../helpers/element-create";
+import { CountryOptions } from "../../../lib/address/list/countries";
 import PlateView from "../ui/plateView";
 import PlateModel, { SectionContent } from "./plateModel";
 
@@ -27,7 +28,7 @@ export default class PlateController {
     this.view.addSection(sectionName, sectionContent, props);
   }
 
-  static createSectionContent(
+  static createSectionInputElement(
     sectionSubtitle: string,
     value: string,
   ): SectionContent {
@@ -43,6 +44,28 @@ export default class PlateController {
       }).getHTMLElement(),
     };
 
+    return sectionContent;
+  }
+
+  static createSectionSelectElement(
+    sectionSubtitle: string,
+    options: CountryOptions,
+  ): SectionContent {
+    const sectionContent: SectionContent = {
+      sesctionSubTile: sectionSubtitle,
+      content: new CreateElement<HTMLSelectElement>({
+        tag: "select",
+        attributes: {
+          disabled: "true",
+        },
+        cssClasses: ["plate__section-input"],
+      }).getHTMLElement(),
+    };
+    options.forEach((country) => {
+      const option = new Option(country.name, country.short);
+      if (sectionContent.content instanceof HTMLSelectElement)
+        sectionContent.content.add(option);
+    });
     return sectionContent;
   }
 

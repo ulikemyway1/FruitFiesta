@@ -21,19 +21,19 @@ class UserBasicProfile {
       const { dateOfBirth } = user.userInfo;
       const { email } = user.userInfo;
       content = [
-        PlateController.createSectionContent(
+        PlateController.createSectionInputElement(
           "First Name",
           firstName || "Not provided",
         ),
-        PlateController.createSectionContent(
+        PlateController.createSectionInputElement(
           "Last Name",
           lastName || "Not provided",
         ),
-        PlateController.createSectionContent(
+        PlateController.createSectionInputElement(
           "Date of birth",
           dateOfBirth || "Not provided",
         ),
-        PlateController.createSectionContent(
+        PlateController.createSectionInputElement(
           "Your e-mail",
           email || "Not provided",
         ),

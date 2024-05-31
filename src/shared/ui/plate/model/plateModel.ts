@@ -20,5 +20,5 @@ export type PlateSectionContentWrapper = {
 
 export type SectionContent = {
   sesctionSubTile: string;
-  content: HTMLInputElement;
+  content: HTMLInputElement | HTMLSelectElement;
 };

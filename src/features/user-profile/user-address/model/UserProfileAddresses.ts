@@ -1,5 +1,6 @@
 import user from "../../../../entities/user";
 import CreateElement from "../../../../shared/helpers/element-create";
+import countryOptions from "../../../../shared/lib/address/list/countries";
 import PlateController from "../../../../shared/ui/plate";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import "../ui/userProfileAddresses.scss";
@@ -28,23 +29,22 @@ class UserProfileAddresses {
   }
 
   private createContent(
-    country: string,
     postalCode: string | undefined,
     city: string | undefined,
     stret: string | undefined,
   ): SectionContent[] {
     let content: SectionContent[] = [];
     content = [
-      PlateController.createSectionContent(
-        "Country",
-        country || "Not provided",
-      ),
-      PlateController.createSectionContent(
+      PlateController.createSectionSelectElement("Country", countryOptions),
+      PlateController.createSectionInputElement(
         "Postal Code",
         postalCode || "Not provided",
       ),
-      PlateController.createSectionContent("City", city || "Not provided"),
-      PlateController.createSectionContent("Street", stret || "Not provided"),
+      PlateController.createSectionInputElement("City", city || "Not provided"),
+      PlateController.createSectionInputElement(
+        "Street",
+        stret || "Not provided",
+      ),
     ];
     return content;
   }
@@ -55,10 +55,10 @@ class UserProfileAddresses {
     if (userInfo) {
       const shippingAddressIDs = userInfo.shippingAddressIds;
       const billingAddressId = userInfo.billingAddressIds;
-      const adresses = userInfo.addresses;
+      const { addresses } = userInfo;
       let shippingAddressCount = 0;
       let billingAddressCount = 0;
-      adresses.forEach((address) => {
+      addresses.forEach((address) => {
         if (
           address.id &&
           shippingAddressIDs &&
@@ -72,7 +72,6 @@ class UserProfileAddresses {
           plateController.addSection(
             `Shipping Address #${shippingAddressCount}`,
             this.createContent(
-              address.country,
               address.postalCode,
               address.city,
               address.streetName,
@@ -94,7 +93,6 @@ class UserProfileAddresses {
           plateController.addSection(
             `Billing Address #${billingAddressCount}`,
             this.createContent(
-              address.country,
               address.postalCode,
               address.city,
               address.streetName,

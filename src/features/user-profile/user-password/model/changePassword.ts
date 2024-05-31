@@ -18,8 +18,8 @@ class UserChangePasword {
     console.log(user.userIsLoggedIn);
     if (user.userIsLoggedIn) {
       content = [
-        PlateController.createSectionContent("Current Passport", ""),
-        PlateController.createSectionContent("New Password", ""),
+        PlateController.createSectionInputElement("Current Passport", ""),
+        PlateController.createSectionInputElement("New Password", ""),
       ];
       return content;
     }
