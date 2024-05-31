@@ -108,7 +108,10 @@ export default class PlateController {
     );
     sectionSubsections.forEach((subsection) => {
       const input = subsection.content;
-      if (input instanceof HTMLInputElement) {
+      if (
+        input instanceof HTMLInputElement ||
+        input instanceof HTMLSelectElement
+      ) {
         input.disabled = true;
       }
     });

@@ -3,6 +3,7 @@ import CreateElement from "../../../../shared/helpers/element-create";
 import countryOptions from "../../../../shared/lib/address/list/countries";
 import PlateController from "../../../../shared/ui/plate";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
+import addressRequest from "../api/addressRequest";
 import "../ui/userProfileAddresses.scss";
 
 class UserProfileAddresses {
@@ -31,7 +32,7 @@ class UserProfileAddresses {
   private createContent(
     postalCode: string | undefined,
     city: string | undefined,
-    stret: string | undefined,
+    street: string | undefined,
   ): SectionContent[] {
     let content: SectionContent[] = [];
     content = [
@@ -43,7 +44,7 @@ class UserProfileAddresses {
       PlateController.createSectionInputElement("City", city || "Not provided"),
       PlateController.createSectionInputElement(
         "Street",
-        stret || "Not provided",
+        street || "Not provided",
       ),
     ];
     return content;
@@ -106,20 +107,29 @@ class UserProfileAddresses {
         }
       });
     }
-    this.shippingModels.forEach((model) => {
+    this.shippingModels.forEach((model, index) => {
       this.shippingView.append(model.getView());
-      this.setAPIHandler(model);
+      this.setAPIHandler(model, `Shipping Address #${index + 1}`);
     });
-    this.billingModels.forEach((model) => {
+    this.billingModels.forEach((model, index) => {
       this.billingView.append(model.getView());
-      this.setAPIHandler(model);
+      this.setAPIHandler(model, `Billing Address #${index + 1}`);
     });
   }
 
-  private setAPIHandler(model: PlateController) {
+  private setAPIHandler(model: PlateController, sectionName: string) {
     const applyBtn = model.getApplyBtn();
     if (applyBtn) {
-      applyBtn.addEventListener("click", async () => console.log("sss"));
+      applyBtn.addEventListener("click", async () => {
+        addressRequest(
+          model.getView(),
+          model.getPlateData()[sectionName].id!,
+          model.getInputValueInSection(sectionName, "Country"),
+          model.getInputValueInSection(sectionName, "City"),
+          model.getInputValueInSection(sectionName, "Street"),
+          model.getInputValueInSection(sectionName, "Postal Code"),
+        ).then(() => model.switchModeAfterUpdate(sectionName));
+      });
     }
   }
 }
