@@ -119,10 +119,11 @@ export default class CategoriesBlockView {
         const searchParams = new URLSearchParams(
           window.location.hash.split("?")[1] || "",
         );
-        searchParams.set(
-          "search-text",
-          (event.target as HTMLInputElement).value,
-        );
+        if (!(event.target as HTMLInputElement).value) {
+          searchParams.delete("text");
+        } else {
+          searchParams.set("text", (event.target as HTMLInputElement).value);
+        }
         window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
       }
     },
@@ -214,6 +215,15 @@ export default class CategoriesBlockView {
       searchParams?.get("sort") || "default";
     this.sortNameSelect.getHTMLElement().value =
       searchParams?.get("sort") || "default";
+
+    this.filter.getHTMLElement().querySelectorAll("input")[0].value =
+      (Number(searchParams?.get("price")?.split(" to ")[0]) / 100).toString() ||
+      "";
+    this.filter.getHTMLElement().querySelectorAll("input")[1].value =
+      (Number(searchParams?.get("price")?.split(" to ")[1]) / 100).toString() ||
+      "";
+
+    this.search.getHTMLElement().value = searchParams?.get("text") || "";
   }
 
   private renderAvailableCategory(

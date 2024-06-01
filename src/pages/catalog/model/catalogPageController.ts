@@ -27,7 +27,8 @@ class CatalogPageController {
 
       this.categories = categories;
 
-      const queryArgs: { [key: string]: string | string[] | number } = {};
+      const queryArgs: { [key: string]: string | string[] | number | boolean } =
+        {};
 
       if (pathArr.length) {
         const categoryId = this.getLastCategoryIdByPathSlug(pathArr);
@@ -58,6 +59,11 @@ class CatalogPageController {
               return;
             }
             queryArgs.filter = [`variants.price.centAmount: range(${value})`];
+            return;
+          }
+          if (key === "text") {
+            queryArgs["text.en-GB"] = value;
+            queryArgs.fuzzy = true;
             return;
           }
           queryArgs[key] = value;
