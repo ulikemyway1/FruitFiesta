@@ -150,6 +150,12 @@ export default class CategoriesBlockView {
             tag: "input",
             cssClasses: ["catalog-header__filter-input"],
             attributes: { type: "number", placeholder: "0" },
+            eventType: "keyup",
+            callback: (event) => {
+              if ((event as KeyboardEvent).key === "Enter") {
+                this.handleFilterPrice();
+              }
+            },
           }),
         ],
       }),
@@ -162,6 +168,12 @@ export default class CategoriesBlockView {
             tag: "input",
             cssClasses: ["catalog-header__filter-input"],
             attributes: { type: "number", placeholder: "100" },
+            eventType: "keyup",
+            callback: (event) => {
+              if ((event as KeyboardEvent).key === "Enter") {
+                this.handleFilterPrice();
+              }
+            },
           }),
         ],
       }),
@@ -170,21 +182,7 @@ export default class CategoriesBlockView {
         cssClasses: ["catalog-header__filter-button"],
         textContent: "Apply",
         eventType: "click",
-        callback: () => {
-          const searchParams = new URLSearchParams(
-            window.location.hash.split("?")[1] || "",
-          );
-          const from =
-            Number(
-              this.filter.getHTMLElement().querySelectorAll("input")[0].value,
-            ) * 100 || "0";
-          const to =
-            Number(
-              this.filter.getHTMLElement().querySelectorAll("input")[1].value,
-            ) * 100 || "*";
-          searchParams.set("price", `${from} to ${to}`);
-          window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
-        },
+        callback: this.handleFilterPrice.bind(this),
       }),
     ],
   });
@@ -193,11 +191,16 @@ export default class CategoriesBlockView {
     tag: "div",
     cssClasses: ["catalog-header__content"],
     children: [
-      this.breadcrumbs,
-      this.availableCategories,
-      this.sort,
-      this.search,
-      this.filter,
+      new CreateElement({
+        tag: "div",
+        cssClasses: ["flex-row-wrap"],
+        children: [this.breadcrumbs, this.availableCategories],
+      }),
+      new CreateElement({
+        tag: "div",
+        cssClasses: ["flex-row-wrap"],
+        children: [this.sort, this.filter, this.search],
+      }),
     ],
   });
 
@@ -320,6 +323,20 @@ export default class CategoriesBlockView {
     } else {
       searchParams.set("text", this.searchInput.getHTMLElement().value);
     }
+    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+  }
+
+  private handleFilterPrice() {
+    const searchParams = new URLSearchParams(
+      window.location.hash.split("?")[1] || "",
+    );
+    const from =
+      Number(this.filter.getHTMLElement().querySelectorAll("input")[0].value) *
+        100 || "0";
+    const to =
+      Number(this.filter.getHTMLElement().querySelectorAll("input")[1].value) *
+        100 || "*";
+    searchParams.set("price", `${from} to ${to}`);
     window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
   }
 

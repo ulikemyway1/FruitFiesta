@@ -11,6 +11,14 @@
   gap: 1rem;
 }
 
+.flex-row-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .catalog-header__breadcrumbs {
 }
 .catalog-header__breadcrumbs-item {
