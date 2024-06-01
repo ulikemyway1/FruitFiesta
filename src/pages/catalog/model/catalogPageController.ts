@@ -31,7 +31,7 @@ class CatalogPageController {
 
       if (pathArr.length) {
         const categoryId = this.getLastCategoryIdByPathSlug(pathArr);
-        queryArgs.filter = `categories.id: subtree("${categoryId}")`;
+        queryArgs.filter = [`categories.id: subtree("${categoryId}")`];
       }
 
       // queryArgs.sort = "price desc";
@@ -40,10 +40,6 @@ class CatalogPageController {
 
       searchParams.forEach((value, key) => {
         if (Object.prototype.hasOwnProperty.call(queryArgs, key)) {
-          // if (key === "price") {
-          //   queryArgs.filter = `masterVariant.price[0].value: range(${value})`;
-          //   return;
-          // }
           if (Array.isArray(queryArgs[key])) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -55,7 +51,13 @@ class CatalogPageController {
           }
         } else {
           if (key === "price") {
-            queryArgs.filter = `variants.price.centAmount: range(${value})`;
+            if (Array.isArray(queryArgs.filter)) {
+              queryArgs.filter.push(
+                `variants.price.centAmount: range(${value})`,
+              );
+              return;
+            }
+            queryArgs.filter = [`variants.price.centAmount: range(${value})`];
             return;
           }
           queryArgs[key] = value;
