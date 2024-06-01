@@ -67,6 +67,7 @@
 .catalog-header__search-input {
 }
 .catalog-header__search-submit {
+  cursor: pointer;
 }
 
 .catalog-header__sort {
@@ -82,6 +83,7 @@
 }
 
 .catalog-header__sort-select {
+  cursor: pointer;
 }
 
 .catalog-header__filter {
@@ -98,4 +100,8 @@
 
 .catalog-header__filter-input {
   max-width: 60px;
+}
+
+.catalog-header__filter-button {
+  cursor: pointer;
 }
