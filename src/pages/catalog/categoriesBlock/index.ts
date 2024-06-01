@@ -93,40 +93,47 @@ export default class CategoriesBlockView {
     tag: "div",
     cssClasses: ["catalog-header__sort"],
     children: [
-      new CreateElement({ tag: "span", textContent: "Sort by: " }),
+      new CreateElement({ tag: "span", textContent: "Sort by:" }),
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__sort-label"],
-        textContent: "Price ",
+        textContent: "Price",
         children: [this.sortPriceSelect],
       }),
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__sort-label"],
-        textContent: "Name ",
+        textContent: "Name",
         children: [this.sortNameSelect],
       }),
     ],
   });
 
-  private search = new CreateElement<HTMLInputElement>({
+  private searchInput = new CreateElement<HTMLInputElement>({
     tag: "input",
-    cssClasses: ["catalog-header__search"],
+    cssClasses: ["catalog-header__search-input"],
     attributes: { type: "search", placeholder: "Search" },
     eventType: "keyup",
     callback: (event) => {
       if ((event as KeyboardEvent).key === "Enter") {
-        const searchParams = new URLSearchParams(
-          window.location.hash.split("?")[1] || "",
-        );
-        if (!(event.target as HTMLInputElement).value) {
-          searchParams.delete("text");
-        } else {
-          searchParams.set("text", (event.target as HTMLInputElement).value);
-        }
-        window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+        this.handleSearch();
       }
     },
+  });
+
+  private search = new CreateElement({
+    tag: "div",
+    cssClasses: ["catalog-header__search"],
+    children: [
+      this.searchInput,
+      new CreateElement({
+        tag: "button",
+        cssClasses: ["catalog-header__search-submit"],
+        textContent: "Search",
+        eventType: "click",
+        callback: this.handleSearch.bind(this),
+      }),
+    ],
   });
 
   private filter = new CreateElement({
@@ -137,7 +144,7 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__filter-label"],
-        textContent: "Price from(EUR): ",
+        textContent: "Price(EUR) from:",
         children: [
           new CreateElement<HTMLInputElement>({
             tag: "input",
@@ -149,7 +156,7 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__filter-label"],
-        textContent: "to(EUR): ",
+        textContent: "to:",
         children: [
           new CreateElement<HTMLInputElement>({
             tag: "input",
@@ -223,7 +230,7 @@ export default class CategoriesBlockView {
       (Number(searchParams?.get("price")?.split(" to ")[1]) / 100).toString() ||
       "";
 
-    this.search.getHTMLElement().value = searchParams?.get("text") || "";
+    this.searchInput.getHTMLElement().value = searchParams?.get("text") || "";
   }
 
   private renderAvailableCategory(
@@ -251,36 +258,30 @@ export default class CategoriesBlockView {
   }
 
   private renderCatalogPath(path: string[] | undefined) {
-    this.breadcrumbs.addInnerElements(
+    this.breadcrumbs.addInnerElements([
       new CreateElement({
-        tag: "div",
-        cssClasses: ["catalog-header__breadcrumbs"],
-        children: [
-          new CreateElement({
-            tag: "button",
-            cssClasses: ["catalog-header__breadcrumbs-item"],
-            textContent: Hash.CATALOG.slice(1),
-            eventType: "click",
-            callback: () => {
-              window.location.hash = Hash.CATALOG;
-            },
-          }).getHTMLElement(),
-          ...(path?.map((item) =>
-            new CreateElement({
-              tag: "button",
-              cssClasses: ["catalog-header__breadcrumbs-item"],
-              textContent: `/${item}`,
-              eventType: "click",
-              callback: () => {
-                window.location.hash = `${Hash.CATALOG}/${path
-                  .slice(0, path.indexOf(item) + 1)
-                  .join("/")}`;
-              },
-            }).getHTMLElement(),
-          ) || []),
-        ],
-      }),
-    );
+        tag: "button",
+        cssClasses: ["catalog-header__breadcrumbs-item"],
+        textContent: Hash.CATALOG.slice(1),
+        eventType: "click",
+        callback: () => {
+          window.location.hash = Hash.CATALOG;
+        },
+      }).getHTMLElement(),
+      ...(path?.map((item) =>
+        new CreateElement({
+          tag: "button",
+          cssClasses: ["catalog-header__breadcrumbs-item"],
+          textContent: `/${item}`,
+          eventType: "click",
+          callback: () => {
+            window.location.hash = `${Hash.CATALOG}/${path
+              .slice(0, path.indexOf(item) + 1)
+              .join("/")}`;
+          },
+        }).getHTMLElement(),
+      ) || []),
+    ]);
   }
 
   async getCategories() {
@@ -308,6 +309,18 @@ export default class CategoriesBlockView {
       .join("/");
 
     window.location.hash = `${Hash.CATALOG}/${midPath.length ? midPath.concat("/") : ""}${category.slug["en-GB"]}`;
+  }
+
+  private handleSearch() {
+    const searchParams = new URLSearchParams(
+      window.location.hash.split("?")[1] || "",
+    );
+    if (!this.searchInput.getHTMLElement().value) {
+      searchParams.delete("text");
+    } else {
+      searchParams.set("text", this.searchInput.getHTMLElement().value);
+    }
+    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
   }
 
   getHTMLElement(): HTMLElement {
