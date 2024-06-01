@@ -17,6 +17,78 @@ export default class CategoriesBlockView {
     cssClasses: ["catalog-header__categories"],
   });
 
+  private sortPriceSelect = new CreateElement<HTMLSelectElement>({
+    tag: "select",
+    cssClasses: ["catalog-header__sort-select"],
+    children: [
+      new CreateElement({
+        tag: "option",
+        textContent: "None",
+        attributes: { value: "default" },
+      }),
+      new CreateElement({
+        tag: "option",
+        textContent: "Low to High",
+        attributes: { value: "price asc" },
+      }),
+      new CreateElement({
+        tag: "option",
+        textContent: "High to Low",
+        attributes: { value: "price desc" },
+      }),
+    ],
+    eventType: "change",
+    callback: (event) => {
+      const select = event.target as HTMLSelectElement;
+      const { value } = select.options[select.selectedIndex];
+      const searchParams = new URLSearchParams(
+        window.location.hash.split("?")[1] || "",
+      );
+      if (value === "default") {
+        searchParams.delete("sort");
+      } else {
+        searchParams.set("sort", value);
+      }
+      window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+    },
+  });
+
+  private sortNameSelect = new CreateElement<HTMLSelectElement>({
+    tag: "select",
+    cssClasses: ["catalog-header__sort-select"],
+    children: [
+      new CreateElement({
+        tag: "option",
+        textContent: "None",
+        attributes: { value: "default" },
+      }),
+      new CreateElement({
+        tag: "option",
+        textContent: "A to Z",
+        attributes: { value: "name.en-GB asc" },
+      }),
+      new CreateElement({
+        tag: "option",
+        textContent: "Z to A",
+        attributes: { value: "name.en-GB desc" },
+      }),
+    ],
+    eventType: "change",
+    callback: (event) => {
+      const select = event.target as HTMLSelectElement;
+      const { value } = select.options[select.selectedIndex];
+      const searchParams = new URLSearchParams(
+        window.location.hash.split("?")[1] || "",
+      );
+      if (value === "default") {
+        searchParams.delete("sort");
+      } else {
+        searchParams.set("sort", value);
+      }
+      window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+    },
+  });
+
   private sort = new CreateElement({
     tag: "div",
     cssClasses: ["catalog-header__sort"],
@@ -25,46 +97,35 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__sort-label"],
-        textContent: "Price",
-        children: [
-          new CreateElement({
-            tag: "select",
-            cssClasses: ["catalog-header__sort-select"],
-            children: [
-              new CreateElement({
-                tag: "option",
-                textContent: "---",
-                attributes: { value: "default" },
-              }),
-              new CreateElement({
-                tag: "option",
-                textContent: "Low to High",
-                attributes: { value: "price asc" },
-              }),
-              new CreateElement({
-                tag: "option",
-                textContent: "High to Low",
-                attributes: { value: "price desc" },
-              }),
-            ],
-            eventType: "change",
-            callback: () => {
-              // const select = event.target as HTMLSelectElement;
-              // const { value } = select.options[select.selectedIndex];
-              // const searchParams = new URLSearchParams(window.location.search);
-              // searchParams.set("sort", value);
-              // window.location.search = searchParams.toString();
-            },
-          }),
-        ],
+        textContent: "Price ",
+        children: [this.sortPriceSelect],
+      }),
+      new CreateElement({
+        tag: "label",
+        cssClasses: ["catalog-header__sort-label"],
+        textContent: "Name ",
+        children: [this.sortNameSelect],
       }),
     ],
   });
 
-  private search = new CreateElement({
+  private search = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["catalog-header__search"],
-    attributes: { type: "text", placeholder: "Search" },
+    attributes: { type: "search", placeholder: "Search" },
+    eventType: "keyup",
+    callback: (event) => {
+      if ((event as KeyboardEvent).key === "Enter") {
+        const searchParams = new URLSearchParams(
+          window.location.hash.split("?")[1] || "",
+        );
+        searchParams.set(
+          "search-text",
+          (event.target as HTMLInputElement).value,
+        );
+        window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+      }
+    },
   });
 
   private filter = new CreateElement({
@@ -90,12 +151,21 @@ export default class CategoriesBlockView {
     children: [this.content],
   });
 
-  constructor(categories: Category[], path?: string[]) {
+  constructor(
+    categories: Category[],
+    pathArr?: string[],
+    searchParams?: URLSearchParams,
+  ) {
     this.categories = categories;
 
-    this.renderCatalogPath(path);
+    this.renderCatalogPath(pathArr);
 
-    this.renderAvailableCategory(path, categories);
+    this.renderAvailableCategory(pathArr, categories);
+
+    this.sortPriceSelect.getHTMLElement().value =
+      searchParams?.get("sort") || "default";
+    this.sortNameSelect.getHTMLElement().value =
+      searchParams?.get("sort") || "default";
   }
 
   private renderAvailableCategory(

@@ -34,19 +34,20 @@ router.route(Hash.MAIN, () => {
 router.route(
   new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)*(\\?.*)?$`),
 
+  // (hash) => {
+  //   const [route, searchStr] = hash.split("?");
+  //   const searchParams = new URLSearchParams(searchStr);
+
+  //   const pathArr = route
+  //     .replace(`${Hash.CATALOG}`, "")
+  //     .split("/")
+  //     .filter((item) => item);
+
+  //   Router.switchContent(new CatalogPage(searchParams, pathArr).getView());
+  // },
+
   (hash) => {
-    const [route, searchStr] = hash.split("?");
-    const searchParams = new URLSearchParams(searchStr);
-    // searchParams.forEach((value, key) => {
-    //   console.log(key, value);
-    // });
-
-    const pathArr = route
-      .replace(`${Hash.CATALOG}`, "")
-      .split("/")
-      .filter((item) => item);
-
-    Router.switchContent(new CatalogPage(searchParams, pathArr).getView());
+    Router.switchContent(new CatalogPage(hash).getView());
   },
 );
 

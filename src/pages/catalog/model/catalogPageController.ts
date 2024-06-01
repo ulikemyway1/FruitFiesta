@@ -4,6 +4,7 @@ import CatalogPageView from "../ui/catalogPageView";
 // import CatalogPageModel from "./catalogPageModel";
 import ProductsBlockView from "../productsBlock";
 import CategoriesBlockView from "../categoriesBlock";
+import Hash from "../../../shared/routs/enumHash";
 
 class CatalogPageController {
   // model = CatalogPageModel;
@@ -13,12 +14,20 @@ class CatalogPageController {
   view = new CatalogPageView();
 
   // loadProducts() {  // If we want lazy loading of products
-  constructor(searchParams: URLSearchParams, pathArr: string[]) {
+  constructor(hash: string) {
+    const [route, searchStr] = hash.split("?");
+    const searchParams = new URLSearchParams(searchStr);
+    const pathArr = route
+      .replace(`${Hash.CATALOG}`, "")
+      .split("/")
+      .filter((item) => item);
+
     this.getCategories().then((categories) => {
       console.log("Categories: ", categories);
+
       this.categories = categories;
 
-      const queryArgs: { [key: string]: string | string[] } = {};
+      const queryArgs: { [key: string]: string | string[] | number } = {};
 
       if (pathArr.length) {
         const categoryId = this.getLastCategoryIdByPathSlug(pathArr);
@@ -30,20 +39,27 @@ class CatalogPageController {
       // queryArgs.sort = ["price desc", "name.en-GB asc"];
 
       searchParams.forEach((value, key) => {
-        let currentValue = queryArgs[key];
         if (Object.prototype.hasOwnProperty.call(queryArgs, key)) {
-          if (Array.isArray(currentValue)) {
-            currentValue.push(value);
+          if (Array.isArray(queryArgs[key])) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            queryArgs[key].push(value);
           } else {
-            currentValue = [currentValue, value];
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            queryArgs[key] = [queryArgs[key], value];
           }
         } else {
-          currentValue = value;
+          queryArgs[key] = value;
         }
       });
 
       this.view.appendContent(
-        new CategoriesBlockView(categories, pathArr).getHTMLElement(),
+        new CategoriesBlockView(
+          categories,
+          pathArr,
+          searchParams,
+        ).getHTMLElement(),
       );
 
       this.view.appendContent(
