@@ -131,6 +131,54 @@ export default class CategoriesBlockView {
   private filter = new CreateElement({
     tag: "div",
     cssClasses: ["catalog-header__filter"],
+    children: [
+      new CreateElement({ tag: "span", textContent: "Filter: " }),
+      new CreateElement({
+        tag: "label",
+        cssClasses: ["catalog-header__filter-label"],
+        textContent: "Price from(EUR): ",
+        children: [
+          new CreateElement<HTMLInputElement>({
+            tag: "input",
+            cssClasses: ["catalog-header__filter-input"],
+            attributes: { type: "number", placeholder: "0" },
+          }),
+        ],
+      }),
+      new CreateElement({
+        tag: "label",
+        cssClasses: ["catalog-header__filter-label"],
+        textContent: "to(EUR): ",
+        children: [
+          new CreateElement<HTMLInputElement>({
+            tag: "input",
+            cssClasses: ["catalog-header__filter-input"],
+            attributes: { type: "number", placeholder: "100" },
+          }),
+        ],
+      }),
+      new CreateElement({
+        tag: "button",
+        cssClasses: ["catalog-header__filter-button"],
+        textContent: "Apply",
+        eventType: "click",
+        callback: () => {
+          const searchParams = new URLSearchParams(
+            window.location.hash.split("?")[1] || "",
+          );
+          const from =
+            Number(
+              this.filter.getHTMLElement().querySelectorAll("input")[0].value,
+            ) * 100 || "0";
+          const to =
+            Number(
+              this.filter.getHTMLElement().querySelectorAll("input")[1].value,
+            ) * 100 || "*";
+          searchParams.set("price", `${from} to ${to}`);
+          window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+        },
+      }),
+    ],
   });
 
   private content = new CreateElement({

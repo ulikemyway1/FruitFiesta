@@ -40,6 +40,10 @@ class CatalogPageController {
 
       searchParams.forEach((value, key) => {
         if (Object.prototype.hasOwnProperty.call(queryArgs, key)) {
+          // if (key === "price") {
+          //   queryArgs.filter = `masterVariant.price[0].value: range(${value})`;
+          //   return;
+          // }
           if (Array.isArray(queryArgs[key])) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -50,6 +54,10 @@ class CatalogPageController {
             queryArgs[key] = [queryArgs[key], value];
           }
         } else {
+          if (key === "price") {
+            queryArgs.filter = `variants.price.centAmount: range(${value})`;
+            return;
+          }
           queryArgs[key] = value;
         }
       });
@@ -61,6 +69,8 @@ class CatalogPageController {
           searchParams,
         ).getHTMLElement(),
       );
+
+      console.log("QueryArgs: ", queryArgs);
 
       this.view.appendContent(
         new ProductsBlockView(queryArgs).getHTMLElement(),
