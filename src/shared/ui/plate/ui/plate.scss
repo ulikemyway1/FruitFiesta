@@ -92,6 +92,14 @@
     pointer-events: none !important;
     filter: saturate(0.2) !important;
   }
+
+  &__validation-error {
+    margin-top: 4px;
+    padding: 4px;
+    color: var(--error-text-border);
+    background: var(--pages-background);
+    border-radius: 4px;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {

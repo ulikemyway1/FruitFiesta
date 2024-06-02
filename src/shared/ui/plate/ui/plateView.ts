@@ -48,7 +48,9 @@ export default class PlateView {
       cssClasses: ["plate__section-title"],
       textContent: sectionName,
     }).getHTMLElement();
+
     newSection.append(sectionTitle);
+
     const sectionContentWrapper = new CreateElement({
       tag: "div",
       cssClasses: ["plate__section-content-wrapper"],
@@ -67,19 +69,24 @@ export default class PlateView {
       const sectionSubTitle = new CreateElement({
         tag: "span",
         cssClasses: ["plate__section-subtitle"],
-        textContent: sectionElement.sesctionSubTile,
+        textContent: sectionElement.sectionSubTitle,
       }).getHTMLElement();
+
       innerWrapper.append(sectionSubTitle, sectionElement.content);
       sectionContentWrapper.append(innerWrapper);
-      sectionModel.sectionContentWrapper[sectionElement.sesctionSubTile] = {
-        sesctionSubTile: sectionElement.sesctionSubTile,
+
+      sectionModel.sectionContentWrapper[sectionElement.sectionSubTitle] = {
+        sectionSubTitle: sectionElement.sectionSubTitle,
         content: sectionElement.content,
+        validationObject: sectionElement.validationObject,
+        validationFunction: sectionElement.validationFunction,
       };
     });
 
     newSection.append(sectionContentWrapper);
     this.model.plateSections[sectionName] = sectionModel;
     this.view.append(newSection);
+
     if (props?.editable) {
       const editMark = new CreateElement<HTMLButtonElement>({
         tag: "button",
@@ -94,15 +101,17 @@ export default class PlateView {
       this.model.plateSections[sectionName].inEditMode = false;
       this.model.plateSections[sectionName].id = id;
       const applyBtn = this.createApplyBtn();
+
       editMark.addEventListener("click", (event) => {
         if (!this.model.plateSections[sectionName].inEditMode) {
           const savedValues: string[] = [];
           const sectionContentElements = Object.values(
             this.model.plateSections[sectionName].sectionContentWrapper,
           );
-          sectionContentElements.forEach((contentElement) =>
-            savedValues.push(contentElement.content.value),
-          );
+          sectionContentElements.forEach((contentElement) => {
+            contentElement.content.blur();
+            savedValues.push(contentElement.content.value);
+          });
           this.model.plateSections[sectionName].savedValues = savedValues;
           this.switchMode.call(
             this,
@@ -121,6 +130,7 @@ export default class PlateView {
           );
         }
       });
+
       const buttonWrapper = new CreateElement({
         tag: "div",
         cssClasses: ["plate__button-wrapper"],
@@ -207,12 +217,12 @@ export default class PlateView {
 
   public cancelChanges(
     sectionName: string,
-    sectionContetInView: SectionContent[],
+    sectionContentInView: SectionContent[],
   ): void {
     const { savedValues } = this.model.plateSections[sectionName];
     if (savedValues) {
       savedValues.forEach((prevValue, index) => {
-        const elementInView = sectionContetInView[index].content;
+        const elementInView = sectionContentInView[index].content;
         elementInView.value = prevValue;
       });
     }

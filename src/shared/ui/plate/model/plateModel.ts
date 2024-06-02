@@ -1,3 +1,5 @@
+import IValidationObject from "../../../lib/address/validation/IValidationObject";
+
 export default class PlateModel {
   public plateSections: PlateSectionCollection = {};
 }
@@ -16,10 +18,12 @@ export type PlateSectionModel = {
 };
 
 export type PlateSectionContentWrapper = {
-  [sesctionSubTile: string]: SectionContent;
+  [sectionSubTitle: string]: SectionContent;
 };
 
 export type SectionContent = {
-  sesctionSubTile: string;
+  sectionSubTitle: string;
   content: HTMLInputElement | HTMLSelectElement;
+  validationObject: IValidationObject;
+  validationFunction?: (input: string) => IValidationObject;
 };

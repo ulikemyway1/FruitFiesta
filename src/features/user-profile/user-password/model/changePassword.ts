@@ -4,7 +4,7 @@ import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import changePassword from "../api/changePassword";
 import "../ui/userChangePassword.scss";
 
-class UserChangePasword {
+class UserChangePassword {
   private model = new PlateController(["user-profile__change-password"]);
 
   private view = this.model.getView();
@@ -15,7 +15,6 @@ class UserChangePasword {
 
   private createContent(): SectionContent[] {
     let content: SectionContent[] = [];
-    console.log(user.userIsLoggedIn);
     if (user.userIsLoggedIn) {
       content = [
         PlateController.createSectionInputElement("Current Passport", ""),
@@ -51,5 +50,5 @@ class UserChangePasword {
   }
 }
 
-const userChangePaswordController = new UserChangePasword();
-export default userChangePaswordController;
+const userChangePasswordController = new UserChangePassword();
+export default userChangePasswordController;

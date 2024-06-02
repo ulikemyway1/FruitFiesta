@@ -13,9 +13,9 @@ export function calculateAge(customerDate: number) {
   ) {
     age -= 1;
   }
-  return age;
+  return String(age);
 }
-export default function validateBirthDate(date: number): ValidationObject {
+export default function validateBirthDate(date: string): ValidationObject {
   const validationResult: ValidationObject = {
     status: "ok",
     validationMessage: "",
@@ -25,8 +25,8 @@ export default function validateBirthDate(date: number): ValidationObject {
     validationResult.validationMessage = "Please, input your birthday";
     return validationResult;
   }
-  const customerDate = date;
-  const customerAge = calculateAge(customerDate);
+  const customerDate = Number(date);
+  const customerAge = Number(calculateAge(customerDate));
   if (!(customerAge >= 12) && customerAge >= 0) {
     validationResult.status = "fail";
     validationResult.validationMessage =

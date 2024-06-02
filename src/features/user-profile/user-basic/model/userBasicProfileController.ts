@@ -1,4 +1,7 @@
 import user from "../../../../entities/user";
+import validateBirthDate from "../../../../shared/lib/address/validation/validateBirthDate";
+import validateEmail from "../../../../shared/lib/address/validation/validateEmail";
+import validateName from "../../../../shared/lib/address/validation/validateName";
 import PlateController from "../../../../shared/ui/plate";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import updateBasic from "../api/updateBasic";
@@ -24,18 +27,22 @@ class UserBasicProfile {
         PlateController.createSectionInputElement(
           "First Name",
           firstName || "Not provided",
+          validateName,
         ),
         PlateController.createSectionInputElement(
           "Last Name",
           lastName || "Not provided",
+          validateName,
         ),
         PlateController.createSectionInputElement(
           "Date of birth",
           dateOfBirth || "Not provided",
+          validateBirthDate,
         ),
         PlateController.createSectionInputElement(
           "Your e-mail",
           email || "Not provided",
+          validateEmail,
         ),
       ];
       return content;
@@ -54,15 +61,20 @@ class UserBasicProfile {
   private setAPIHandler() {
     const applyBtn = this.model.getApplyBtn();
     if (applyBtn) {
-      applyBtn.addEventListener("click", async () =>
-        updateBasic(
-          this.view,
-          this.model.getInputValueInSection("Some about you", "First Name"),
-          this.model.getInputValueInSection("Some about you", "Last Name"),
-          this.model.getInputValueInSection("Some about you", "Your e-mail"),
-          this.model.getInputValueInSection("Some about you", "Date of birth"),
-        ).then(() => this.model.switchModeAfterUpdate("Some about you")),
-      );
+      applyBtn.addEventListener("click", () => {
+        if (this.model.checkValidity("Some about you")) {
+          updateBasic(
+            this.view,
+            this.model.getInputValueInSection("Some about you", "First Name"),
+            this.model.getInputValueInSection("Some about you", "Last Name"),
+            this.model.getInputValueInSection("Some about you", "Your e-mail"),
+            this.model.getInputValueInSection(
+              "Some about you",
+              "Date of birth",
+            ),
+          ).then(() => this.model.switchModeAfterUpdate("Some about you"));
+        }
+      });
     }
   }
 }
