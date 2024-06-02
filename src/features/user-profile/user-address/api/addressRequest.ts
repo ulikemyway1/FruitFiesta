@@ -34,6 +34,5 @@ export default function addressRequest(
     .then((response) => {
       user.userInfo = response.body;
       setTimeout(() => targetPlate.classList.remove("plate__pending"), 1000);
-    })
-    .catch((error) => error);
+    });
 }

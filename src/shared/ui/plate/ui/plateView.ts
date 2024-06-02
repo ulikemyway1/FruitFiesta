@@ -226,5 +226,11 @@ export default class PlateView {
         elementInView.value = prevValue;
       });
     }
+    this.view
+      .querySelectorAll(".plate__validation-error")
+      .forEach((item) => item.remove());
+    this.view
+      .querySelectorAll(".plate__error-box")
+      .forEach((item) => item.remove());
   }
 }

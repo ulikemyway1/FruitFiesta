@@ -1,6 +1,8 @@
 import user from "../../../../entities/user";
 import CreateElement from "../../../../shared/helpers/element-create";
 import countryOptions from "../../../../shared/lib/address/list/countries";
+import validateCityAddress from "../../../../shared/lib/address/validation/validateCItyAddress";
+import validateStreetAddress from "../../../../shared/lib/address/validation/validateStreetAddress";
 import PlateController from "../../../../shared/ui/plate";
 import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
 import createSectionSelectElement from "../../../../shared/ui/plate/lib/createSectionSelectElement";
@@ -40,8 +42,16 @@ class UserProfileAddresses {
     content = [
       createSectionSelectElement("Country", countryOptions),
       createSectionInputElement("Postal Code", postalCode || "Not provided"),
-      createSectionInputElement("City", city || "Not provided"),
-      createSectionInputElement("Street", street || "Not provided"),
+      createSectionInputElement(
+        "City",
+        city || "Not provided",
+        validateCityAddress,
+      ),
+      createSectionInputElement(
+        "Street",
+        street || "Not provided",
+        validateStreetAddress,
+      ),
     ];
     return content;
   }
@@ -117,14 +127,22 @@ class UserProfileAddresses {
     const applyBtn = model.getApplyBtn();
     if (applyBtn) {
       applyBtn.addEventListener("click", async () => {
-        addressRequest(
-          model.getView(),
-          model.getPlateData()[sectionName].id!,
-          model.getInputValueInSection(sectionName, "Country"),
-          model.getInputValueInSection(sectionName, "City"),
-          model.getInputValueInSection(sectionName, "Street"),
-          model.getInputValueInSection(sectionName, "Postal Code"),
-        ).then(() => model.switchModeAfterUpdate(sectionName));
+        if (model.checkValidity(sectionName)) {
+          addressRequest(
+            model.getView(),
+            model.getPlateData()[sectionName].id!,
+            model.getInputValueInSection(sectionName, "Country"),
+            model.getInputValueInSection(sectionName, "City"),
+            model.getInputValueInSection(sectionName, "Street"),
+            model.getInputValueInSection(sectionName, "Postal Code"),
+          )
+            .then(() => model.switchModeAfterUpdate(sectionName))
+            .catch((error) => {
+              if (error instanceof Error) {
+                model.showServerError(error.message, model.getView());
+              }
+            });
+        }
       });
     }
   }

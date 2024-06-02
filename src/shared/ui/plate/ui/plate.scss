@@ -100,6 +100,15 @@
     background: var(--pages-background);
     border-radius: 4px;
   }
+
+  &__error-box {
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 32px;
+    border-radius: 6px;
+    background: var(--pages-background);
+    color: var(--error-text-border);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {

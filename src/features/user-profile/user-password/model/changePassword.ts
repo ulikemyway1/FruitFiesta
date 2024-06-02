@@ -1,4 +1,5 @@
 import user from "../../../../entities/user";
+import validatePassword from "../../../../shared/lib/address/validation/validatePassword";
 import PlateController from "../../../../shared/ui/plate";
 import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
@@ -19,7 +20,7 @@ class UserChangePassword {
     if (user.userIsLoggedIn) {
       content = [
         createSectionInputElement("Current Passport", ""),
-        createSectionInputElement("New Password", ""),
+        createSectionInputElement("New Password", "", validatePassword),
       ];
       return content;
     }
@@ -37,7 +38,13 @@ class UserChangePassword {
             "Current Passport",
           ),
           this.model.getInputValueInSection("Change password", "New Password"),
-        ).then(() => this.model.switchModeAfterUpdate("Change password")),
+        )
+          .then(() => this.model.switchModeAfterUpdate("Change password"))
+          .catch((error) => {
+            if (error instanceof Error) {
+              this.model.showServerError(error.message, this.view);
+            }
+          }),
       );
     }
   }

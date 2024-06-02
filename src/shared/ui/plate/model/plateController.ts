@@ -1,3 +1,4 @@
+import CreateElement from "../../../helpers/element-create";
 import PlateView from "../ui/plateView";
 import PlateModel, { SectionContent } from "./plateModel";
 
@@ -72,6 +73,27 @@ export default class PlateController {
         input.disabled = true;
       }
     });
+    this.view
+      .getView()
+      .querySelectorAll(".plate__validation-error")
+      .forEach((item) => item.remove());
+    this.view
+      .getView()
+      .querySelectorAll(".plate__error-box")
+      .forEach((item) => item.remove());
+  }
+
+  public showServerError(errorMessage: string, plateOnSubmit: HTMLElement) {
+    const errorBox = new CreateElement({
+      tag: "div",
+      cssClasses: ["plate__error-box"],
+      textContent: errorMessage,
+    }).getHTMLElement();
+    plateOnSubmit
+      .querySelectorAll(".plate__error-box")
+      .forEach((item) => item.remove());
+    plateOnSubmit.append(errorBox);
+    plateOnSubmit.classList.remove("plate__pending");
   }
 
   public checkValidity(sectionName: string): boolean {

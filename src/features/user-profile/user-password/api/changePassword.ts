@@ -27,8 +27,7 @@ export default function changePassword(
     .then((response) => {
       localStorage.setItem("auth-token", localStorage.getItem("token") || "");
       user.userInfo = response.body.customer;
-    })
-    .catch((error) => error);
+    });
 }
 
 export type ChangePasswordType = typeof changePassword;

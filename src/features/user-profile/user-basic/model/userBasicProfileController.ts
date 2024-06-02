@@ -73,7 +73,13 @@ class UserBasicProfile {
               "Some about you",
               "Date of birth",
             ),
-          ).then(() => this.model.switchModeAfterUpdate("Some about you"));
+          )
+            .then(() => this.model.switchModeAfterUpdate("Some about you"))
+            .catch((error) => {
+              if (error instanceof Error) {
+                this.model.showServerError(error.message, this.view);
+              }
+            });
         }
       });
     }
