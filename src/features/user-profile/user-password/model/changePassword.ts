@@ -1,5 +1,6 @@
 import user from "../../../../entities/user";
 import PlateController from "../../../../shared/ui/plate";
+import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import changePassword from "../api/changePassword";
 import "../ui/userChangePassword.scss";
@@ -17,8 +18,8 @@ class UserChangePassword {
     let content: SectionContent[] = [];
     if (user.userIsLoggedIn) {
       content = [
-        PlateController.createSectionInputElement("Current Passport", ""),
-        PlateController.createSectionInputElement("New Password", ""),
+        createSectionInputElement("Current Passport", ""),
+        createSectionInputElement("New Password", ""),
       ];
       return content;
     }

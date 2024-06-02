@@ -2,6 +2,8 @@ import user from "../../../../entities/user";
 import CreateElement from "../../../../shared/helpers/element-create";
 import countryOptions from "../../../../shared/lib/address/list/countries";
 import PlateController from "../../../../shared/ui/plate";
+import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
+import createSectionSelectElement from "../../../../shared/ui/plate/lib/createSectionSelectElement";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import addressRequest from "../api/addressRequest";
 import "../ui/userProfileAddresses.scss";
@@ -36,16 +38,10 @@ class UserProfileAddresses {
   ): SectionContent[] {
     let content: SectionContent[] = [];
     content = [
-      PlateController.createSectionSelectElement("Country", countryOptions),
-      PlateController.createSectionInputElement(
-        "Postal Code",
-        postalCode || "Not provided",
-      ),
-      PlateController.createSectionInputElement("City", city || "Not provided"),
-      PlateController.createSectionInputElement(
-        "Street",
-        street || "Not provided",
-      ),
+      createSectionSelectElement("Country", countryOptions),
+      createSectionInputElement("Postal Code", postalCode || "Not provided"),
+      createSectionInputElement("City", city || "Not provided"),
+      createSectionInputElement("Street", street || "Not provided"),
     ];
     return content;
   }

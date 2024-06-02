@@ -3,6 +3,7 @@ import validateBirthDate from "../../../../shared/lib/address/validation/validat
 import validateEmail from "../../../../shared/lib/address/validation/validateEmail";
 import validateName from "../../../../shared/lib/address/validation/validateName";
 import PlateController from "../../../../shared/ui/plate";
+import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
 import updateBasic from "../api/updateBasic";
 import "../ui/userBasicProfile.scss";
@@ -24,22 +25,22 @@ class UserBasicProfile {
       const { dateOfBirth } = user.userInfo;
       const { email } = user.userInfo;
       content = [
-        PlateController.createSectionInputElement(
+        createSectionInputElement(
           "First Name",
           firstName || "Not provided",
           validateName,
         ),
-        PlateController.createSectionInputElement(
+        createSectionInputElement(
           "Last Name",
           lastName || "Not provided",
           validateName,
         ),
-        PlateController.createSectionInputElement(
+        createSectionInputElement(
           "Date of birth",
           dateOfBirth || "Not provided",
           validateBirthDate,
         ),
-        PlateController.createSectionInputElement(
+        createSectionInputElement(
           "Your e-mail",
           email || "Not provided",
           validateEmail,
