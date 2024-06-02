@@ -40,28 +40,30 @@
 }
 
 .product-card__price {
+  font-weight: 500;
 }
 .product-card__discount-price {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--green-text-color);
 }
 .buy-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 2rem;
+  width: 100%;
+  padding: 0.5rem;
   font-size: 1.2rem;
-  font-weight: 300;
-  color: var(--beige-text-color);
-  background: var(--green-text-color);
+  font-weight: 400;
+  color: var(--button-text);
+  background: var(--button-default-background);
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(1);
+}
+@media (hover: hover) {
+  .buy-button:hover {
+    background: var(--button-hover-background);
   }
 }

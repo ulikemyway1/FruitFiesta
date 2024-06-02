@@ -1,7 +1,9 @@
 .catalog-header {
   display: flex;
   flex-direction: column;
-  //   border: 1px solid black;
+
+  // font-size: 1.2rem;
+  // font-weight: 400;
 }
 
 .catalog-header__content {
@@ -26,19 +28,11 @@
   border: none;
   cursor: pointer;
   line-height: 2rem;
-  font-size: 1.2rem;
-  font-weight: 400;
   text-decoration: underline;
-
-  &:hover {
-  }
 
   &:last-child {
     cursor: default;
     text-decoration: none;
-
-    &:hover {
-    }
   }
 }
 
@@ -55,19 +49,33 @@
   border-bottom: none;
   border-radius: 15px 15px 0 0;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: 400;
-
-  &:hover {
-  }
 }
 
 .catalog-header__search {
+  display: flex;
+  align-items: center;
 }
 .catalog-header__search-input {
+  padding: 0.4rem;
+  border: none;
+  border-radius: 10px 0 0 10px;
 }
 .catalog-header__search-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 0 10px 10px 0;
   cursor: pointer;
+  transition: 0.3s;
+}
+@media (hover: hover) {
+  .catalog-header__search-submit:hover {
+    background: var(--button-hover-background);
+  }
 }
 
 .catalog-header__sort {
@@ -84,10 +92,14 @@
 
 .catalog-header__sort-select {
   cursor: pointer;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 10px;
 }
 
 .catalog-header__filter {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
 }
@@ -99,9 +111,26 @@
 }
 
 .catalog-header__filter-input {
-  max-width: 60px;
+  max-width: 65px;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 10px;
 }
 
 .catalog-header__filter-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  transition: 0.3s;
+}
+@media (hover: hover) {
+  .catalog-header__filter-button:hover {
+    background: var(--button-hover-background);
+  }
 }
