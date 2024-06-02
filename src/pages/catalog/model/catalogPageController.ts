@@ -35,38 +35,54 @@ class CatalogPageController {
         queryArgs.filter = [`categories.id: subtree("${categoryId}")`];
       }
 
-      // queryArgs.sort = "price desc";
-      // queryArgs.sort = "name.en-GB desc";
-      // queryArgs.sort = ["price desc", "name.en-GB asc"];
-
       searchParams.forEach((value, key) => {
-        if (Object.prototype.hasOwnProperty.call(queryArgs, key)) {
-          if (Array.isArray(queryArgs[key])) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            queryArgs[key].push(value);
-          } else {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            queryArgs[key] = [queryArgs[key], value];
-          }
-        } else {
-          if (key === "price") {
+        switch (key) {
+          case "sort-price":
+            queryArgs.sort = [`price ${value}`];
+            break;
+          case "sort-name":
+            if (Array.isArray(queryArgs.sort)) {
+              queryArgs.sort.push(`name.en-GB ${value}`);
+            } else {
+              queryArgs.sort = [`name.en-GB ${value}`];
+            }
+            break;
+
+          case "price":
             if (Array.isArray(queryArgs.filter)) {
               queryArgs.filter.push(
                 `variants.price.centAmount: range(${value})`,
               );
-              return;
+            } else {
+              queryArgs.filter = [`variants.price.centAmount: range(${value})`];
             }
-            queryArgs.filter = [`variants.price.centAmount: range(${value})`];
-            return;
-          }
-          if (key === "text") {
+            break;
+          case "food":
+            if (Array.isArray(queryArgs.filter)) {
+              queryArgs.filter.push(`variants.attributes.is-it-food: ${value}`);
+            } else {
+              queryArgs.filter = [`variants.attributes.is-it-food: ${value}`];
+            }
+            break;
+          case "cosmetics":
+            if (Array.isArray(queryArgs.filter)) {
+              queryArgs.filter.push(
+                `variants.attributes.is-it-cosmetics: ${value}`,
+              );
+            } else {
+              queryArgs.filter = [
+                `variants.attributes.is-it-cosmetics: ${value}`,
+              ];
+            }
+            break;
+
+          case "text":
             queryArgs["text.en-GB"] = value;
             queryArgs.fuzzy = true;
-            return;
-          }
-          queryArgs[key] = value;
+            break;
+
+          default:
+            console.log("Unknown query parameter: ", key);
         }
       });
 
@@ -78,7 +94,7 @@ class CatalogPageController {
         ).getHTMLElement(),
       );
 
-      // console.log("QueryArgs: ", queryArgs);
+      console.log("QueryArgs: ", queryArgs);
 
       this.view.appendContent(
         new ProductsBlockView(queryArgs).getHTMLElement(),

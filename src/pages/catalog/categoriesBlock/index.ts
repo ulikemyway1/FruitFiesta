@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import "./index.scss";
 import { Category } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
@@ -30,27 +29,17 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "option",
         textContent: "Low to High",
-        attributes: { value: "price asc" },
+        attributes: { value: "asc" },
       }),
       new CreateElement({
         tag: "option",
         textContent: "High to Low",
-        attributes: { value: "price desc" },
+        attributes: { value: "desc" },
       }),
     ],
     eventType: "change",
     callback: (event) => {
-      const select = event.target as HTMLSelectElement;
-      const { value } = select.options[select.selectedIndex];
-      const searchParams = new URLSearchParams(
-        window.location.hash.split("?")[1] || "",
-      );
-      if (value === "default") {
-        searchParams.delete("sort");
-      } else {
-        searchParams.set("sort", value);
-      }
-      window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+      this.handleSort(event, "sort-price");
     },
   });
 
@@ -66,27 +55,17 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "option",
         textContent: "A to Z",
-        attributes: { value: "name.en-GB asc" },
+        attributes: { value: "asc" },
       }),
       new CreateElement({
         tag: "option",
         textContent: "Z to A",
-        attributes: { value: "name.en-GB desc" },
+        attributes: { value: "desc" },
       }),
     ],
     eventType: "change",
     callback: (event) => {
-      const select = event.target as HTMLSelectElement;
-      const { value } = select.options[select.selectedIndex];
-      const searchParams = new URLSearchParams(
-        window.location.hash.split("?")[1] || "",
-      );
-      if (value === "default") {
-        searchParams.delete("sort");
-      } else {
-        searchParams.set("sort", value);
-      }
-      window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+      this.handleSort(event, "sort-name");
     },
   });
 
@@ -132,12 +111,8 @@ export default class CategoriesBlockView {
         textContent: "✖",
         eventType: "click",
         callback: () => {
-          this.filter
-            .getHTMLElement()
-            .querySelectorAll("input")
-            .forEach((input) => {
-              input.value = "";
-            });
+          console.log("Reset search");
+          this.searchInput.getHTMLElement().value = "";
           this.handleSearch();
         },
       }),
@@ -150,6 +125,42 @@ export default class CategoriesBlockView {
         callback: this.handleSearch.bind(this),
       }),
     ],
+  });
+
+  private filterFoodInput = new CreateElement<HTMLInputElement>({
+    tag: "input",
+    cssClasses: ["catalog-header__filter-input"],
+    attributes: { type: "checkbox" },
+    eventType: "change",
+    callback: () => {
+      this.filterCosmeticsInput.getHTMLElement().checked = false;
+      this.handleFilters();
+    },
+  });
+
+  private filterFood = new CreateElement({
+    tag: "label",
+    cssClasses: ["catalog-header__filter-label"],
+    textContent: "Only food",
+    children: [this.filterFoodInput],
+  });
+
+  private filterCosmeticsInput = new CreateElement<HTMLInputElement>({
+    tag: "input",
+    cssClasses: ["catalog-header__filter-input"],
+    attributes: { type: "checkbox" },
+    eventType: "change",
+    callback: () => {
+      this.filterFoodInput.getHTMLElement().checked = false;
+      this.handleFilters();
+    },
+  });
+
+  private filterCosmetics = new CreateElement({
+    tag: "label",
+    cssClasses: ["catalog-header__filter-label"],
+    textContent: "Only cosmetics",
+    children: [this.filterCosmeticsInput],
   });
 
   private filter = new CreateElement({
@@ -166,12 +177,15 @@ export default class CategoriesBlockView {
             .getHTMLElement()
             .querySelectorAll("input")
             .forEach((input) => {
+              // eslint-disable-next-line no-param-reassign
               input.value = "";
             });
-          this.handleFilterPrice();
+          this.filterFoodInput.getHTMLElement().checked = false;
+          this.filterCosmeticsInput.getHTMLElement().checked = false;
+          this.handleFilters();
         },
       }),
-      new CreateElement({ tag: "span", textContent: "Filter: " }),
+      new CreateElement({ tag: "span", textContent: "Filters: " }),
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__filter-label"],
@@ -184,7 +198,7 @@ export default class CategoriesBlockView {
             eventType: "keyup",
             callback: (event) => {
               if ((event as KeyboardEvent).key === "Enter") {
-                this.handleFilterPrice();
+                this.handleFilters();
               }
             },
           }),
@@ -202,18 +216,20 @@ export default class CategoriesBlockView {
             eventType: "keyup",
             callback: (event) => {
               if ((event as KeyboardEvent).key === "Enter") {
-                this.handleFilterPrice();
+                this.handleFilters();
               }
             },
           }),
         ],
       }),
+      this.filterFood,
+      this.filterCosmetics,
       new CreateElement({
         tag: "button",
         cssClasses: ["catalog-header__filter-button"],
         textContent: "Apply",
         eventType: "click",
-        callback: this.handleFilterPrice.bind(this),
+        callback: this.handleFilters.bind(this),
       }),
     ],
   });
@@ -230,7 +246,7 @@ export default class CategoriesBlockView {
       new CreateElement({
         tag: "div",
         cssClasses: ["flex-row-wrap"],
-        children: [this.sort, this.filter, this.search],
+        children: [this.sort, this.search, this.filter],
       }),
     ],
   });
@@ -253,9 +269,11 @@ export default class CategoriesBlockView {
     this.renderAvailableCategory(pathArr, categories);
 
     this.sortPriceSelect.getHTMLElement().value =
-      searchParams?.get("sort") || "default";
+      searchParams?.get("sort-price") || "default";
     this.sortNameSelect.getHTMLElement().value =
-      searchParams?.get("sort") || "default";
+      searchParams?.get("sort-name") || "default";
+
+    this.searchInput.getHTMLElement().value = searchParams?.get("text") || "";
 
     this.filter.getHTMLElement().querySelectorAll("input")[0].value =
       (Number(searchParams?.get("price")?.split(" to ")[0]) / 100).toString() ||
@@ -264,7 +282,13 @@ export default class CategoriesBlockView {
       (Number(searchParams?.get("price")?.split(" to ")[1]) / 100).toString() ||
       "";
 
-    this.searchInput.getHTMLElement().value = searchParams?.get("text") || "";
+    if (searchParams?.get("food") === "true") {
+      this.filterFoodInput.getHTMLElement().checked = true;
+    }
+
+    if (searchParams?.get("cosmetics") === "true") {
+      this.filterCosmeticsInput.getHTMLElement().checked = true;
+    }
   }
 
   private renderAvailableCategory(
@@ -357,10 +381,11 @@ export default class CategoriesBlockView {
     window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
   }
 
-  private handleFilterPrice() {
+  private handleFilters() {
     const searchParams = new URLSearchParams(
       window.location.hash.split("?")[1] || "",
     );
+
     const from =
       Number(this.filter.getHTMLElement().querySelectorAll("input")[0].value) *
       100;
@@ -371,6 +396,35 @@ export default class CategoriesBlockView {
       searchParams.delete("price");
     } else {
       searchParams.set("price", `${from || 0} to ${to || "*"}`);
+    }
+
+    const isFood = this.filterFoodInput.getHTMLElement().checked;
+    if (isFood) {
+      searchParams.set("food", "true");
+    } else {
+      searchParams.delete("food");
+    }
+
+    const isCosmetics = this.filterCosmeticsInput.getHTMLElement().checked;
+    if (isCosmetics) {
+      searchParams.set("cosmetics", "true");
+    } else {
+      searchParams.delete("cosmetics");
+    }
+
+    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+  }
+
+  private handleSort(event: Event, sortType: "sort-price" | "sort-name") {
+    const searchParams = new URLSearchParams(
+      window.location.hash.split("?")[1] || "",
+    );
+    const select = event.target as HTMLSelectElement;
+    const { value } = select.options[select.selectedIndex];
+    if (value === "default") {
+      searchParams.delete(sortType);
+    } else {
+      searchParams.set(sortType, value);
     }
     window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
   }

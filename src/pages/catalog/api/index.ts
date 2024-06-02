@@ -39,6 +39,9 @@ const fetchProductProjections = (queryArgs?: {
     .productProjections()
     .search()
     .get({
+      // queryArgs: {
+      //   filter: `variants.attributes.is-it-food: false`,
+      // },
       queryArgs,
     })
     .execute();
