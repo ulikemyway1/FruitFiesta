@@ -2,6 +2,7 @@ import user from "../../../../entities/user";
 import CreateElement from "../../../../shared/helpers/element-create";
 import countryOptions from "../../../../shared/lib/address/list/countries";
 import validateCityAddress from "../../../../shared/lib/address/validation/validateCItyAddress";
+import validatePostcodeProfile from "../../../../shared/lib/address/validation/validatePostcodeProfile";
 import validateStreetAddress from "../../../../shared/lib/address/validation/validateStreetAddress";
 import PlateController from "../../../../shared/ui/plate";
 import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
@@ -39,9 +40,15 @@ class UserProfileAddresses {
     street: string | undefined,
   ): SectionContent[] {
     let content: SectionContent[] = [];
+    const selectElement = createSectionSelectElement("Country", countryOptions);
     content = [
-      createSectionSelectElement("Country", countryOptions),
-      createSectionInputElement("Postal Code", postalCode || "Not provided"),
+      selectElement,
+      createSectionInputElement(
+        "Postal Code",
+        postalCode || "Not provided",
+        validatePostcodeProfile,
+        selectElement.content as HTMLSelectElement,
+      ),
       createSectionInputElement(
         "City",
         city || "Not provided",

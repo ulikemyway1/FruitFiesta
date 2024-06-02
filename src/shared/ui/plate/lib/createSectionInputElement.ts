@@ -6,7 +6,11 @@ import deleteValidationError from "./deleteValidationError";
 export default function createSectionInputElement(
   sectionSubtitle: string,
   value: string,
-  validationFunction?: (input: string) => IValidationObject,
+  validationFunction?: (
+    input: string,
+    selectedValue?: string,
+  ) => IValidationObject,
+  selectInputElement?: HTMLSelectElement,
 ): SectionContent {
   const sectionContent: SectionContent = {
     sectionSubTitle: sectionSubtitle,
@@ -25,9 +29,15 @@ export default function createSectionInputElement(
   if (validationFunction)
     sectionContent.content.addEventListener("blur", (e) => {
       if (sectionContent.content instanceof HTMLInputElement) {
-        const validationResults = validationFunction(
-          sectionContent.content.value,
-        );
+        let validationResults: IValidationObject;
+        if (!selectInputElement) {
+          validationResults = validationFunction(sectionContent.content.value);
+        } else {
+          validationResults = validationFunction(
+            sectionContent.content.value,
+            selectInputElement.selectedOptions[0].innerText,
+          );
+        }
         sectionContent.validationObject.status = validationResults.status;
         sectionContent.validationObject.validationMessage =
           validationResults.validationMessage;
