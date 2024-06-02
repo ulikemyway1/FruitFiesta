@@ -7,7 +7,7 @@ export default class RandomProdBlockView {
   private title = new CreateElement({
     tag: "h2",
     cssClasses: ["random-prod-block__title"],
-    textContent: "Our products",
+    textContent: "Try this",
   });
 
   private content = new CreateElement({
