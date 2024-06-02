@@ -125,6 +125,16 @@ export default class CategoriesBlockView {
     tag: "div",
     cssClasses: ["catalog-header__search"],
     children: [
+      new CreateElement({
+        tag: "button",
+        cssClasses: ["catalog-header__search-reset"],
+        textContent: "✖",
+        eventType: "click",
+        callback: () => {
+          this.searchInput.getHTMLElement().value = "";
+          this.handleSearch();
+        },
+      }),
       this.searchInput,
       new CreateElement({
         tag: "button",
@@ -243,9 +253,9 @@ export default class CategoriesBlockView {
     const availableCategories = !path
       ? categories.filter((category) => category.parent === undefined)
       : categories.filter(
-        (category) =>
-          category.parent?.id === this.getLastCategoryIdByPathSlug(path),
-      );
+          (category) =>
+            category.parent?.id === this.getLastCategoryIdByPathSlug(path),
+        );
 
     availableCategories.forEach((category) => {
       this.availableCategories.addInnerElements(

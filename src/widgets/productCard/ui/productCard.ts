@@ -35,7 +35,7 @@ export default class ProductCardView {
   private discountPrice = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__discount-price"],
-    textContent: "Your price: ",
+    // textContent: "Your price: ",
   });
 
   // можно сделать какую надо и вынести в компоненты
