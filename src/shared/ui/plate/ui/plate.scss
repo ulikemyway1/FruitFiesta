@@ -141,3 +141,12 @@
     transform: rotate(10deg) translateY(-4px) translateX(3px);
   }
 }
+
+@media (max-width: 570px) {
+  .plate__delete-plate-btn {
+    bottom: 15px;
+    left: 15px;
+    top: unset;
+    right: unset;
+  }
+}
