@@ -16,9 +16,6 @@ export default function imageSliderInit() {
       shadowOffset: 20,
       shadowScale: 0.94,
     },
-    pagination: {
-      el: ".swiper-pagination",
-    },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
