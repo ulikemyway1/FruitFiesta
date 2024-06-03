@@ -1,3 +1,5 @@
+import user from "../../../../entities/user";
+import requestAPI from "../../../api/APIRootBuilder";
 import CreateElement from "../../../helpers/element-create";
 import PlateView from "../ui/plateView";
 import PlateModel, { SectionContent } from "./plateModel";
@@ -10,6 +12,41 @@ export default class PlateController {
   constructor(cssClasses?: string[], canBeDeleted?: boolean) {
     this.model = new PlateModel();
     this.view = new PlateView(this.model, cssClasses, canBeDeleted);
+
+    if (canBeDeleted) {
+      const deletePlateBtn = this.view.getDeletePlateBtn();
+      if (deletePlateBtn) {
+        deletePlateBtn.addEventListener("click", () => {
+          const plateSections = Object.values(this.model.plateSections);
+          const plateID = plateSections[0].id;
+
+          requestAPI
+            .apiRoot()
+            .me()
+            .post({
+              body: {
+                version: user.userInfo!.version,
+                actions: [
+                  {
+                    action: "removeAddress",
+                    addressId: plateID,
+                  },
+                ],
+              },
+            })
+            .execute()
+            .then((response) => {
+              this.view.getView().remove();
+              user.userInfo = response.body;
+            })
+            .catch((error) => {
+              if (error instanceof Error) {
+                this.showServerError(error.message, this.view.getView());
+              }
+            });
+        });
+      }
+    }
   }
 
   public getView(): HTMLElement {

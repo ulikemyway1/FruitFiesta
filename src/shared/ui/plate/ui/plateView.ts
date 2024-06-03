@@ -17,6 +17,8 @@ export default class PlateView {
 
   private model: PlateModel;
 
+  private deletePlateBtn: HTMLButtonElement | null = null;
+
   constructor(
     model: PlateModel,
     cssClasses?: string[],
@@ -29,7 +31,8 @@ export default class PlateView {
     }
 
     if (canBeDeleted) {
-      this.view.append(this.createDeletePlateBtn());
+      this.createDeletePlateBtn();
+      if (this.deletePlateBtn) this.view.append(this.deletePlateBtn);
     }
   }
 
@@ -242,7 +245,11 @@ export default class PlateView {
       .forEach((item) => item.remove());
   }
 
-  private createDeletePlateBtn(): HTMLButtonElement {
+  public getDeletePlateBtn(): HTMLButtonElement | null {
+    return this.deletePlateBtn;
+  }
+
+  private createDeletePlateBtn(): void {
     const deleteBtn = new CreateElement<HTMLButtonElement>({
       tag: "button",
       cssClasses: ["plate__delete-plate-btn", "button"],
@@ -260,7 +267,6 @@ export default class PlateView {
     <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <path class="delete-plate-path" d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
-
-    return deleteBtn;
+    this.deletePlateBtn = deleteBtn;
   }
 }
