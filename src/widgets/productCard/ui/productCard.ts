@@ -29,20 +29,18 @@ export default class ProductCardView {
   private price = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__price"],
-    textContent: "Price: ",
   });
 
   private discountPrice = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__discount-price"],
-    textContent: "Discount price: ",
   });
 
   // можно сделать какую надо и вынести в компоненты
   private buyButton = new CreateElement({
     tag: "button",
     cssClasses: ["buy-button"],
-    textContent: "BUY",
+    textContent: "Add to cart",
     eventType: "click",
     callback: this.handleBuyButton.bind(this),
   });
@@ -78,10 +76,9 @@ export default class ProductCardView {
       ? product.description["en-GB"]
       : "";
     product.masterVariant.prices?.forEach((price) => {
-      this.price
-        .getHTMLElement()
-        .append(`${price.value.centAmount / 100} ${price.value.currencyCode}`);
+      this.price.getHTMLElement().textContent = `${price.value.centAmount / 100} ${price.value.currencyCode}`;
       if (price.discounted) {
+        this.price.getHTMLElement().style.textDecoration = "line-through";
         this.discountPrice
           .getHTMLElement()
           .append(
@@ -102,7 +99,7 @@ export default class ProductCardView {
   }
 
   private handleProductDetails() {
-    console.log("Product clicked");
+    // console.log("Product clicked", this.product);
     window.location.href = `${Hash.PRODUCT}/${this.product.key}`;
   }
 
