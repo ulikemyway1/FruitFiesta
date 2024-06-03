@@ -29,13 +29,11 @@ export default class ProductCardView {
   private price = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__price"],
-    // textContent: "Price: ",
   });
 
   private discountPrice = new CreateElement({
     tag: "div",
     cssClasses: ["product-card__discount-price"],
-    // textContent: "Your price: ",
   });
 
   // можно сделать какую надо и вынести в компоненты
