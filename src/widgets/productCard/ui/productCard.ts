@@ -101,7 +101,7 @@ export default class ProductCardView {
   }
 
   private handleProductDetails() {
-    console.log("Product clicked", this.product);
+    // console.log("Product clicked", this.product);
     window.location.href = `${Hash.PRODUCT}/${this.product.key}`;
   }
 
