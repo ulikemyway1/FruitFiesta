@@ -79,9 +79,10 @@ class UserProfileAddresses {
           shippingAddressIDs.includes(address.id)
         ) {
           shippingAddressCount += 1;
-          const plateController = new PlateController([
-            "user-profile__shipping-card",
-          ]);
+          const plateController = new PlateController(
+            ["user-profile__shipping-card"],
+            true,
+          );
           this.shippingModels.push(plateController);
           plateController.addSection(
             `Shipping Address #${shippingAddressCount}`,
@@ -101,9 +102,10 @@ class UserProfileAddresses {
           billingAddressId.includes(address.id)
         ) {
           billingAddressCount += 1;
-          const plateController = new PlateController([
-            "user-profile__billing-card",
-          ]);
+          const plateController = new PlateController(
+            ["user-profile__billing-card"],
+            true,
+          );
           this.billingModels.push(plateController);
           plateController.addSection(
             `Billing Address #${billingAddressCount}`,

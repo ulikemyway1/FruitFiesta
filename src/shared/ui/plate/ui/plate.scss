@@ -109,10 +109,35 @@
     background: var(--pages-background);
     color: var(--error-text-border);
   }
+
+  &__delete-plate-btn {
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    transition: all 0.6s;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    svg {
+      position: relative;
+      width: 100%;
+      path {
+        transition: all 0.3s ease-in;
+      }
+    }
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .plate__button:hover {
     filter: brightness(1.1);
+  }
+
+  .plate__delete-plate-btn:hover .delete-plate-path {
+    transform: rotate(10deg) translateY(-4px) translateX(2px);
   }
 }

@@ -7,9 +7,9 @@ export default class PlateController {
 
   private model: PlateModel;
 
-  constructor(cssClasses?: string[]) {
+  constructor(cssClasses?: string[], canBeDeleted?: boolean) {
     this.model = new PlateModel();
-    this.view = new PlateView(this.model, cssClasses);
+    this.view = new PlateView(this.model, cssClasses, canBeDeleted);
   }
 
   public getView(): HTMLElement {
