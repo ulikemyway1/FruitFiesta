@@ -155,6 +155,22 @@ class UserProfileAddresses {
       });
     }
   }
+
+  public removeAll(): void {
+    this.shippingModels = [];
+    this.billingModels = [];
+    let shippingCard = this.shippingView.lastElementChild;
+    while (shippingCard) {
+      shippingCard.remove();
+      shippingCard = this.shippingView.lastElementChild;
+    }
+
+    let billingCard = this.billingView.lastElementChild;
+    while (billingCard) {
+      billingCard.remove();
+      billingCard = this.billingView.lastElementChild;
+    }
+  }
 }
 
 const userProfileAddresses = new UserProfileAddresses();
