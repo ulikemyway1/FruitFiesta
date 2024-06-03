@@ -23,14 +23,19 @@ export default class ProductsBlockView {
   });
 
   constructor(queryArgs?: QueryArgs) {
-    this.getProducts(queryArgs).then((products) => {
-      products.forEach((product) => {
-        // console.log(product);
-        this.content.addInnerElements(
-          new ProductCardView(product).getHTMLElement(),
-        );
+    this.getProducts(queryArgs)
+      .then((products) => {
+        products.forEach((product) => {
+          // console.log(product);
+          this.content.addInnerElements(
+            new ProductCardView(product).getHTMLElement(),
+          );
+        });
+      })
+      .catch((error) => {
+        console.log("Error while fetching products: ", error);
+        window.history.back();
       });
-    });
   }
 
   async getProducts(queryArgs?: QueryArgs) {

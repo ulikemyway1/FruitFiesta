@@ -23,7 +23,7 @@ class CatalogPageController {
       .filter((item) => item);
 
     this.getCategories().then((categories) => {
-      // console.log("Categories: ", categories);
+      console.log("Categories: ", categories);
 
       this.categories = categories;
 
