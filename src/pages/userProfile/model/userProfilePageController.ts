@@ -2,6 +2,7 @@ import userBasicProfile from "../../../features/user-profile/user-basic/model/us
 import CreateElement from "../../../shared/helpers/element-create";
 import userProfileView from "../UI/userProfilePageView";
 import userProfileAddresses from "../../../features/user-profile/user-address";
+import userChangePaswordController from "../../../features/user-profile/user-password/model/changePassword";
 
 export class UserProfileController {
   private view = userProfileView;
@@ -10,6 +11,7 @@ export class UserProfileController {
     this.addSection(userBasicProfile.getView());
     this.addSection(this.createShippingAddressesBlock());
     this.addSection(this.createBillingAddressesBlock());
+    this.addSection(userChangePaswordController.getView());
   }
 
   public getView(): HTMLElement {

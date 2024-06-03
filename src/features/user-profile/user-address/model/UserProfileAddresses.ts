@@ -1,7 +1,14 @@
 import user from "../../../../entities/user";
 import CreateElement from "../../../../shared/helpers/element-create";
+import countryOptions from "../../../../shared/lib/address/list/countries";
+import validateCityAddress from "../../../../shared/lib/address/validation/validateCItyAddress";
+import validatePostcodeProfile from "../../../../shared/lib/address/validation/validatePostcodeProfile";
+import validateStreetAddress from "../../../../shared/lib/address/validation/validateStreetAddress";
 import PlateController from "../../../../shared/ui/plate";
+import createSectionInputElement from "../../../../shared/ui/plate/lib/createSectionInputElement";
+import createSectionSelectElement from "../../../../shared/ui/plate/lib/createSectionSelectElement";
 import { SectionContent } from "../../../../shared/ui/plate/model/plateModel";
+import addressRequest from "../api/addressRequest";
 import "../ui/userProfileAddresses.scss";
 
 class UserProfileAddresses {
@@ -28,23 +35,30 @@ class UserProfileAddresses {
   }
 
   private createContent(
-    country: string,
     postalCode: string | undefined,
     city: string | undefined,
-    stret: string | undefined,
+    street: string | undefined,
   ): SectionContent[] {
     let content: SectionContent[] = [];
+    const selectElement = createSectionSelectElement("Country", countryOptions);
     content = [
-      PlateController.createSectionContent(
-        "Country",
-        country || "Not provided",
-      ),
-      PlateController.createSectionContent(
+      selectElement,
+      createSectionInputElement(
         "Postal Code",
         postalCode || "Not provided",
+        validatePostcodeProfile,
+        selectElement.content as HTMLSelectElement,
       ),
-      PlateController.createSectionContent("City", city || "Not provided"),
-      PlateController.createSectionContent("Street", stret || "Not provided"),
+      createSectionInputElement(
+        "City",
+        city || "Not provided",
+        validateCityAddress,
+      ),
+      createSectionInputElement(
+        "Street",
+        street || "Not provided",
+        validateStreetAddress,
+      ),
     ];
     return content;
   }
@@ -55,24 +69,24 @@ class UserProfileAddresses {
     if (userInfo) {
       const shippingAddressIDs = userInfo.shippingAddressIds;
       const billingAddressId = userInfo.billingAddressIds;
-      const adresses = userInfo.addresses;
+      const { addresses } = userInfo;
       let shippingAddressCount = 0;
       let billingAddressCount = 0;
-      adresses.forEach((address) => {
+      addresses.forEach((address) => {
         if (
           address.id &&
           shippingAddressIDs &&
           shippingAddressIDs.includes(address.id)
         ) {
           shippingAddressCount += 1;
-          const plateController = new PlateController([
-            "user-profile__shipping-card",
-          ]);
+          const plateController = new PlateController(
+            ["user-profile__shipping-card"],
+            true,
+          );
           this.shippingModels.push(plateController);
           plateController.addSection(
             `Shipping Address #${shippingAddressCount}`,
             this.createContent(
-              address.country,
               address.postalCode,
               address.city,
               address.streetName,
@@ -80,6 +94,7 @@ class UserProfileAddresses {
             {
               editable: true,
             },
+            address.id,
           );
         } else if (
           address.id &&
@@ -87,14 +102,14 @@ class UserProfileAddresses {
           billingAddressId.includes(address.id)
         ) {
           billingAddressCount += 1;
-          const plateController = new PlateController([
-            "user-profile__billing-card",
-          ]);
+          const plateController = new PlateController(
+            ["user-profile__billing-card"],
+            true,
+          );
           this.billingModels.push(plateController);
           plateController.addSection(
             `Billing Address #${billingAddressCount}`,
             this.createContent(
-              address.country,
               address.postalCode,
               address.city,
               address.streetName,
@@ -102,16 +117,43 @@ class UserProfileAddresses {
             {
               editable: true,
             },
+            address.id,
           );
         }
       });
     }
-    this.shippingModels.forEach((model) =>
-      this.shippingView.append(model.getView()),
-    );
-    this.billingModels.forEach((model) =>
-      this.billingView.append(model.getView()),
-    );
+    this.shippingModels.forEach((model, index) => {
+      this.shippingView.append(model.getView());
+      this.setAPIHandler(model, `Shipping Address #${index + 1}`);
+    });
+    this.billingModels.forEach((model, index) => {
+      this.billingView.append(model.getView());
+      this.setAPIHandler(model, `Billing Address #${index + 1}`);
+    });
+  }
+
+  private setAPIHandler(model: PlateController, sectionName: string) {
+    const applyBtn = model.getApplyBtn();
+    if (applyBtn) {
+      applyBtn.addEventListener("click", async () => {
+        if (model.checkValidity(sectionName)) {
+          addressRequest(
+            model.getView(),
+            model.getPlateData()[sectionName].id!,
+            model.getInputValueInSection(sectionName, "Country"),
+            model.getInputValueInSection(sectionName, "City"),
+            model.getInputValueInSection(sectionName, "Street"),
+            model.getInputValueInSection(sectionName, "Postal Code"),
+          )
+            .then(() => model.switchModeAfterUpdate(sectionName))
+            .catch((error) => {
+              if (error instanceof Error) {
+                model.showServerError(error.message, model.getView());
+              }
+            });
+        }
+      });
+    }
   }
 }
 
