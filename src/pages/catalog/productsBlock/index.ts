@@ -1,15 +1,16 @@
 import "./index.scss";
 import CreateElement from "../../../shared/helpers/element-create";
-import fetchProductProjections from "./api";
+import { fetchProductProjections } from "../api";
 import ProductCardView from "../../../widgets/productCard";
 
-export default class ProductsBlockView {
-  // private title = new CreateElement({
-  //   tag: "h2",
-  //   cssClasses: ["products-block__title"],
-  //   textContent: "Our products",
-  // });
+interface QueryArgs {
+  filter?: string | string[];
+  sort?: string | string[];
+  limit?: number;
+  offset?: number;
+}
 
+export default class ProductsBlockView {
   private content = new CreateElement({
     tag: "div",
     cssClasses: ["products-block__content"],
@@ -21,18 +22,23 @@ export default class ProductsBlockView {
     children: [this.content],
   });
 
-  constructor(queryArgs?: { filter: string }) {
-    this.getProducts(queryArgs).then((products) => {
-      products.forEach((product) => {
-        // console.log(product);
-        this.content.addInnerElements(
-          new ProductCardView(product).getHTMLElement(),
-        );
+  constructor(queryArgs?: QueryArgs) {
+    this.getProducts(queryArgs)
+      .then((products) => {
+        products.forEach((product) => {
+          // console.log(product);
+          this.content.addInnerElements(
+            new ProductCardView(product).getHTMLElement(),
+          );
+        });
+      })
+      .catch((error) => {
+        console.log("Error while fetching products: ", error);
+        window.history.back();
       });
-    });
   }
 
-  async getProducts(queryArgs?: { filter: string }) {
+  async getProducts(queryArgs?: QueryArgs) {
     const response = await fetchProductProjections(queryArgs);
     return response.body.results;
   }

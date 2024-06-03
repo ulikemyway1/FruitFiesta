@@ -16,9 +16,7 @@
   background-color: #ffffff5c;
 }
 .dialog[open] {
-  width: 100%;
   position: relative;
-  height: 88%;
   display: flex;
   border: none;
   visibility: visible;
@@ -26,7 +24,8 @@
 }
 .dialog-swiper {
   overflow: hidden;
-  height: auto;
+  max-width: 1200px;
+  max-height: 1200px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 4px;
@@ -35,7 +34,6 @@
 .slider-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .swiper-pagination-bullet {
@@ -63,4 +61,6 @@
   right: 15px;
   background-image: url("../../../assets/images/cross.png");
   z-index: 6;
+  cursor: pointer;
+
 }
