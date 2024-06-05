@@ -11,6 +11,7 @@
 .dialog {
   margin: auto;
   visibility: hidden;
+  aspect-ratio: 1 / 1;
 }
 .dialog::backdrop {
   background-color: #ffffff5c;
