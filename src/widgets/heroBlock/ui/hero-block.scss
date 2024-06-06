@@ -11,21 +11,22 @@
     padding: 100px 16px;
   }
   &__title {
-    font-size: 1.7rem;
+    font-size: 2.3rem;
     font-weight: bold;
     color: var(--white-text-color);
     margin-bottom: 20px;
+    -webkit-text-stroke: 1px var(--button-default-background);
   }
   &__button {
-    color: var(--button-default-background);
-    background-color: var(--white-text-color);
+    color: var(--white-text-color);
+    background-color: var(--button-default-background);
     font-size: 1rem;
     display: flex;
     font-weight: 500;
     justify-content: center;
     align-items: center;
-    padding: 10px 30px;
-    border: 1px solid var(--button-default-background);
+    padding: 15px 30px;
+    border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s linear;
@@ -34,8 +35,6 @@
 
 @media (hover: hover) and (pointer: fine) {
   .hero__button:hover {
-    color: var(--white-text-color);
-    background-color: var(--button-default-background);
-    border: 1px solid var(--white-text-color);
+    background-color: var(--button-hover-background);
   }
 }
