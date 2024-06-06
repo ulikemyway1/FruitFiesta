@@ -1,3 +1,7 @@
+.discount {
+  background: var(--additional-pages-background);
+  width: 100%;
+}
 .discount-block {
   overflow: hidden;
   display: flex;
@@ -14,7 +18,7 @@
   padding: 1rem;
   align-self: flex-start;
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 800;
 }
 
 .discount-block__content {

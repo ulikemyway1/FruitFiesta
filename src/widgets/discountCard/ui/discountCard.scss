@@ -3,8 +3,8 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  max-width: 560px;
-  min-width: 400px;
+  max-width: 470px;
+  min-width: 200px;
   background: var(--header-background);
   border-radius: 10px;
   cursor: pointer;
@@ -26,19 +26,20 @@
   height: 60px;
 }
 .discount-card__title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 500;
 }
 .discount-card__description {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   font-weight: 300;
-  line-height: 1.6rem;
+  line-height: 1.3rem;
 }
 .discount-card__promo-code {
   align-self: flex-end;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 500;
 }
 .discount-card__advice {
   font-weight: 300;
+  font-size: 0.7rem;
 }

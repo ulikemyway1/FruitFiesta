@@ -1,0 +1,41 @@
+.hero {
+  width: 100%;
+  background: url("../../../assets/images/hero.jpg") center/100% no-repeat;
+  background-size: cover;
+  &__content {
+    max-width: 1200px;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 100px 16px;
+  }
+  &__title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: var(--white-text-color);
+    margin-bottom: 20px;
+  }
+  &__button {
+    color: var(--button-default-background);
+    background-color: var(--white-text-color);
+    font-size: 1rem;
+    display: flex;
+    font-weight: 500;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    border: 1px solid var(--button-default-background);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s linear;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero__button:hover {
+    color: var(--white-text-color);
+    background-color: var(--button-default-background);
+    border: 1px solid var(--white-text-color);
+  }
+}

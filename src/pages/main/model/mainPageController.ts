@@ -2,6 +2,7 @@ import MainPageView from "../ui/mainPageView";
 // import MainPageModel from "./mainPageModel";
 import DiscountBlockView from "../../../widgets/discountBlock";
 import RandomProdBlockView from "../../../widgets/randomProdBlock";
+import HeroView from "../../../widgets/heroBlock";
 
 class MainPageController {
   // model = MainPageModel;
@@ -9,6 +10,8 @@ class MainPageController {
   view = new MainPageView();
 
   constructor() {
+    this.view.appendContent(new HeroView().getHTMLElement());
+
     this.view.appendContent(new DiscountBlockView().getHTMLElement());
 
     this.view.appendContent(new RandomProdBlockView().getHTMLElement());
