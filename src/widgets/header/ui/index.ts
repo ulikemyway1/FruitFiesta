@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 
 import user from "../../../entities/user";
+import userProfileAddresses from "../../../features/user-profile/user-address";
 
 class Header {
   private title = new CreateElement<HTMLDivElement>({
@@ -224,6 +225,8 @@ class Header {
 
     this.logoutLink.addEventListener("click", (event) => {
       event.preventDefault();
+      userProfileAddresses.removeAll();
+      user.userInfo = null;
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
       window.location.hash = Hash.LOGIN;
