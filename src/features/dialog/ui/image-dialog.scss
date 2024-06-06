@@ -11,6 +11,7 @@
 .dialog {
   margin: auto;
   visibility: hidden;
+  aspect-ratio: 1 / 1;
 }
 .dialog::backdrop {
   background-color: #ffffff5c;
@@ -24,8 +25,6 @@
 }
 .dialog-swiper {
   overflow: hidden;
-  max-width: 1200px;
-  max-height: 1200px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 4px;
@@ -62,5 +61,4 @@
   background-image: url("../../../assets/images/cross.png");
   z-index: 6;
   cursor: pointer;
-
 }
