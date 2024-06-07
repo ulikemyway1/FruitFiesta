@@ -4,6 +4,7 @@ import DiscountBlockView from "../../../widgets/discountBlock";
 import RandomProdBlockView from "../../../widgets/randomProdBlock";
 import HeroView from "../../../widgets/heroBlock";
 import CategoryView from "../../../widgets/categoryBlock/ui/categoryBlock";
+import footer from "../../../widgets/footer";
 
 class MainPageController {
   // model = MainPageModel;
@@ -18,6 +19,8 @@ class MainPageController {
     this.view.appendContent(new DiscountBlockView().getHTMLElement());
 
     this.view.appendContent(new RandomProdBlockView().getHTMLElement());
+
+    this.view.appendContent(footer.getHTMLElement());
   }
 
   getView() {
