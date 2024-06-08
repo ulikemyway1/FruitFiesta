@@ -1,6 +1,7 @@
 import header from "../../../widgets/header";
 import cleanContainer from "../../../shared/utils/clean-container";
 import notFoundPageView from "../../../pages/notFound";
+import footer from "../../../widgets/footer";
 
 export default class Router {
   routes: { pattern: string | RegExp; handler: (hash: string) => void }[] = [];
@@ -70,7 +71,11 @@ export default class Router {
   static switchContent(...content: HTMLElement[]) {
     cleanContainer(document.body);
     header.toggleActiveLink();
-    document.body.append(header.getHTMLElement(), ...content);
+    document.body.append(
+      header.getHTMLElement(),
+      ...content,
+      footer.getHTMLElement(),
+    );
   }
 
   route(pattern: string | RegExp, handler: (hash: string) => void) {
