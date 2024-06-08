@@ -4,17 +4,18 @@
   flex-direction: column;
   align-items: center;
   max-width: 1200px;
-  padding: 1rem 0;
+  padding: 1rem 0 3rem 0;
   margin: 0 auto;
   gap: 1rem;
   background: var(--pages-background);
 }
 
 .random-prod-block__title {
-  padding: 1rem;
   align-self: flex-start;
-  font-size: 1.8rem;
-  font-weight: 500;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark-brown-text-color);
+  padding: 1rem;
 }
 
 .random-prod-block__content {

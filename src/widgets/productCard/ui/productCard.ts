@@ -73,16 +73,20 @@ export default class ProductCardView {
       ? product.name["en-GB"]
       : "";
     this.text.getHTMLElement().textContent = product.description
-      ? product.description["en-GB"]
+      ? this.cutDescription(product.description["en-GB"])
       : "";
     product.masterVariant.prices?.forEach((price) => {
-      this.price.getHTMLElement().textContent = `${price.value.centAmount / 100} ${price.value.currencyCode}`;
+      this.price.getHTMLElement().textContent = `${
+        price.value.centAmount / 100
+      } ${price.value.currencyCode}`;
       if (price.discounted) {
         this.price.getHTMLElement().style.textDecoration = "line-through";
         this.discountPrice
           .getHTMLElement()
           .append(
-            `${price.discounted.value.centAmount / 100} ${price.discounted.value.currencyCode}`,
+            `${price.discounted.value.centAmount / 100} ${
+              price.discounted.value.currencyCode
+            }`
           );
       }
     });
@@ -93,13 +97,19 @@ export default class ProductCardView {
     }
   }
 
+  private cutDescription(str: string) {
+    const array = str.split(" ");
+    if (array.length > 9) {
+      return `${array.filter((_, index) => index < 9).join(" ")}...`;
+    }
+    return str;
+  }
+
   private handleBuyButton(event: Event) {
     event.stopPropagation();
-    console.log("Buy button clicked");
   }
 
   private handleProductDetails() {
-    // console.log("Product clicked", this.product);
     window.location.href = `${Hash.PRODUCT}/${this.product.key}`;
   }
 

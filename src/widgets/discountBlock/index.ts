@@ -7,7 +7,7 @@ export default class DiscountBlockView {
   private title = new CreateElement({
     tag: "h2",
     cssClasses: ["discount-block__title"],
-    textContent: "Discounts and promotions",
+    textContent: "Weekly Promotions",
   });
 
   private content = new CreateElement({
@@ -21,6 +21,11 @@ export default class DiscountBlockView {
     children: [this.title, this.content],
   });
 
+  private discountSection = new CreateElement({
+    tag: "section",
+    cssClasses: ["discount"],
+  });
+
   constructor() {
     fetchDiscountCodes().then((response) => {
       response.body.results.forEach((discount) => {
@@ -28,9 +33,12 @@ export default class DiscountBlockView {
         this.content.addInnerElements(discountCard.getHTMLElement());
       });
     });
+    this.discountSection
+      .getHTMLElement()
+      .append(this.container.getHTMLElement());
   }
 
   getHTMLElement(): HTMLElement {
-    return this.container.getHTMLElement();
+    return this.discountSection.getHTMLElement();
   }
 }
