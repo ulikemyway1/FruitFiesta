@@ -9,7 +9,7 @@ import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
 import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
-import { fetchAddToCart } from "../../../shared/api/apiCart";
+import { fetchAddToCart } from "../../basket/apiBasket";
 
 export default class ProductDetailsPageView {
   private product: ProductProjection | undefined;

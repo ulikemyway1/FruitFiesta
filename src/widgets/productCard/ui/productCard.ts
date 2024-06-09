@@ -2,7 +2,7 @@ import "./productCard.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
-import { fetchAddToCart } from "../../../shared/api/apiCart";
+import { fetchAddToCart } from "../../../pages/basket/apiBasket";
 
 export default class ProductCardView {
   private product: ProductProjection;

@@ -1,3 +1,3 @@
-import BasketView from "./basket";
+import Basket from "./basketController";
 
-export default BasketView;
+export default Basket;

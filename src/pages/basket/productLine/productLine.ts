@@ -4,7 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import {
   //   fetchAddToCart,
   fetchChangeQuantity,
-} from "../../../shared/api/apiCart";
+} from "../apiBasket";
 
 import { CustomCart } from "../interface";
 

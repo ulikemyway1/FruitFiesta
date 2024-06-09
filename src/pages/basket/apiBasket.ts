@@ -1,5 +1,5 @@
-import requestAPI from "./APIRootBuilder";
-import { CustomCart } from "../../pages/basket/interface";
+import requestAPI from "../../shared/api/APIRootBuilder";
+import { CustomCart } from "./interface";
 
 const fetchMakeCart = () =>
   requestAPI
