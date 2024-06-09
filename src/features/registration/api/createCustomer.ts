@@ -23,6 +23,7 @@ export default function sendRequestCustomerCreation(
         password: customerData.password!,
         firstName: customerData.firstName,
         lastName: customerData.lastName,
+        dateOfBirth: customerData.dateOfBirth,
         defaultShippingAddress: customerData.defaultShippingAddress,
         defaultBillingAddress: customerData.defaultBillingAddress,
         addresses: customerData.addresses,
@@ -61,6 +62,8 @@ export default function sendRequestCustomerCreation(
                     response.body.customer.firstName || " ",
                   );
                   user.userIsLoggedIn = true;
+                  user.userInfo = addressResponse.body;
+                  user.notify();
                   document.body.append(popup);
                   setTimeout(() => {
                     SwitchRout.to(SwitchRout.path.MAIN);

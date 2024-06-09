@@ -13,6 +13,11 @@ declare module "*.jpeg" {
   export default content;
 }
 
+declare module "*.jpg" {
+  const content: jpg;
+  export default content;
+}
+
 declare module "@commercetools/sdk-middleware-http";
 
 declare module "@commercetools/sdk-middleware-auth";

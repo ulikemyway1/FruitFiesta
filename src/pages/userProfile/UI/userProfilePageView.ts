@@ -1,3 +1,4 @@
+import "./userProfile.scss";
 import CreateElement from "../../../shared/helpers/element-create";
 
 export class UserProfileView {
@@ -23,6 +24,10 @@ export class UserProfileView {
 
   public getView(): HTMLElement {
     return this.view;
+  }
+
+  public addSection(section: HTMLElement) {
+    this.main.append(section);
   }
 }
 

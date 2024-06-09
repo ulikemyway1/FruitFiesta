@@ -6,6 +6,9 @@ import Hash from "../../../shared/routs/enumHash";
 import loginPage from "../../../pages/login/ui/loginPage";
 import registrationPage from "../../../pages/registration";
 import userProfileController from "../../../pages/userProfile/model/userProfilePageController";
+import CatalogPage from "../../../pages/catalog";
+import notFoundPageView from "../../../pages/notFound";
+import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
 
 const router = new Router();
 
@@ -27,21 +30,18 @@ router.route(Hash.REGISTRATION, () => {
 router.route(Hash.MAIN, () => {
   Router.switchContent(mainPage.getView());
 });
-router.route(new RegExp(`^${Hash.CATALOG}(\\/\\d*)?$`), () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Catalog",
-    }).getHTMLElement(),
-  );
-});
-router.route(Hash.DETAIL, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Detail",
-    }).getHTMLElement(),
-  );
+
+router.route(
+  new RegExp(`^${Hash.CATALOG}(\\/[\\w-]*)*(\\?.*)?$`),
+
+  (hash) => {
+    Router.switchContent(new CatalogPage(hash).getView());
+  },
+);
+
+router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
+  const productKey = hash.replace(`${Hash.PRODUCT}/`, "");
+  Router.switchContent(new ProductDetailsPageView(productKey).getView());
 });
 router.route(Hash.BASKET, () => {
   Router.switchContent(
@@ -60,12 +60,7 @@ router.route(Hash.ABOUT, () => {
   );
 });
 router.route(Hash.NOT_FOUND, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Not found",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(notFoundPageView);
 });
 router.route(Hash.PROFILE, () => {
   if (!user.userIsLoggedIn) {

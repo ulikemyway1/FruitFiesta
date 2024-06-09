@@ -2,29 +2,44 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background: white;
-  border-radius: 20px;
-}
-.discount-card__img {
-  width: 100px;
-  height: 100px;
-  margin-right: 20px;
+  padding: 1rem;
+  max-width: 470px;
+  min-width: 200px;
+  background: var(--header-background);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    transform: rotate(-1deg);
+  }
 }
 .discount-card__content {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  background: white;
+  padding: 1rem;
+}
+.discount-card__img {
+  width: 60px;
+  height: 60px;
 }
 .discount-card__title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 .discount-card__description {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.3rem;
 }
 .discount-card__promo-code {
-  font-size: 18px;
-  font-weight: 700;
+  align-self: flex-end;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.discount-card__advice {
+  font-weight: 300;
+  font-size: 0.7rem;
 }

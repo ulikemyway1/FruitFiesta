@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 
 import user from "../../../entities/user";
+import userProfileAddresses from "../../../features/user-profile/user-address";
 
 class Header {
   private title = new CreateElement<HTMLDivElement>({
@@ -224,6 +225,8 @@ class Header {
 
     this.logoutLink.addEventListener("click", (event) => {
       event.preventDefault();
+      userProfileAddresses.removeAll();
+      user.userInfo = null;
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
       window.location.hash = Hash.LOGIN;
@@ -239,25 +242,25 @@ class Header {
     const { hash } = document.location;
     Array.from(this.navList.getHTMLElement().children).forEach((link) => {
       link.classList.remove("nav__item_active");
-      if (link.firstElementChild?.getAttribute("href") === hash) {
+      // if (link.firstElementChild?.getAttribute("href") === hash) {
+      if (hash.startsWith(link.firstElementChild?.getAttribute("href") || "")) {
         link.classList.add("nav__item_active");
       }
     });
   }
 
   public update() {
-    // JUST FOR CROSS-CHECK!!!
     if (user.userIsLoggedIn) {
-      // this.loginLink.classList.add("nav__item_hidden");
-      // this.registerLink.classList.add("nav__item_hidden");
+      this.loginLink.classList.add("nav__item_hidden");
+      this.registerLink.classList.add("nav__item_hidden");
       this.profileIcon.classList.remove("nav__item_hidden");
       this.profileLink.classList.remove("nav__item_hidden");
       this.keyIcon.classList.add("nav__item_hidden");
       this.logoutLink.classList.remove("nav__item_hidden");
     } else {
-      // this.loginLink.classList.remove("nav__item_hidden");
+      this.loginLink.classList.remove("nav__item_hidden");
       this.keyIcon.classList.remove("nav__item_hidden");
-      // this.registerLink.classList.remove("nav__item_hidden");
+      this.registerLink.classList.remove("nav__item_hidden");
       this.profileLink.classList.add("nav__item_hidden");
       this.logoutLink.classList.add("nav__item_hidden");
       this.profileIcon.classList.add("nav__item_hidden");
