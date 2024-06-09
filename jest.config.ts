@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {Config} from 'jest';
+import type { Config } from "jest";
 
 const config: Config = {
   // All imported modules in your tests should be mocked automatically
@@ -26,7 +26,7 @@ const config: Config = {
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
-
+  collectCoverageFrom: ["src/**/*.ts"],
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
   //   "/node_modules/"
