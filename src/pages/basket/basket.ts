@@ -19,7 +19,7 @@ export default class BasketView {
   });
 
   constructor() {
-    this.getProducts()
+    this.getCarts()
       .then((carts) => {
         carts.forEach((cart) => {
           console.log(cart);
@@ -37,7 +37,7 @@ export default class BasketView {
       });
   }
 
-  async getProducts() {
+  async getCarts() {
     const response = await fetchCarts();
     return response.body.results;
   }

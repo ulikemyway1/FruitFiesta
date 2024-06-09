@@ -1,6 +1,18 @@
 import requestAPI from "./APIRootBuilder";
 import { CustomCart } from "../../pages/basket/interface";
 
+const fetchMakeCart = () =>
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: "EUR",
+      },
+    })
+    .execute();
+
 const fetchCarts = () => requestAPI.apiRoot().me().carts().get().execute();
 
 const fetchAddToCart = (productId: string, quantity = 1) =>
@@ -53,4 +65,4 @@ const fetchChangeQuantity = (
     })
     .execute();
 
-export { fetchAddToCart, fetchChangeQuantity, fetchCarts };
+export { fetchAddToCart, fetchChangeQuantity, fetchCarts, fetchMakeCart };
