@@ -310,7 +310,9 @@ export default class ProductDetailsPageView {
     // console.log("Buy button clicked", this.product);
     // console.log("Quantity: ", quantity);
     if (!this.product) return;
-    fetchAddToCart(this.product.id, quantity);
+    fetchAddToCart(this.product.id, quantity).catch((error) => {
+      console.log("Error while changing quantity: ", error);
+    });
   }
 
   public getView(): HTMLElement {

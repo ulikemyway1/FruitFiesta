@@ -109,7 +109,9 @@ export default class ProductCardView {
   private handleBuyButton(event: Event) {
     event.stopPropagation();
     console.log("Buy button clicked", this.product);
-    fetchAddToCart(this.product.id);
+    fetchAddToCart(this.product.id).catch((error) => {
+      console.log("Error while changing quantity: ", error);
+    });
   }
 
   private handleProductDetails() {

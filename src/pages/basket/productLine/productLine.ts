@@ -1,10 +1,7 @@
 import "./productLine.scss";
 import { Cart, LineItem } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import {
-  //   fetchAddToCart,
-  fetchChangeQuantity,
-} from "../apiBasket";
+import { fetchChangeQuantity } from "../apiBasket";
 
 import { CustomCart } from "../interface";
 
