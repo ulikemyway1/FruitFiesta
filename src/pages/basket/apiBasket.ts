@@ -41,6 +41,25 @@ const fetchAddToCart = (productId: string, quantity = 1) =>
       .execute();
   });
 
+const fetchRemoveFromCart = (cart: CustomCart, lineItemId: string) =>
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: "removeLineItem",
+            lineItemId,
+          },
+        ],
+      },
+    })
+    .execute();
+
 const fetchChangeQuantity = (
   cart: CustomCart,
   lineItemId: string,
@@ -65,4 +84,10 @@ const fetchChangeQuantity = (
     })
     .execute();
 
-export { fetchAddToCart, fetchChangeQuantity, fetchCarts, fetchMakeCart };
+export {
+  fetchAddToCart,
+  fetchChangeQuantity,
+  fetchRemoveFromCart,
+  fetchCarts,
+  fetchMakeCart,
+};

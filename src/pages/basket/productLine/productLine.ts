@@ -1,7 +1,7 @@
 import "./productLine.scss";
 import { Cart, LineItem } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import { fetchChangeQuantity } from "../apiBasket";
+import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
 import { CustomCart } from "../interface";
 
@@ -46,6 +46,14 @@ export default class ProductLine {
     callback: this.changeQuantity.bind(this, 1),
   });
 
+  private delete = new CreateElement({
+    tag: "button",
+    cssClasses: ["product-line__delete"],
+    textContent: "✖",
+    eventType: "click",
+    callback: this.deleteProduct.bind(this),
+  });
+
   private container = new CreateElement({
     tag: "div",
     cssClasses: ["product-line"],
@@ -56,6 +64,7 @@ export default class ProductLine {
       this.minus,
       this.quantity,
       this.plus,
+      this.delete,
     ],
   });
 
@@ -80,11 +89,22 @@ export default class ProductLine {
         this.product = response.body.lineItems.find(
           (lineItem) => lineItem.id === this.product.id,
         )!;
+        if (newQuantity === 0) {
+          this.container.getHTMLElement().remove();
+          return;
+        }
         this.quantity.getHTMLElement().textContent = `${newQuantity}`;
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
       });
+  }
+
+  private deleteProduct() {
+    fetchRemoveFromCart(this.cart, this.product.id).then((response) => {
+      this.cart.version = response.body.version;
+      this.container.getHTMLElement().remove();
+    });
   }
 
   getHTMLElement(): HTMLElement {
