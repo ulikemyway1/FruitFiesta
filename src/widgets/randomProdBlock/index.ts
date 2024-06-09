@@ -24,7 +24,6 @@ export default class RandomProdBlockView {
   constructor() {
     this.getRandomProducts().then((products) => {
       products.forEach((product) => {
-        // console.log(product);
         this.content
           .getHTMLElement()
           .append(new ProductCardView(product).getHTMLElement());

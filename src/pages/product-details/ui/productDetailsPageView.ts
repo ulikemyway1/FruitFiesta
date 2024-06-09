@@ -9,8 +9,11 @@ import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
 import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
+import { fetchAddToCart } from "../../../shared/api/apiCart";
 
 export default class ProductDetailsPageView {
+  private product: ProductProjection | undefined;
+
   private goodPrice = 0;
 
   private view: HTMLElement = new CreateElement({
@@ -193,7 +196,9 @@ export default class ProductDetailsPageView {
 
   constructor(key: string) {
     this.getProduct(key);
-    this.addToCartButton.addEventListener("click", this.navigateToBasket);
+    this.addToCartButton.addEventListener("click", (event: Event) =>
+      this.handleBuyButton(event, Number(this.orderQuantity.textContent)),
+    );
     this.orderMinus.addEventListener("click", () => {
       this.decrementCounter();
       this.updateTotalPrice();
@@ -213,6 +218,7 @@ export default class ProductDetailsPageView {
   async getProduct(key: string) {
     getProductData(key)
       .then((product) => {
+        this.product = product.body;
         this.drawProduct(product.body);
         imageDialog.drawEnlargedImage(product.body);
         imageSliderInit();
@@ -297,6 +303,14 @@ export default class ProductDetailsPageView {
 
   private navigateToBasket(): void {
     window.location.hash = Hash.BASKET;
+  }
+
+  private handleBuyButton(event: Event, quantity: number) {
+    // event.stopPropagation();
+    // console.log("Buy button clicked", this.product);
+    // console.log("Quantity: ", quantity);
+    if (!this.product) return;
+    fetchAddToCart(this.product.id, quantity);
   }
 
   public getView(): HTMLElement {
