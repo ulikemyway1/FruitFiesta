@@ -25,17 +25,17 @@ export default class ProductLine {
     cssClasses: ["product-line__currency"],
   });
 
+  private quantity = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__quantity"],
+  });
+
   private minus = new CreateElement({
     tag: "button",
     cssClasses: ["product-line__minus"],
     textContent: "-",
     eventType: "click",
     callback: this.changeQuantity.bind(this, -1),
-  });
-
-  private quantity = new CreateElement({
-    tag: "div",
-    cssClasses: ["product-line__quantity"],
   });
 
   private plus = new CreateElement({
@@ -61,8 +61,8 @@ export default class ProductLine {
       this.name,
       this.price,
       this.currency,
-      this.minus,
       this.quantity,
+      this.minus,
       this.plus,
       this.delete,
     ],
