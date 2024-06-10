@@ -39,7 +39,7 @@ export default class ProductCardView {
   });
 
   // можно сделать какую надо и вынести в компоненты
-  private buyButton = new CreateElement({
+  private buyButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["buy-button"],
     textContent: "Add to cart",
@@ -97,6 +97,20 @@ export default class ProductCardView {
         .getHTMLElement()
         .setAttribute("src", product.masterVariant.images[0].url);
     }
+
+    this.checkIfInCart(product.id);
+  }
+
+  private checkIfInCart(productId: ProductProjection["id"]) {
+    basketModel.getCart().then((cart) => {
+      const quantity = cart.lineItems.find(
+        (item) => item.productId === productId,
+      )?.quantity;
+      if (quantity) {
+        this.buyButton.getHTMLElement().textContent = `Add to cart (in cart: ${quantity})`;
+        // this.buyButton.getHTMLElement().disabled = true;
+      }
+    });
   }
 
   private cutDescription(str: string) {
@@ -114,6 +128,7 @@ export default class ProductCardView {
     fetchAddToCart(cart, this.product.id)
       .then((response) => {
         basketModel.cart = response.body;
+        this.checkIfInCart(this.product.id);
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);

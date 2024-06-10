@@ -14,7 +14,6 @@ export default class BasketController {
 
   async initialize() {
     const cart = await BasketModel.getCart();
-    if (!cart) return;
     this.view.render(cart);
   }
 

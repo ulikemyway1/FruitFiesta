@@ -216,13 +216,27 @@ export default class ProductDetailsPageView {
     });
   }
 
-  async getProduct(key: string) {
+  private checkIfInCart(productId: ProductProjection["id"]) {
+    basketModel.getCart().then((cart) => {
+      const quantity = cart.lineItems.find(
+        (item) => item.productId === productId,
+      )?.quantity;
+      if (quantity) {
+        this.addToCartButton.textContent = `Add to cart (in cart: ${quantity})`;
+        // this.buyButton.getHTMLElement().disabled = true;
+      }
+    });
+  }
+
+  getProduct(key: string) {
     getProductData(key)
-      .then((product) => {
-        this.product = product.body;
-        this.drawProduct(product.body);
-        imageDialog.drawEnlargedImage(product.body);
+      .then((response) => {
+        this.product = response.body;
+        this.drawProduct(response.body);
+        imageDialog.drawEnlargedImage(response.body);
         imageSliderInit();
+
+        this.checkIfInCart(this.product.id);
       })
       .catch(() => {
         Router.switchContent(notFoundPageView);
@@ -315,6 +329,7 @@ export default class ProductDetailsPageView {
     fetchAddToCart(cart, this.product.id, quantity)
       .then((response) => {
         basketModel.cart = response.body;
+        if (this.product) this.checkIfInCart(this.product.id);
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
