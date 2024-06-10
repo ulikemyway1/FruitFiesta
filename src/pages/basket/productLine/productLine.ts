@@ -1,13 +1,11 @@
 import "./productLine.scss";
-import { Cart, LineItem } from "@commercetools/platform-sdk";
+import { LineItem } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
-import { CustomCart } from "../interface";
+import basketModel from "../basketModel";
 
 export default class ProductLine {
-  private cart: CustomCart;
-
   private product: LineItem;
 
   private name = new CreateElement({
@@ -68,8 +66,7 @@ export default class ProductLine {
     ],
   });
 
-  constructor(product: LineItem, cart: Cart) {
-    this.cart = cart;
+  constructor(product: LineItem) {
     this.product = product;
 
     this.name.getHTMLElement().textContent = product.name["en-GB"];
@@ -79,13 +76,13 @@ export default class ProductLine {
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
   }
 
-  private changeQuantity(change: number) {
+  private async changeQuantity(change: number) {
     if (!this.product?.quantity) return;
     const newQuantity = this.product.quantity + change;
-    fetchChangeQuantity(this.cart, this.product.id, newQuantity)
+    const cart = await basketModel.getCart();
+    fetchChangeQuantity(cart, this.product.id, newQuantity)
       .then((response) => {
-        this.cart.version = response.body.version;
-        // console.log("response.body: ", response.body);
+        basketModel.cart = response.body;
         this.product = response.body.lineItems.find(
           (lineItem) => lineItem.id === this.product.id,
         )!;
@@ -100,9 +97,11 @@ export default class ProductLine {
       });
   }
 
-  private deleteProduct() {
-    fetchRemoveFromCart(this.cart, this.product.id).then((response) => {
-      this.cart.version = response.body.version;
+  private async deleteProduct() {
+    // console.log(basketModel.cart);
+    const cart = await basketModel.getCart();
+    fetchRemoveFromCart(cart, this.product.id).then((response) => {
+      basketModel.cart = response.body;
       this.container.getHTMLElement().remove();
     });
   }

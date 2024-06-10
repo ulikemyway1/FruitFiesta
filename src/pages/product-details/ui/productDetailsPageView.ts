@@ -10,6 +10,7 @@ import sliderInit from "../slider/swiper";
 import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
 import { fetchAddToCart } from "../../basket/apiBasket";
+import basketModel from "../../basket/basketModel";
 
 export default class ProductDetailsPageView {
   private product: ProductProjection | undefined;
@@ -305,14 +306,19 @@ export default class ProductDetailsPageView {
     window.location.hash = Hash.BASKET;
   }
 
-  private handleBuyButton(event: Event, quantity: number) {
+  private async handleBuyButton(event: Event, quantity: number) {
     // event.stopPropagation();
     // console.log("Buy button clicked", this.product);
     // console.log("Quantity: ", quantity);
     if (!this.product) return;
-    fetchAddToCart(this.product.id, quantity).catch((error) => {
-      console.log("Error while changing quantity: ", error);
-    });
+    const cart = await basketModel.getCart();
+    fetchAddToCart(cart, this.product.id, quantity)
+      .then((response) => {
+        basketModel.cart = response.body;
+      })
+      .catch((error) => {
+        console.log("Error while changing quantity: ", error);
+      });
   }
 
   public getView(): HTMLElement {

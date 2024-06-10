@@ -17,8 +17,8 @@ export default class BasketView {
 
   render(cart: Cart) {
     cart.lineItems.forEach((product) => {
-      const productLine = new ProductLine(product, cart);
-      this.content.getHTMLElement().append(productLine.getHTMLElement());
+      const productLine = new ProductLine(product);
+      this.content.addInnerElements(productLine.getHTMLElement());
     });
   }
 

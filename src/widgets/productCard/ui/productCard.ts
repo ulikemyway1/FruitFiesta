@@ -3,6 +3,7 @@ import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 import { fetchAddToCart } from "../../../pages/basket/apiBasket";
+import basketModel from "../../../pages/basket/basketModel";
 
 export default class ProductCardView {
   private product: ProductProjection;
@@ -106,12 +107,17 @@ export default class ProductCardView {
     return str;
   }
 
-  private handleBuyButton(event: Event) {
+  private async handleBuyButton(event: Event) {
     event.stopPropagation();
     console.log("Buy button clicked", this.product);
-    fetchAddToCart(this.product.id).catch((error) => {
-      console.log("Error while changing quantity: ", error);
-    });
+    const cart = await basketModel.getCart();
+    fetchAddToCart(cart, this.product.id)
+      .then((response) => {
+        basketModel.cart = response.body;
+      })
+      .catch((error) => {
+        console.log("Error while changing quantity: ", error);
+      });
   }
 
   private handleProductDetails() {

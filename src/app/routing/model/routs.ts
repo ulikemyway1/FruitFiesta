@@ -9,7 +9,7 @@ import userProfileController from "../../../pages/userProfile/model/userProfileP
 import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
 import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
-import BasketView from "../../../pages/basket";
+import Basket from "../../../pages/basket";
 
 const router = new Router();
 
@@ -45,7 +45,7 @@ router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
   Router.switchContent(new ProductDetailsPageView(productKey).getView());
 });
 router.route(Hash.BASKET, () => {
-  Router.switchContent(new BasketView().getHTMLElement());
+  Router.switchContent(new Basket().getHTMLElement());
 });
 router.route(Hash.ABOUT, () => {
   Router.switchContent(

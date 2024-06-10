@@ -2,18 +2,18 @@ import BasketModel from "./basketModel";
 import BasketView from "./basketView";
 
 export default class BasketController {
-  private model: BasketModel;
+  // private model: BasketModel;
 
   private view: BasketView;
 
   constructor() {
-    this.model = new BasketModel();
+    // this.model = new BasketModel();
     this.view = new BasketView();
-    this.render();
+    this.initialize();
   }
 
-  async render() {
-    const cart = await this.model.getCart();
+  async initialize() {
+    const cart = await BasketModel.getCart();
     if (!cart) return;
     this.view.render(cart);
   }

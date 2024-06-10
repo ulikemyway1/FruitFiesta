@@ -1,5 +1,6 @@
+import { Cart } from "@commercetools/platform-sdk";
 import requestAPI from "../../shared/api/APIRootBuilder";
-import { CustomCart } from "./interface";
+// import basketModel from "./basketModel";
 
 const fetchMakeCart = () =>
   requestAPI
@@ -15,33 +16,30 @@ const fetchMakeCart = () =>
 
 const fetchCarts = () => requestAPI.apiRoot().me().carts().get().execute();
 
-const fetchAddToCart = (productId: string, quantity = 1) =>
-  fetchCarts().then((carts) => {
-    console.log(quantity);
-    const cart = carts.body.results[0];
-    const ID = cart.id;
-    const { version } = cart;
-    return requestAPI
-      .apiRoot()
-      .me()
-      .carts()
-      .withId({ ID })
-      .post({
-        body: {
-          version,
-          actions: [
-            {
-              action: "addLineItem",
-              productId,
-              quantity,
-            },
-          ],
-        },
-      })
-      .execute();
-  });
+const fetchAddToCart = (cart: Cart, productId: string, quantity = 1) =>
+  // const cart = await basketModel.getCart();
+  // const ID = cart.id;
+  // const { version } = cart;
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: "addLineItem",
+            productId,
+            quantity,
+          },
+        ],
+      },
+    })
+    .execute();
 
-const fetchRemoveFromCart = (cart: CustomCart, lineItemId: string) =>
+const fetchRemoveFromCart = (cart: Cart, lineItemId: string) =>
   requestAPI
     .apiRoot()
     .me()
@@ -60,11 +58,7 @@ const fetchRemoveFromCart = (cart: CustomCart, lineItemId: string) =>
     })
     .execute();
 
-const fetchChangeQuantity = (
-  cart: CustomCart,
-  lineItemId: string,
-  quantity = 1,
-) =>
+const fetchChangeQuantity = (cart: Cart, lineItemId: string, quantity = 1) =>
   requestAPI
     .apiRoot()
     .me()
