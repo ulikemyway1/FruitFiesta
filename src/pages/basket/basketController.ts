@@ -1,4 +1,4 @@
-import BasketModel from "./basketModel";
+import basketModel from "./basketModel";
 import BasketView from "./basketView";
 
 export default class BasketController {
@@ -13,7 +13,7 @@ export default class BasketController {
   }
 
   async initialize() {
-    const cart = await BasketModel.getCart();
+    const cart = await basketModel.getCart();
     this.view.render(cart);
   }
 

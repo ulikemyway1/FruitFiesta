@@ -3,7 +3,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import getProductData from "../api/getProductData";
 import notFoundPageView from "../../notFound";
 import Router from "../../../app/routing/model/router";
-import Hash from "../../../shared/routs/enumHash";
+// import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
@@ -346,9 +346,9 @@ export default class ProductDetailsPageView {
     ).toFixed(2);
   }
 
-  private navigateToBasket(): void {
-    window.location.hash = Hash.BASKET;
-  }
+  // private navigateToBasket(): void {
+  //   window.location.hash = Hash.BASKET;
+  // }
 
   private async handleBuyButton(event: Event, quantity: number) {
     // event.stopPropagation();

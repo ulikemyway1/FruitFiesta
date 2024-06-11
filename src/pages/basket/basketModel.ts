@@ -4,9 +4,9 @@ import { fetchCarts, fetchMakeCart } from "./apiBasket";
 class BasketModel {
   private privateCart: Cart | null = null;
 
-  constructor() {
-    this.getCart();
-  }
+  // constructor() {
+  //   this.getCart();
+  // }
 
   async getCarts() {
     const response = await fetchCarts();

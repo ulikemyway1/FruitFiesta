@@ -78,10 +78,24 @@ const fetchChangeQuantity = (cart: Cart, lineItemId: string, quantity = 1) =>
     })
     .execute();
 
+const fetchDeleteCart = (cart: Cart) =>
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .withId({ ID: cart.id })
+    .delete({
+      queryArgs: {
+        version: cart.version,
+      },
+    })
+    .execute();
+
 export {
   fetchAddToCart,
   fetchChangeQuantity,
   fetchRemoveFromCart,
   fetchCarts,
   fetchMakeCart,
+  fetchDeleteCart,
 };

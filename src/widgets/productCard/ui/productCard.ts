@@ -102,15 +102,14 @@ export default class ProductCardView {
   }
 
   private checkIfInCart(productId: ProductProjection["id"]) {
-    basketModel.getCart().then((cart) => {
-      const quantity = cart.lineItems.find(
-        (item) => item.productId === productId,
-      )?.quantity;
-      if (quantity) {
-        this.buyButton.getHTMLElement().textContent = `Add to cart (in cart: ${quantity})`;
-        // this.buyButton.getHTMLElement().disabled = true;
-      }
-    });
+    const { cart } = basketModel;
+    if (!cart) return;
+    const quantity = cart.lineItems.find(
+      (item) => item.productId === productId,
+    )?.quantity;
+    if (quantity) {
+      this.buyButton.getHTMLElement().textContent = `Add to cart (in cart: ${quantity})`;
+    }
   }
 
   private cutDescription(str: string) {

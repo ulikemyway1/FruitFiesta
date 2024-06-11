@@ -1,0 +1,11 @@
+.basket {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  padding: 1rem 0;
+  margin: 0 auto;
+  gap: 20px;
+
+  flex-grow: 1;
+}

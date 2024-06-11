@@ -10,6 +10,11 @@ export default class ProductLine {
 
   setCartTotalPrice: (cart: Cart) => void;
 
+  private img = new CreateElement<HTMLImageElement>({
+    tag: "img",
+    cssClasses: ["product-line__img"],
+  });
+
   private name = new CreateElement({
     tag: "div",
     cssClasses: ["product-line__name"],
@@ -25,10 +30,16 @@ export default class ProductLine {
     cssClasses: ["product-line__discount-price"],
   });
 
-  // private currency = new CreateElement({
-  //   tag: "div",
-  //   cssClasses: ["product-line__currency"],
-  // });
+  private currency = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__currency"],
+  });
+
+  private priceBlock = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__price-block"],
+    children: [this.price, this.discountPrice, this.currency],
+  });
 
   private quantity = new CreateElement({
     tag: "div",
@@ -69,10 +80,9 @@ export default class ProductLine {
     cssClasses: ["product-line"],
     children: [
       this.delete,
+      this.img,
       this.name,
-      this.price,
-      this.discountPrice,
-      // this.currency,
+      this.priceBlock,
       this.minus,
       this.quantity,
       this.plus,
@@ -85,13 +95,15 @@ export default class ProductLine {
     this.setCartTotalPrice = setCartTotalPrice;
 
     this.name.getHTMLElement().textContent = product.name["en-GB"];
-    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100} ${product.price.value.currencyCode}`;
+    if (product.variant.images?.length)
+      this.img.getHTMLElement().src = product.variant.images[0].url;
+    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100}`;
     if (product.price.discounted) {
-      this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100} ${product.price.discounted.value.currencyCode}`;
+      this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100}`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     }
-    // this.currency.getHTMLElement().textContent =
-    //   product.price.value.currencyCode;
+    this.currency.getHTMLElement().textContent =
+      product.price.value.currencyCode;
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
     this.totalLineItemPrice.getHTMLElement().textContent = `${
       product.totalPrice.centAmount / 100
