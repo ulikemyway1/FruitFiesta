@@ -33,7 +33,7 @@ export default class ProductLine {
     cssClasses: ["product-line__minus"],
     textContent: "-",
     eventType: "click",
-    callback: this.changeQuantity.bind(this, -1),
+    callback: this.changeQuantityHandler.bind(this, -1),
   });
 
   private plus = new CreateElement({
@@ -41,7 +41,7 @@ export default class ProductLine {
     cssClasses: ["product-line__plus"],
     textContent: "+",
     eventType: "click",
-    callback: this.changeQuantity.bind(this, 1),
+    callback: this.changeQuantityHandler.bind(this, 1),
   });
 
   private delete = new CreateElement({
@@ -49,7 +49,7 @@ export default class ProductLine {
     cssClasses: ["product-line__delete"],
     textContent: "✖",
     eventType: "click",
-    callback: this.deleteProduct.bind(this),
+    callback: this.removeProductHandler.bind(this),
   });
 
   private container = new CreateElement({
@@ -76,7 +76,7 @@ export default class ProductLine {
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
   }
 
-  private async changeQuantity(change: number) {
+  private async changeQuantityHandler(change: number) {
     if (!this.product?.quantity) return;
     const newQuantity = this.product.quantity + change;
     const cart = await basketModel.getCart();
@@ -97,7 +97,7 @@ export default class ProductLine {
       });
   }
 
-  private async deleteProduct() {
+  private async removeProductHandler() {
     // console.log(basketModel.cart);
     const cart = await basketModel.getCart();
     fetchRemoveFromCart(cart, this.product.id).then((response) => {

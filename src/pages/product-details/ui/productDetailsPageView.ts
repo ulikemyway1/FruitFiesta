@@ -9,7 +9,7 @@ import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
 import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
-import { fetchAddToCart } from "../../basket/apiBasket";
+import { fetchAddToCart, fetchRemoveFromCart } from "../../basket/apiBasket";
 import basketModel from "../../basket/basketModel";
 
 export default class ProductDetailsPageView {
@@ -170,11 +170,19 @@ export default class ProductDetailsPageView {
     textContent: "Add to cart",
   }).getHTMLElement();
 
-  private totalBox = new CreateElement<HTMLDivElement>({
-    tag: "div",
-    cssClasses: ["product__total-box"],
-    children: [this.totalPriceBox, this.addToCartButton],
+  private removeFromCartButton = new CreateElement<HTMLButtonElement>({
+    tag: "button",
+    cssClasses: ["product__total-button"],
+    textContent: "Remove from cart",
+    eventType: "click",
+    callback: this.removeProductHandler.bind(this),
   }).getHTMLElement();
+
+  // private totalBox = new CreateElement<HTMLDivElement>({
+  //   tag: "div",
+  //   cssClasses: ["product__total-box"],
+  //   children: [this.totalPriceBox, this.addToCartButton],
+  // }).getHTMLElement();
 
   private productContainer = new CreateElement<HTMLElement>({
     tag: "article",
@@ -185,7 +193,9 @@ export default class ProductDetailsPageView {
       this.productDescription,
       this.reviewBox,
       this.orderBox,
-      this.totalBox,
+      // this.totalBox,
+      this.totalPriceBox,
+      this.addToCartButton,
     ],
   }).getHTMLElement();
 
@@ -216,6 +226,18 @@ export default class ProductDetailsPageView {
     });
   }
 
+  private async removeProductHandler() {
+    const cart = await basketModel.getCart();
+    const lineItem = cart.lineItems.find(
+      (item) => item.productId === this.product?.id,
+    );
+    if (!lineItem) return;
+    fetchRemoveFromCart(cart, lineItem.id).then((response) => {
+      basketModel.cart = response.body;
+      if (this.product) this.checkIfInCart(this.product.id);
+    });
+  }
+
   private checkIfInCart(productId: ProductProjection["id"]) {
     basketModel.getCart().then((cart) => {
       const quantity = cart.lineItems.find(
@@ -223,7 +245,11 @@ export default class ProductDetailsPageView {
       )?.quantity;
       if (quantity) {
         this.addToCartButton.textContent = `Add to cart (in cart: ${quantity})`;
+        this.productContainer.append(this.removeFromCartButton);
         // this.buyButton.getHTMLElement().disabled = true;
+      } else {
+        this.addToCartButton.textContent = "Add to cart";
+        this.removeFromCartButton.remove();
       }
     });
   }

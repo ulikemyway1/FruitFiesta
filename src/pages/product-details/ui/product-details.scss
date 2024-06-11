@@ -101,11 +101,12 @@
     border-right: none;
     cursor: pointer;
   }
-  &__total-box {
-    flex-direction: column;
-    justify-content: flex-end;
-  }
+  // &__total-box {
+  //   flex-direction: column;
+  //   justify-content: flex-end;
+  // }
   &__total-price-box {
+    align-self: center;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -129,8 +130,8 @@
     color: var(--button-text);
     font-size: 20px;
     font-weight: 400;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    // margin-top: 20px;
+    // margin-bottom: 20px;
     cursor: pointer;
     font-family: "Roboto Slab", serif;
     transition: 0.3s ease-in-out;
