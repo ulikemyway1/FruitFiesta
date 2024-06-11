@@ -232,10 +232,14 @@ export default class ProductDetailsPageView {
       (item) => item.productId === this.product?.id,
     );
     if (!lineItem) return;
-    fetchRemoveFromCart(cart, lineItem.id).then((response) => {
-      basketModel.cart = response.body;
-      if (this.product) this.checkIfInCart(this.product.id);
-    });
+    fetchRemoveFromCart(cart, lineItem.id)
+      .then((response) => {
+        basketModel.cart = response.body;
+        if (this.product) this.checkIfInCart(this.product.id);
+      })
+      .catch((error) => {
+        console.log("Error while removing product: ", error);
+      });
   }
 
   private checkIfInCart(productId: ProductProjection["id"]) {

@@ -127,11 +127,15 @@ export default class ProductLine {
   private async removeProductHandler() {
     // console.log(basketModel.cart);
     const cart = await basketModel.getCart();
-    fetchRemoveFromCart(cart, this.product.id).then((response) => {
-      basketModel.cart = response.body;
-      this.setCartTotalPrice(response.body);
-      this.container.getHTMLElement().remove();
-    });
+    fetchRemoveFromCart(cart, this.product.id)
+      .then((response) => {
+        basketModel.cart = response.body;
+        this.setCartTotalPrice(response.body);
+        this.container.getHTMLElement().remove();
+      })
+      .catch((error) => {
+        console.log("Error while removing product: ", error);
+      });
   }
 
   getHTMLElement(): HTMLElement {
