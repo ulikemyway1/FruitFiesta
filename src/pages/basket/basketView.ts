@@ -7,7 +7,7 @@ export default class BasketView {
   private content = new CreateElement({
     tag: "div",
     cssClasses: ["basket__content"],
-  });
+  }).getHTMLElement();
 
   private container = new CreateElement({
     tag: "div",
@@ -15,11 +15,27 @@ export default class BasketView {
     children: [this.content],
   });
 
+  private cartTotalPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["basket__total-price"],
+  }).getHTMLElement();
+
   render(cart: Cart) {
     cart.lineItems.forEach((product) => {
-      const productLine = new ProductLine(product);
-      this.content.addInnerElements(productLine.getHTMLElement());
+      const productLine = new ProductLine(
+        product,
+        this.setCartTotalPrice.bind(this),
+      );
+      this.content.append(productLine.getHTMLElement());
     });
+
+    this.setCartTotalPrice(cart);
+
+    this.content.append(this.cartTotalPrice);
+  }
+
+  setCartTotalPrice(cart: Cart) {
+    this.cartTotalPrice.textContent = `Total: ${cart.totalPrice.centAmount / 100} ${cart.totalPrice.currencyCode}`;
   }
 
   getHTMLElement(): HTMLElement {

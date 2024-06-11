@@ -1,5 +1,5 @@
 import "./productLine.scss";
-import { LineItem } from "@commercetools/platform-sdk";
+import { Cart, LineItem } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
@@ -7,6 +7,8 @@ import basketModel from "../basketModel";
 
 export default class ProductLine {
   private product: LineItem;
+
+  setCartTotalPrice: (cart: Cart) => void;
 
   private name = new CreateElement({
     tag: "div",
@@ -18,10 +20,15 @@ export default class ProductLine {
     cssClasses: ["product-line__price"],
   });
 
-  private currency = new CreateElement({
+  private discountPrice = new CreateElement({
     tag: "div",
-    cssClasses: ["product-line__currency"],
+    cssClasses: ["product-line__discount-price"],
   });
+
+  // private currency = new CreateElement({
+  //   tag: "div",
+  //   cssClasses: ["product-line__currency"],
+  // });
 
   private quantity = new CreateElement({
     tag: "div",
@@ -52,28 +59,43 @@ export default class ProductLine {
     callback: this.removeProductHandler.bind(this),
   });
 
+  private totalLineItemPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-price"],
+  });
+
   private container = new CreateElement({
     tag: "div",
     cssClasses: ["product-line"],
     children: [
+      this.delete,
       this.name,
       this.price,
-      this.currency,
-      this.quantity,
+      this.discountPrice,
+      // this.currency,
       this.minus,
+      this.quantity,
       this.plus,
-      this.delete,
+      this.totalLineItemPrice,
     ],
   });
 
-  constructor(product: LineItem) {
+  constructor(product: LineItem, setCartTotalPrice: (cart: Cart) => void) {
     this.product = product;
+    this.setCartTotalPrice = setCartTotalPrice;
 
     this.name.getHTMLElement().textContent = product.name["en-GB"];
-    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100}`;
-    this.currency.getHTMLElement().textContent =
-      product.price.value.currencyCode;
+    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100} ${product.price.value.currencyCode}`;
+    if (product.price.discounted) {
+      this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100} ${product.price.discounted.value.currencyCode}`;
+      this.price.getHTMLElement().style.textDecoration = "line-through";
+    }
+    // this.currency.getHTMLElement().textContent =
+    //   product.price.value.currencyCode;
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
+    this.totalLineItemPrice.getHTMLElement().textContent = `${
+      product.totalPrice.centAmount / 100
+    } ${product.totalPrice.currencyCode}`;
   }
 
   private async changeQuantityHandler(change: number) {
@@ -90,7 +112,12 @@ export default class ProductLine {
           this.container.getHTMLElement().remove();
           return;
         }
-        this.quantity.getHTMLElement().textContent = `${newQuantity}`;
+        this.quantity.getHTMLElement().textContent = `${this.product.quantity}`;
+        this.totalLineItemPrice.getHTMLElement().textContent = `${
+          this.product.totalPrice.centAmount / 100
+        } ${this.product.totalPrice.currencyCode}`;
+
+        this.setCartTotalPrice(response.body);
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
@@ -102,6 +129,7 @@ export default class ProductLine {
     const cart = await basketModel.getCart();
     fetchRemoveFromCart(cart, this.product.id).then((response) => {
       basketModel.cart = response.body;
+      this.setCartTotalPrice(response.body);
       this.container.getHTMLElement().remove();
     });
   }
