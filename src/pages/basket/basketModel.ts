@@ -2,11 +2,11 @@ import { Cart } from "@commercetools/platform-sdk";
 import { fetchCarts, fetchMakeCart } from "./apiBasket";
 
 class BasketModel {
-  private privateCart: Cart | null = null;
+  privateCart: Cart | null = null;
 
-  // constructor() {
-  //   this.getCart();
-  // }
+  constructor() {
+    this.getCart();
+  }
 
   async getCarts() {
     const response = await fetchCarts();
@@ -29,6 +29,10 @@ class BasketModel {
 
   set cart(cart: Cart) {
     this.privateCart = cart;
+  }
+
+  get cart() {
+    return this.privateCart as Cart;
   }
 
   resetCart() {

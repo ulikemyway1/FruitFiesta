@@ -98,11 +98,15 @@ export default class ProductCardView {
         .setAttribute("src", product.masterVariant.images[0].url);
     }
 
-    this.checkIfInCart(product.id);
+    // TODO: that's a sucks solution
+    setTimeout(() => {
+      this.checkIfInCart(product.id);
+    }, 100);
   }
 
   private checkIfInCart(productId: ProductProjection["id"]) {
     const { cart } = basketModel;
+    // console.log("Check if in cart", cart);
     if (!cart) return;
     const quantity = cart.lineItems.find(
       (item) => item.productId === productId,

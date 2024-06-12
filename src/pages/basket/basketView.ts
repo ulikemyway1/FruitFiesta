@@ -2,22 +2,17 @@ import "./basket.scss";
 import { Cart } from "@commercetools/platform-sdk";
 import CreateElement from "../../shared/helpers/element-create";
 import ProductLine from "./productLine/productLine";
-import { fetchCarts, fetchDeleteCart } from "./apiBasket";
+import { fetchDeleteCart } from "./apiBasket";
 import basketModel from "./basketModel";
+import cleanContainer from "../../shared/utils/clean-container";
 
 export default class BasketView {
   cart: Cart | undefined;
 
-  private content = new CreateElement({
+  private lineItems = new CreateElement({
     tag: "div",
-    cssClasses: ["basket__content"],
+    cssClasses: ["basket__line-items"],
   }).getHTMLElement();
-
-  private container = new CreateElement({
-    tag: "div",
-    cssClasses: ["basket"],
-    children: [this.content],
-  });
 
   private cartTotalPrice = new CreateElement({
     tag: "div",
@@ -32,6 +27,12 @@ export default class BasketView {
     callback: this.deleteCart.bind(this),
   }).getHTMLElement();
 
+  private container = new CreateElement({
+    tag: "div",
+    cssClasses: ["basket"],
+    children: [this.lineItems, this.cartTotalPrice, this.deleteCartButton],
+  });
+
   render(cart: Cart) {
     this.cart = cart;
 
@@ -40,29 +41,27 @@ export default class BasketView {
         product,
         this.setCartTotalPrice.bind(this),
       );
-      this.content.append(productLine.getHTMLElement());
+      this.lineItems.append(productLine.getHTMLElement());
     });
 
     this.setCartTotalPrice(cart);
-
-    this.content.append(this.cartTotalPrice, this.deleteCartButton);
   }
 
   deleteCart() {
-    console.log("delete cart");
-    if (this.cart)
-      fetchDeleteCart(this.cart).then((response) => {
-        console.log(response);
-        fetchCarts().then((response2) => {
-          console.log(response2);
+    if (basketModel.cart)
+      fetchDeleteCart(basketModel.cart)
+        .then((response) => {
+          console.log(response);
+          basketModel.resetCart();
+          cleanContainer(this.container.getHTMLElement());
+        })
+        .catch((error) => {
+          console.log("Error while deleting cart: ", error);
         });
-        basketModel.resetCart();
-        // this.render(basketModel.cart);
-      });
   }
 
   setCartTotalPrice(cart: Cart) {
-    this.cartTotalPrice.textContent = `Total: ${cart.totalPrice.centAmount / 100} ${cart.totalPrice.currencyCode}`;
+    this.cartTotalPrice.textContent = `Total cost: ${cart.totalPrice.centAmount / 100} ${cart.totalPrice.currencyCode}`;
   }
 
   getHTMLElement(): HTMLElement {
