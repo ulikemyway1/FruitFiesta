@@ -41,7 +41,7 @@ const aboutData = {
     Difficulties within the project were mainly related exclusively to time, since combining work, family and study is not easy, but we tried and the result is obvious.`,
   mentorTitle: "Our teacher and mentors",
   mentorText:
-    "The Rolling Scopes School – the holy grail for those who want to become frontend developers. Anyone can study at RS School, regardless of age, occupation, or place of residence. The school's materials are freely available.During the training as well as the final project development we interacted with our mentors: links. We express our gratitude for the time spent on us.",
+    "The Rolling Scopes School – the holy grail for those who want to become frontend developers. Anyone can study at RS School, regardless of age, occupation, or place of residence. The school's materials are freely available. During the training as well as the final project development we interacted with our mentors. We express our gratitude for the time spent on us.",
   teacherLogo: rss,
 };
 

@@ -37,7 +37,7 @@ router.route(
 
   (hash) => {
     Router.switchContent(new CatalogPage(hash).getView());
-  }
+  },
 );
 
 router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
@@ -49,7 +49,7 @@ router.route(Hash.BASKET, () => {
     new CreateElement({
       tag: "h1",
       textContent: "Basket",
-    }).getHTMLElement()
+    }).getHTMLElement(),
   );
 });
 router.route(Hash.ABOUT, () => {
