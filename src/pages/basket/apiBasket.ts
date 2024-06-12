@@ -91,6 +91,32 @@ const fetchDeleteCart = (cart: Cart) =>
     })
     .execute();
 
+// const fetchAddDiscountCode = (cart: Cart, discountCode: string) =>
+//   requestAPI
+//     .apiRoot()
+//     .me()
+//     .carts()
+//     .withId({ ID: cart.id })
+//     .post({
+//       body: {
+//         version: cart.version,
+//         actions: [
+//           {
+//             action: "addDiscountCode",
+//             code: discountCode,
+//           },
+//         ],
+//       },
+//     })
+//     .execute();
+
+// const fetchRemoveDiscountCode = (cart: Cart, discountCode) =>
+//   requestAPI
+//     .apiRoot()
+//     .me()
+//     .carts()
+//     .withId({ ID: cart.id })
+
 export {
   fetchAddToCart,
   fetchChangeQuantity,
