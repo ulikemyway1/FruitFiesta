@@ -34,12 +34,18 @@ export default class BasketView {
   });
 
   render(cart: Cart) {
+    if (!cart || !cart.lineItems.length) {
+      this.showEmptyCart();
+      return;
+    }
+
     this.cart = cart;
 
     cart.lineItems.forEach((product) => {
       const productLine = new ProductLine(
         product,
         this.setCartTotalPrice.bind(this),
+        this.deleteCart.bind(this),
       );
       this.lineItems.append(productLine.getHTMLElement());
     });
@@ -54,10 +60,30 @@ export default class BasketView {
           console.log(response);
           basketModel.resetCart();
           cleanContainer(this.container.getHTMLElement());
+          this.render(basketModel.cart);
         })
         .catch((error) => {
           console.log("Error while deleting cart: ", error);
         });
+  }
+
+  showEmptyCart() {
+    cleanContainer(this.container.getHTMLElement());
+    this.container.addInnerElements([
+      new CreateElement({
+        tag: "div",
+        cssClasses: ["basket__empty"],
+        textContent: "Your cart is empty",
+      }).getHTMLElement(),
+      new CreateElement({
+        tag: "a",
+        cssClasses: ["basket__empty-link"],
+        textContent: "Go to catalog",
+        attributes: {
+          href: "#catalog",
+        },
+      }).getHTMLElement(),
+    ]);
   }
 
   setCartTotalPrice(cart: Cart) {

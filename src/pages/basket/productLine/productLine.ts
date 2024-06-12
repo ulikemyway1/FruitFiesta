@@ -10,6 +10,8 @@ export default class ProductLine {
 
   setCartTotalPrice: (cart: Cart) => void;
 
+  deleteCart: () => void;
+
   private img = new CreateElement<HTMLImageElement>({
     tag: "img",
     cssClasses: ["product-line__img"],
@@ -90,9 +92,14 @@ export default class ProductLine {
     ],
   });
 
-  constructor(product: LineItem, setCartTotalPrice: (cart: Cart) => void) {
+  constructor(
+    product: LineItem,
+    setCartTotalPrice: (cart: Cart) => void,
+    deleteCart: () => void,
+  ) {
     this.product = product;
     this.setCartTotalPrice = setCartTotalPrice;
+    this.deleteCart = deleteCart;
 
     this.name.getHTMLElement().textContent = product.name["en-GB"];
     if (product.variant.images?.length)
@@ -120,8 +127,13 @@ export default class ProductLine {
         this.product = response.body.lineItems.find(
           (lineItem) => lineItem.id === this.product.id,
         )!;
+        if (!basketModel.cart.lineItems.length) {
+          this.deleteCart();
+          return;
+        }
         if (newQuantity === 0) {
           this.container.getHTMLElement().remove();
+          this.setCartTotalPrice(response.body);
           return;
         }
         this.quantity.getHTMLElement().textContent = `${this.product.quantity}`;
@@ -142,6 +154,10 @@ export default class ProductLine {
     fetchRemoveFromCart(cart, this.product.id)
       .then((response) => {
         basketModel.cart = response.body;
+        if (!basketModel.cart.lineItems.length) {
+          this.deleteCart();
+          return;
+        }
         this.setCartTotalPrice(response.body);
         this.container.getHTMLElement().remove();
       })
