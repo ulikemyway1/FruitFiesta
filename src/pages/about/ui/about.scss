@@ -1,0 +1,151 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  &__block {
+    width: 100%;
+    padding: 40px 0;
+    display: flex;
+    justify-content: start;
+    &-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    &:first-child {
+      align-items: center;
+      min-height: 350px;
+      background: url("../../../assets/images/Majesty-3.jpg") center/100% no-repeat;
+      background-size: cover;
+    }
+    &:nth-child(2) {
+      gap: 30px;
+      flex-direction: column;
+    }
+    &:nth-child(3) {
+      gap: 30px;
+      flex-direction: column;
+      background-color: var(--additional-pages-background);
+      padding: 3rem 0;
+    }
+    &:nth-child(4) {
+      gap: 30px;
+      flex-direction: column;
+      background: url("../../../assets/images/Equilibrium-3.png") center/100% no-repeat;
+      background-size: cover;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 60px;
+  }
+  &__text {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--dark-brown-text-color);
+    text-align: justify;
+  }
+  &__team-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: row;
+    gap: 60px;
+    margin-bottom: 60px;
+    &:nth-child(3) {
+      flex-direction: row-reverse;
+    }
+  }
+  &__team-image {
+    max-width: 100%;
+    background-color: var(--additional-pages-background);
+    border-radius: 5px;
+  }
+  &__team-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--dark-brown-text-color);
+  }
+  &__team-text {
+    text-align: justify;
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  &__team-position {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  &__team-link {
+    display: inline-block;
+    padding: 10px 40px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--button-text);
+    background: var(--button-default-background);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s linear;
+    text-decoration: none;
+    margin-top: 30px;
+  }
+}
+
+.project-title {
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: var(--white-text-color);
+  margin: 0 0 20px 0;
+  -webkit-text-stroke: 2px var(--dark-brown-text-color);
+  text-shadow: 2px 2px 2px var(--dark-brown-text-color);
+}
+
+.about__mentor-inner {
+  width: 100%;
+  padding: 16px;
+  background-color: #0000007a;
+  border-radius: 10px;
+  color: var(--white-text-color);
+}
+.about__mentor-text {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--white-text-color);
+  font-size: 1.2rem;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 1px 1px 1px var(--dark-brown-text-color);
+  padding: 0 16px;
+}
+.about__mentor-title {
+  font-size: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.about__teacher-image {
+  max-width: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--header-background);
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+@media (max-width: 1200px) {
+  .about__team-container {
+    flex-wrap: wrap;
+  }
+  .about__team-image {
+    max-width: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about__team-link:hover {
+    background-color: var(--button-hover-background);
+  }
+}

@@ -86,7 +86,7 @@ export default class ProductCardView {
           .append(
             `${price.discounted.value.centAmount / 100} ${
               price.discounted.value.currencyCode
-            }`
+            }`,
           );
       }
     });
