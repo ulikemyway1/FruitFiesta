@@ -2,6 +2,7 @@ import "./productCard.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
+import { fetchAddToCart } from "../../../pages/basket/apiBasket";
 
 export default class ProductCardView {
   private product: ProductProjection;
@@ -107,9 +108,14 @@ export default class ProductCardView {
 
   private handleBuyButton(event: Event) {
     event.stopPropagation();
+    console.log("Buy button clicked", this.product);
+    fetchAddToCart(this.product.id).catch((error) => {
+      console.log("Error while changing quantity: ", error);
+    });
   }
 
   private handleProductDetails() {
+    console.log("Product details", this.product);
     window.location.href = `${Hash.PRODUCT}/${this.product.key}`;
   }
 

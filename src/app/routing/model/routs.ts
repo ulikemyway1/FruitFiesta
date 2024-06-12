@@ -10,6 +10,7 @@ import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
 import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
 import aboutPage from "../../../pages/about";
+import BasketView from "../../../pages/basket";
 
 const router = new Router();
 
@@ -45,12 +46,7 @@ router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
   Router.switchContent(new ProductDetailsPageView(productKey).getView());
 });
 router.route(Hash.BASKET, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Basket",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(new BasketView().getHTMLElement());
 });
 router.route(Hash.ABOUT, () => {
   Router.switchContent(aboutPage.getHTMLElement());
