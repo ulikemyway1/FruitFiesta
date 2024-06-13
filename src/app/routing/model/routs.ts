@@ -10,6 +10,7 @@ import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
 import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
 import Basket from "../../../pages/basket";
+import aboutPage from "../../../pages/about";
 
 const router = new Router();
 
@@ -48,12 +49,7 @@ router.route(Hash.BASKET, () => {
   Router.switchContent(new Basket().getHTMLElement());
 });
 router.route(Hash.ABOUT, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "About",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(aboutPage.getHTMLElement());
 });
 router.route(Hash.NOT_FOUND, () => {
   Router.switchContent(notFoundPageView);

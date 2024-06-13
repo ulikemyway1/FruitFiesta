@@ -4,12 +4,12 @@ import alex from "../../../assets/images/alex.svg";
 
 const footerData = [
   {
-    img: dima,
-    link: "https://github.com/dimabaril",
-  },
-  {
     img: tanya,
     link: "https://github.com/ImyaKhoroshee",
+  },
+  {
+    img: dima,
+    link: "https://github.com/dimabaril",
   },
   {
     img: alex,
@@ -17,4 +17,4 @@ const footerData = [
   },
 ];
 
-export default { footerData };
+export default footerData;
