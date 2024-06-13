@@ -149,7 +149,6 @@ export default class ProductLine {
   }
 
   private async removeProductHandler() {
-    // console.log(basketModel.cart);
     const cart = await basketModel.getCart();
     fetchRemoveFromCart(cart, this.product.id)
       .then((response) => {

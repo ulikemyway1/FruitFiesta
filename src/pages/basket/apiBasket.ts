@@ -4,7 +4,6 @@ import {
   MyCartAddDiscountCodeAction,
 } from "@commercetools/platform-sdk";
 import requestAPI from "../../shared/api/APIRootBuilder";
-// import basketModel from "./basketModel";
 
 const fetchMakeCart = () =>
   requestAPI
@@ -21,9 +20,6 @@ const fetchMakeCart = () =>
 const fetchCarts = () => requestAPI.apiRoot().me().carts().get().execute();
 
 const fetchAddToCart = (cart: Cart, productId: string, quantity = 1) =>
-  // const cart = await basketModel.getCart();
-  // const ID = cart.id;
-  // const { version } = cart;
   requestAPI
     .apiRoot()
     .me()

@@ -26,7 +26,6 @@ export default class ProductsBlockView {
     this.getProducts(queryArgs)
       .then((products) => {
         products.forEach((product) => {
-          // console.log(product);
           this.content.addInnerElements(
             new ProductCardView(product).getHTMLElement(),
           );

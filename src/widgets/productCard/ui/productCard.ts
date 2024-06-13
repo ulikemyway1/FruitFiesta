@@ -106,7 +106,6 @@ export default class ProductCardView {
 
   private checkIfInCart(productId: ProductProjection["id"]) {
     const { cart } = basketModel;
-    // console.log("Check if in cart", cart);
     if (!cart) return;
     const quantity = cart.lineItems.find(
       (item) => item.productId === productId,
