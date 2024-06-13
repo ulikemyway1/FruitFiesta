@@ -91,6 +91,14 @@ export default class BasketView {
   renderLineItems(cart: Cart) {
     cleanContainer(this.lineItems);
 
+    this.lineItems.append(
+      new CreateElement({
+        tag: "h2",
+        cssClasses: ["basket__line-items-title"],
+        textContent: "Products:",
+      }).getHTMLElement(),
+    );
+
     cart.lineItems.forEach((product) => {
       const productLine = new ProductLine(
         product,
@@ -103,6 +111,14 @@ export default class BasketView {
 
   renderDiscountCodeItems(cart: Cart) {
     cleanContainer(this.discountCodeItems);
+
+    this.discountCodeItems.append(
+      new CreateElement({
+        tag: "h2",
+        cssClasses: ["basket__discount-code-items-title"],
+        textContent: "Discounts:",
+      }).getHTMLElement(),
+    );
 
     cart.discountCodes.forEach((discountCode) => {
       const discountCodeLine = new DiscountCodeLine(

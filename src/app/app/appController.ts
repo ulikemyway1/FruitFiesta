@@ -7,7 +7,7 @@ import user from "../../entities/user";
 import header from "../../widgets/header";
 import userBasicProfileController from "../../features/user-profile/user-basic";
 import userShippingProfileController from "../../features/user-profile/user-address";
-import userChangePaswordController from "../../features/user-profile/user-password";
+import userChangePasswordController from "../../features/user-profile/user-password";
 
 class AppController {
   model: AppModel;
@@ -22,7 +22,7 @@ class AppController {
     user.attach(header);
     user.attach(userBasicProfileController);
     user.attach(userShippingProfileController);
-    user.attach(userChangePaswordController);
+    user.attach(userChangePasswordController);
   }
 
   run() {

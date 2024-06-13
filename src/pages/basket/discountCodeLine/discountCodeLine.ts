@@ -3,9 +3,10 @@ import { Cart, DiscountCodeReference } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import { fetchRemoveDiscountCode } from "../apiBasket";
 import basketModel from "../basketModel";
+import discountsState from "../../../shared/state/discounts/discounts";
 
 export default class DiscountCodeLine {
-  private discount: DiscountCodeReference;
+  private discountReference: DiscountCodeReference;
 
   setCartTotalPrice: (cart: Cart) => void;
 
@@ -29,20 +30,24 @@ export default class DiscountCodeLine {
   });
 
   constructor(
-    discount: DiscountCodeReference,
+    discountReference: DiscountCodeReference,
     setCartTotalPrice: (cart: Cart) => void,
   ) {
-    this.discount = discount;
+    this.discountReference = discountReference;
     this.setCartTotalPrice = setCartTotalPrice;
 
+    const discount = discountsState.discounts.find(
+      (item) => item.id === this.discountReference.id,
+    );
+
     this.name.getHTMLElement().textContent =
-      discount.obj?.name?.["en-GB"] || discount.id;
+      discount?.name?.["en-GB"] || discountReference.id;
   }
 
   private async removeDiscountHandler() {
     console.log("Remove discount button clicked");
     const cart = await basketModel.getCart();
-    fetchRemoveDiscountCode(cart, this.discount)
+    fetchRemoveDiscountCode(cart, this.discountReference)
       .then((response) => {
         basketModel.cart = response.body;
         this.setCartTotalPrice(basketModel.cart);
