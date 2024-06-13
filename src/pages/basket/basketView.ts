@@ -6,6 +6,7 @@ import DiscountCodeLine from "./discountCodeLine/discountCodeLine";
 import { fetchAddDiscountCode, fetchDeleteCart } from "./apiBasket";
 import basketModel from "./basketModel";
 import cleanContainer from "../../shared/utils/clean-container";
+import ModalConfirmation from "../../widgets/modalConfirmation/modalConfirmation";
 
 export default class BasketView {
   cart: Cart | undefined;
@@ -58,7 +59,7 @@ export default class BasketView {
     cssClasses: ["basket__delete-cart-button"],
     textContent: "Delete cart",
     eventType: "click",
-    callback: this.deleteCart.bind(this),
+    callback: this.getConfirmationModal.bind(this),
   }).getHTMLElement();
 
   private container = new CreateElement({
@@ -70,6 +71,7 @@ export default class BasketView {
       this.cartTotalPrice,
       this.discountLabel,
       this.deleteCartButton,
+      // this.deleteCartConfirmationModal,
     ],
   });
 
@@ -154,6 +156,15 @@ export default class BasketView {
         .catch((error) => {
           console.log("Error while deleting cart: ", error);
         });
+  }
+
+  getConfirmationModal() {
+    document.body.append(
+      new ModalConfirmation(
+        "Are you sure you want to delete the cart?",
+        this.deleteCart.bind(this),
+      ).getHTMLElement(),
+    );
   }
 
   showEmptyCart() {
