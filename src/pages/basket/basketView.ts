@@ -21,11 +21,6 @@ export default class BasketView {
     cssClasses: ["basket__discount-code-items"],
   }).getHTMLElement();
 
-  private cartTotalPrice = new CreateElement({
-    tag: "div",
-    cssClasses: ["basket__total-price"],
-  }).getHTMLElement();
-
   private discountCodeInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["basket__discount-code-input"],
@@ -41,17 +36,30 @@ export default class BasketView {
     textContent: "Add",
     eventType: "click",
     callback: () => {
-      console.log("Add discount button clicked");
       this.addDiscount(this.discountCodeInput.value);
-      this.discountCodeInput.value = "";
     },
   }).getHTMLElement();
 
   private discountLabel = new CreateElement({
     tag: "div",
     cssClasses: ["basket__discount-label"],
-    textContent: "Add discount code",
+    textContent: "Add discount code:",
     children: [this.discountCodeInput, this.addDiscountButton],
+  }).getHTMLElement();
+
+  private cartTotalPrice = new CreateElement({
+    tag: "h2",
+    cssClasses: ["basket__total-price"],
+  }).getHTMLElement();
+
+  private checkoutButton = new CreateElement<HTMLButtonElement>({
+    tag: "button",
+    cssClasses: ["basket__checkout-button"],
+    textContent: "Checkout",
+    eventType: "click",
+    callback: () => {
+      console.log("Checkout button clicked");
+    },
   }).getHTMLElement();
 
   private deleteCartButton = new CreateElement<HTMLButtonElement>({
@@ -62,16 +70,20 @@ export default class BasketView {
     callback: this.getConfirmationModal.bind(this),
   }).getHTMLElement();
 
+  private checkoutRow = new CreateElement({
+    tag: "div",
+    cssClasses: ["basket__checkout-row"],
+    children: [this.cartTotalPrice, this.checkoutButton, this.deleteCartButton],
+  }).getHTMLElement();
+
   private container = new CreateElement({
     tag: "div",
     cssClasses: ["basket"],
     children: [
       this.lineItems,
       this.discountCodeItems,
-      this.cartTotalPrice,
       this.discountLabel,
-      this.deleteCartButton,
-      // this.deleteCartConfirmationModal,
+      this.checkoutRow,
     ],
   });
 
@@ -82,6 +94,12 @@ export default class BasketView {
     }
 
     this.cart = cart;
+
+    this.discountCodeInput.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        this.addDiscount(this.discountCodeInput.value);
+      }
+    });
 
     this.renderLineItems(cart);
 
@@ -120,6 +138,11 @@ export default class BasketView {
         cssClasses: ["basket__discount-code-items-title"],
         textContent: "Discounts:",
       }).getHTMLElement(),
+      new CreateElement({
+        tag: "p",
+        cssClasses: ["basket__discount-code-items-description"],
+        textContent: "You can find some discount codes on main page",
+      }).getHTMLElement(),
     );
 
     cart.discountCodes.forEach((discountCode) => {
@@ -138,6 +161,7 @@ export default class BasketView {
         basketModel.cart = cart;
         this.renderDiscountCodeItems(cart);
         this.setCartTotalPrice(cart);
+        this.discountCodeInput.value = "";
       })
       .catch((error) => {
         console.log("Error while adding discount code: ", error);
@@ -171,7 +195,7 @@ export default class BasketView {
     cleanContainer(this.container.getHTMLElement());
     this.container.addInnerElements([
       new CreateElement({
-        tag: "div",
+        tag: "h2",
         cssClasses: ["basket__empty"],
         textContent: "Your cart is empty",
       }).getHTMLElement(),

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 0.5rem 0;
+  // padding: 0.5rem 0;
 }
 
 .product-line__img {
@@ -10,6 +10,32 @@
   height: 80px;
 }
 
+.product-line__name {
+}
+
+.product-line__price {
+}
+
+.product-line__discount-price {
+}
+
+.product-line__currency {
+}
+
 .product-line__price-block {
-  // text-align: center;
+}
+
+.product-line__quantity {
+}
+
+.product-line__minus {
+}
+
+.product-line__plus {
+}
+
+.product-line__delete {
+}
+
+.product-line__total-line-item-price {
 }
