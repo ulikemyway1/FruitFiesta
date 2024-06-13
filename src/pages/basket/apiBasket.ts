@@ -1,4 +1,8 @@
-import { Cart } from "@commercetools/platform-sdk";
+import {
+  Cart,
+  DiscountCodeReference,
+  MyCartAddDiscountCodeAction,
+} from "@commercetools/platform-sdk";
 import requestAPI from "../../shared/api/APIRootBuilder";
 // import basketModel from "./basketModel";
 
@@ -91,31 +95,49 @@ const fetchDeleteCart = (cart: Cart) =>
     })
     .execute();
 
-// const fetchAddDiscountCode = (cart: Cart, discountCode: string) =>
-//   requestAPI
-//     .apiRoot()
-//     .me()
-//     .carts()
-//     .withId({ ID: cart.id })
-//     .post({
-//       body: {
-//         version: cart.version,
-//         actions: [
-//           {
-//             action: "addDiscountCode",
-//             code: discountCode,
-//           },
-//         ],
-//       },
-//     })
-//     .execute();
+const fetchAddDiscountCode = (
+  cart: Cart,
+  discountCode: MyCartAddDiscountCodeAction["code"],
+) =>
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: "addDiscountCode",
+            code: discountCode,
+          },
+        ],
+      },
+    })
+    .execute();
 
-// const fetchRemoveDiscountCode = (cart: Cart, discountCode) =>
-//   requestAPI
-//     .apiRoot()
-//     .me()
-//     .carts()
-//     .withId({ ID: cart.id })
+const fetchRemoveDiscountCode = (
+  cart: Cart,
+  discountCode: DiscountCodeReference,
+) =>
+  requestAPI
+    .apiRoot()
+    .me()
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: "removeDiscountCode",
+            discountCode,
+          },
+        ],
+      },
+    })
+    .execute();
 
 export {
   fetchAddToCart,
@@ -124,4 +146,6 @@ export {
   fetchCarts,
   fetchMakeCart,
   fetchDeleteCart,
+  fetchAddDiscountCode,
+  fetchRemoveDiscountCode,
 };

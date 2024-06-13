@@ -1,0 +1,59 @@
+import "./discountCodeLine.scss";
+import { Cart, DiscountCodeReference } from "@commercetools/platform-sdk";
+import CreateElement from "../../../shared/helpers/element-create";
+import { fetchRemoveDiscountCode } from "../apiBasket";
+import basketModel from "../basketModel";
+
+export default class DiscountCodeLine {
+  private discount: DiscountCodeReference;
+
+  setCartTotalPrice: (cart: Cart) => void;
+
+  private name = new CreateElement({
+    tag: "div",
+    cssClasses: ["discount-code-line__name"],
+  });
+
+  private delete = new CreateElement({
+    tag: "button",
+    cssClasses: ["discount-code-line__delete"],
+    textContent: "✖",
+    eventType: "click",
+    callback: this.removeDiscountHandler.bind(this),
+  });
+
+  private container = new CreateElement({
+    tag: "div",
+    cssClasses: ["discount-code-line"],
+    children: [this.delete, this.name],
+  });
+
+  constructor(
+    discount: DiscountCodeReference,
+    setCartTotalPrice: (cart: Cart) => void,
+  ) {
+    this.discount = discount;
+    this.setCartTotalPrice = setCartTotalPrice;
+
+    this.name.getHTMLElement().textContent =
+      discount.obj?.name?.["en-GB"] || discount.id;
+  }
+
+  private async removeDiscountHandler() {
+    console.log("Remove discount button clicked");
+    const cart = await basketModel.getCart();
+    fetchRemoveDiscountCode(cart, this.discount)
+      .then((response) => {
+        basketModel.cart = response.body;
+        this.setCartTotalPrice(basketModel.cart);
+        this.container.getHTMLElement().remove();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  getHTMLElement(): HTMLElement {
+    return this.container.getHTMLElement();
+  }
+}
