@@ -7,6 +7,7 @@ import { fetchAddDiscountCode, fetchDeleteCart } from "./apiBasket";
 import basketModel from "./basketModel";
 import cleanContainer from "../../shared/utils/clean-container";
 import ModalConfirmation from "../../widgets/modalConfirmation/modalConfirmation";
+import ModalMessage from "../../widgets/modalMessage/modalMessage";
 
 export default class BasketView {
   cart: Cart | undefined;
@@ -164,7 +165,7 @@ export default class BasketView {
         this.discountCodeInput.value = "";
       })
       .catch((error) => {
-        console.log("Error while adding discount code: ", error);
+        this.getMessageModal(error.message);
       });
   }
 
@@ -189,6 +190,10 @@ export default class BasketView {
         this.deleteCart.bind(this),
       ).getHTMLElement(),
     );
+  }
+
+  getMessageModal(text: string) {
+    document.body.append(new ModalMessage(text).getHTMLElement());
   }
 
   showEmptyCart() {
