@@ -101,11 +101,8 @@
     border-right: none;
     cursor: pointer;
   }
-  &__total-box {
-    flex-direction: column;
-    justify-content: flex-end;
-  }
   &__total-price-box {
+    align-self: center;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -129,8 +126,6 @@
     color: var(--button-text);
     font-size: 20px;
     font-weight: 400;
-    margin-top: 20px;
-    margin-bottom: 20px;
     cursor: pointer;
     font-family: "Roboto Slab", serif;
     transition: 0.3s ease-in-out;
@@ -144,14 +139,10 @@
 
 .swiper {
   width: 60%;
-  // height: auto;
   margin-left: auto;
   margin-right: auto;
   border-radius: 4px;
   &-slide {
-    // width: 25%;
-    // height: 100%;
-    // background-position: center;
     aspect-ratio: 1 / 1;
     background-size: cover;
   }
@@ -187,18 +178,3 @@
     width: 90%;
   }
 }
-// @media (max-width: 768px) {
-//   .swiper {
-//     height: 300px;
-//     width: 300px;
-//   }
-//   .product {
-//     width: 90%;
-//     &__title {
-//       font-size: 1.4rem;
-//     }
-//     &__order-text {
-//       font-size: 0.8rem;
-//     }
-//   }
-// }

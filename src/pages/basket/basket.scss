@@ -1,0 +1,72 @@
+.basket {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  padding: 1rem;
+  margin: 0 auto;
+  gap: 20px;
+
+  flex-grow: 1;
+}
+
+.basket__line-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.basket__line-items-title {
+}
+
+.basket__discount-code-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.basket__discount-code-items-title {
+}
+
+.basket__discount-code-input {
+  padding: 0.5rem;
+}
+
+.basket__add-discount-button {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.basket__discount-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.basket__total-price {
+}
+
+.basket__checkout-button,
+.basket__delete-cart-button {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.basket__checkout-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0 0;
+  border-top: 1px solid black;
+}
+
+.basket__empty-cart {
+}
+
+.basket__empty-link {
+}

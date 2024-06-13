@@ -3,13 +3,14 @@ import CreateElement from "../../../shared/helpers/element-create";
 import getProductData from "../api/getProductData";
 import notFoundPageView from "../../notFound";
 import Router from "../../../app/routing/model/router";
-import Hash from "../../../shared/routs/enumHash";
+// import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
 import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
-import { fetchAddToCart } from "../../basket/apiBasket";
+import { fetchAddToCart, fetchRemoveFromCart } from "../../basket/apiBasket";
+import basketModel from "../../basket/basketModel";
 
 export default class ProductDetailsPageView {
   private product: ProductProjection | undefined;
@@ -169,11 +170,19 @@ export default class ProductDetailsPageView {
     textContent: "Add to cart",
   }).getHTMLElement();
 
-  private totalBox = new CreateElement<HTMLDivElement>({
-    tag: "div",
-    cssClasses: ["product__total-box"],
-    children: [this.totalPriceBox, this.addToCartButton],
+  private removeFromCartButton = new CreateElement<HTMLButtonElement>({
+    tag: "button",
+    cssClasses: ["product__total-button"],
+    textContent: "Remove from cart",
+    eventType: "click",
+    callback: this.removeProductHandler.bind(this),
   }).getHTMLElement();
+
+  // private totalBox = new CreateElement<HTMLDivElement>({
+  //   tag: "div",
+  //   cssClasses: ["product__total-box"],
+  //   children: [this.totalPriceBox, this.addToCartButton],
+  // }).getHTMLElement();
 
   private productContainer = new CreateElement<HTMLElement>({
     tag: "article",
@@ -184,7 +193,9 @@ export default class ProductDetailsPageView {
       this.productDescription,
       this.reviewBox,
       this.orderBox,
-      this.totalBox,
+      // this.totalBox,
+      this.totalPriceBox,
+      this.addToCartButton,
     ],
   }).getHTMLElement();
 
@@ -215,13 +226,47 @@ export default class ProductDetailsPageView {
     });
   }
 
-  async getProduct(key: string) {
+  private async removeProductHandler() {
+    const cart = await basketModel.getCart();
+    const lineItem = cart.lineItems.find(
+      (item) => item.productId === this.product?.id,
+    );
+    if (!lineItem) return;
+    fetchRemoveFromCart(cart, lineItem.id)
+      .then((response) => {
+        basketModel.cart = response.body;
+        if (this.product) this.checkIfInCart(this.product.id);
+      })
+      .catch((error) => {
+        console.log("Error while removing product: ", error);
+      });
+  }
+
+  private checkIfInCart(productId: ProductProjection["id"]) {
+    basketModel.getCart().then((cart) => {
+      const quantity = cart.lineItems.find(
+        (item) => item.productId === productId,
+      )?.quantity;
+      if (quantity) {
+        this.addToCartButton.textContent = `Add to cart (in cart: ${quantity})`;
+        this.productContainer.append(this.removeFromCartButton);
+        // this.buyButton.getHTMLElement().disabled = true;
+      } else {
+        this.addToCartButton.textContent = "Add to cart";
+        this.removeFromCartButton.remove();
+      }
+    });
+  }
+
+  getProduct(key: string) {
     getProductData(key)
-      .then((product) => {
-        this.product = product.body;
-        this.drawProduct(product.body);
-        imageDialog.drawEnlargedImage(product.body);
+      .then((response) => {
+        this.product = response.body;
+        this.drawProduct(response.body);
+        imageDialog.drawEnlargedImage(response.body);
         imageSliderInit();
+
+        this.checkIfInCart(this.product.id);
       })
       .catch(() => {
         Router.switchContent(notFoundPageView);
@@ -301,18 +346,24 @@ export default class ProductDetailsPageView {
     ).toFixed(2);
   }
 
-  private navigateToBasket(): void {
-    window.location.hash = Hash.BASKET;
-  }
+  // private navigateToBasket(): void {
+  //   window.location.hash = Hash.BASKET;
+  // }
 
-  private handleBuyButton(event: Event, quantity: number) {
+  private async handleBuyButton(event: Event, quantity: number) {
     // event.stopPropagation();
     // console.log("Buy button clicked", this.product);
     // console.log("Quantity: ", quantity);
     if (!this.product) return;
-    fetchAddToCart(this.product.id, quantity).catch((error) => {
-      console.log("Error while changing quantity: ", error);
-    });
+    const cart = await basketModel.getCart();
+    fetchAddToCart(cart, this.product.id, quantity)
+      .then((response) => {
+        basketModel.cart = response.body;
+        if (this.product) this.checkIfInCart(this.product.id);
+      })
+      .catch((error) => {
+        console.log("Error while changing quantity: ", error);
+      });
   }
 
   public getView(): HTMLElement {

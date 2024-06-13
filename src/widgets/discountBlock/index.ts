@@ -2,6 +2,7 @@ import "./index.scss";
 import CreateElement from "../../shared/helpers/element-create";
 import fetchDiscountCodes from "./api";
 import DiscountCardView from "../discountCard";
+import discountsState from "../../shared/state/discounts/discounts";
 
 export default class DiscountBlockView {
   private title = new CreateElement({
@@ -28,6 +29,7 @@ export default class DiscountBlockView {
 
   constructor() {
     fetchDiscountCodes().then((response) => {
+      discountsState.discounts = response.body.results;
       response.body.results.forEach((discount) => {
         const discountCard = new DiscountCardView(discount);
         this.content.addInnerElements(discountCard.getHTMLElement());
