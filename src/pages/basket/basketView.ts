@@ -66,7 +66,7 @@ export default class BasketView {
   private deleteCartButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["basket__delete-cart-button"],
-    textContent: "Delete cart",
+    innerHTML: "Delete&nbsp;cart",
     eventType: "click",
     callback: this.getConfirmationModal.bind(this),
   }).getHTMLElement();
@@ -216,7 +216,17 @@ export default class BasketView {
   }
 
   setCartTotalPrice(cart: Cart) {
-    this.cartTotalPrice.textContent = `Total cost: ${cart.totalPrice.centAmount / 100} ${cart.totalPrice.currencyCode}`;
+    console.log(cart);
+    const isDiscounted = cart.discountOnTotalPrice;
+    const totalPrice = cart.totalPrice.centAmount;
+    const totalPriceCurrencyCode = cart.totalPrice.currencyCode;
+    if (isDiscounted) {
+      const discount = cart.discountOnTotalPrice.discountedAmount.centAmount;
+      const fullPrice = totalPrice + discount;
+      this.cartTotalPrice.innerHTML = `Total cost: <del>${fullPrice / 100}</del> ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+    } else {
+      this.cartTotalPrice.textContent = `Total cost: ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+    }
   }
 
   getHTMLElement(): HTMLElement {
