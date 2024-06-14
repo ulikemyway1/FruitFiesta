@@ -40,7 +40,7 @@ export default class DiscountCodeLine {
     this.setCartTotalPrice = setCartTotalPrice;
     this.renderLineItems = renderLineItems;
 
-    const discount = discountsState.discounts.find(
+    const discount = discountsState.discountCodes.find(
       (item) => item.id === this.discountReference.id,
     );
 
