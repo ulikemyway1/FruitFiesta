@@ -120,10 +120,17 @@ class Header {
     callback: this.toggleKeyIconPopUp.bind(this),
   }).getHTMLElement();
 
+  productCountInCart = new CreateElement<HTMLSpanElement>({
+    tag: "span",
+    cssClasses: ["header__product-count-cart"],
+    textContent: "0",
+  });
+
   private cartIcon = new CreateElement<HTMLImageElement>({
     tag: "a",
     cssClasses: ["header__icon-cart"],
     attributes: { title: "Cart", href: "#basket" },
+    children: [this.productCountInCart],
   });
 
   private registerLink = new CreateElement<HTMLLinkElement>({
@@ -266,6 +273,10 @@ class Header {
       this.profileIcon.classList.add("nav__item_hidden");
       this.profileLink.classList.add("nav__item_hidden");
     }
+  }
+
+  updateFromCart(count: number) {
+    this.productCountInCart.getHTMLElement().textContent = count.toString();
   }
 
   toggleKeyIconPopUp() {

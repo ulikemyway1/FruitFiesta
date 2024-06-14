@@ -96,6 +96,18 @@
   &__burger {
     display: none;
   }
+
+  &__product-count-cart {
+    position: absolute;
+    top: 5px;
+    left: 85px;
+    z-index: 6;
+    background-color: var(--logo-text);
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 0.8rem;
+    color: white;
+  }
 }
 
 .nav {
