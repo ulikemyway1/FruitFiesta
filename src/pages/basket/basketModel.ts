@@ -25,7 +25,6 @@ class BasketModel {
   }
 
   public notify() {
-    console.log("notify");
     this.observers.forEach((observer) => {
       observer.updateFromCart(this.privateCart?.totalLineItemQuantity || 0);
     });
