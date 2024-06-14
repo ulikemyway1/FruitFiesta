@@ -1,3 +1,4 @@
+import "./pagination.scss";
 import CreateElement from "../../../shared/helpers/element-create";
 
 export default class Pagination {
@@ -9,10 +10,38 @@ export default class Pagination {
 
   total?: number;
 
+  private previousButton = new CreateElement<HTMLButtonElement>({
+    tag: "button",
+    cssClasses: ["pagination__button-prev"],
+    textContent: "< Prev",
+    eventType: "click",
+    callback: () => {
+      this.offset -= this.limit;
+      this.setOffset(this.offset);
+    },
+  }).getHTMLElement();
+
   private currentPage = new CreateElement({
     tag: "span",
     cssClasses: ["pagination__current-page"],
-    textContent: "Current page:",
+    textContent: "Page:",
+  }).getHTMLElement();
+
+  private nextButton = new CreateElement<HTMLButtonElement>({
+    tag: "button",
+    cssClasses: ["pagination__button-next"],
+    textContent: "Next >",
+    eventType: "click",
+    callback: () => {
+      this.offset += this.limit;
+      this.setOffset(this.offset);
+    },
+  }).getHTMLElement();
+
+  private prevPageNextBlock = new CreateElement({
+    tag: "span",
+    cssClasses: ["pagination__prev-page-next-block"],
+    children: [this.previousButton, this.currentPage, this.nextButton],
   }).getHTMLElement();
 
   private totalPages = new CreateElement({
@@ -21,53 +50,22 @@ export default class Pagination {
     textContent: "Total pages:",
   }).getHTMLElement();
 
-  private previousButton = new CreateElement<HTMLButtonElement>({
-    tag: "button",
-    cssClasses: ["pagination__button"],
-    textContent: "< PREV",
-    eventType: "click",
-    callback: () => {
-      this.offset -= this.limit;
-      this.searchParams.set("offset", this.offset.toString());
-      window.location.hash = `${window.location.hash.split("?")[0]}?${this.searchParams.toString()}`;
-    },
-  }).getHTMLElement();
-
-  private nextButton = new CreateElement<HTMLButtonElement>({
-    tag: "button",
-    cssClasses: ["pagination__button"],
-    textContent: "NEXT >",
-    eventType: "click",
-    callback: () => {
-      this.offset += this.limit;
-      this.searchParams.set("offset", this.offset.toString());
-      window.location.hash = `${window.location.hash.split("?")[0]}?${this.searchParams.toString()}`;
-    },
-  }).getHTMLElement();
-
   private itemsOnPageSelect = new CreateElement<HTMLSelectElement>({
     tag: "select",
     cssClasses: ["pagination__items-on-page-select"],
     children: [
       new CreateElement({
         tag: "option",
-        textContent: "5",
+        textContent: "6",
         attributes: {
-          value: "5",
+          value: "6",
         },
       }).getHTMLElement(),
       new CreateElement({
         tag: "option",
-        textContent: "10",
+        textContent: "12",
         attributes: {
-          value: "10",
-        },
-      }).getHTMLElement(),
-      new CreateElement({
-        tag: "option",
-        textContent: "15",
-        attributes: {
-          value: "15",
+          value: "12",
         },
       }).getHTMLElement(),
       new CreateElement({
@@ -80,33 +78,20 @@ export default class Pagination {
       }).getHTMLElement(),
     ],
     eventType: "change",
-    callback: (event) => {
-      const target = event.target as HTMLSelectElement;
-      this.limit = Number(target.value);
-      this.offset = 0;
-      this.searchParams.set("limit", this.limit.toString());
-      this.searchParams.set("offset", this.offset.toString());
-      window.location.hash = `${window.location.hash.split("?")[0]}?${this.searchParams.toString()}`;
-    },
+    callback: this.setLimit.bind(this),
   }).getHTMLElement();
 
   private itemsOnPageLabel = new CreateElement({
     tag: "label",
     cssClasses: ["pagination__items-on-page"],
-    textContent: "Items on page:",
+    textContent: "Items on page: ",
     children: [this.itemsOnPageSelect],
   }).getHTMLElement();
 
   private container = new CreateElement({
     tag: "div",
     cssClasses: ["pagination"],
-    children: [
-      this.previousButton,
-      this.currentPage,
-      this.nextButton,
-      this.totalPages,
-      this.itemsOnPageLabel,
-    ],
+    children: [this.prevPageNextBlock, this.totalPages, this.itemsOnPageLabel],
   });
 
   constructor(searchParams: URLSearchParams, total?: number) {
@@ -129,11 +114,25 @@ export default class Pagination {
     if (total && this.offset + this.limit >= total) {
       this.nextButton.disabled = true;
     }
-    this.currentPage.textContent = `Current page: ${currentPage}`;
+    this.currentPage.textContent = `Page: ${currentPage}`;
 
     if (total) {
       this.totalPages.textContent = `Total pages: ${Math.ceil(total / this.limit)}`;
     }
+  }
+
+  private setLimit(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.limit = Number(target.value);
+    this.offset = 0;
+    this.searchParams.set("limit", this.limit.toString());
+    this.searchParams.set("offset", this.offset.toString());
+    window.location.hash = `${window.location.hash.split("?")[0]}?${this.searchParams.toString()}`;
+  }
+
+  private setOffset(offset: number) {
+    this.searchParams.set("offset", offset.toString());
+    window.location.hash = `${window.location.hash.split("?")[0]}?${this.searchParams.toString()}`;
   }
 
   getHTMLElement(): HTMLElement {
