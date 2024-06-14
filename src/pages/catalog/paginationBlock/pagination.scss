@@ -41,7 +41,7 @@
 
   &:disabled {
     background: var(--button-disabled-background);
-    color: var(--button-disabled-text);
+    // color: var(--button-disabled-text);
     cursor: default;
   }
 }
