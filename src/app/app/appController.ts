@@ -9,6 +9,8 @@ import userBasicProfileController from "../../features/user-profile/user-basic";
 import userShippingProfileController from "../../features/user-profile/user-address";
 import userChangePasswordController from "../../features/user-profile/user-password";
 
+import basketModel from "../../pages/basket/basketModel";
+
 class AppController {
   model: AppModel;
 
@@ -20,6 +22,7 @@ class AppController {
     this.view = view;
 
     user.attach(header);
+    basketModel.attach(header);
     user.attach(userBasicProfileController);
     user.attach(userShippingProfileController);
     user.attach(userChangePasswordController);

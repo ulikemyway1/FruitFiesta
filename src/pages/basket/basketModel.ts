@@ -1,8 +1,35 @@
 import { Cart } from "@commercetools/platform-sdk";
 import { fetchCarts, fetchMakeCart } from "./apiBasket";
 
+interface Observer {
+  updateFromCart(count: number): void;
+}
+
 class BasketModel {
   privateCart: Cart | null = null;
+
+  private observers: Observer[] = [];
+
+  public attach(observer: Observer) {
+    const isExist = this.observers.includes(observer);
+    if (!isExist) {
+      this.observers.push(observer);
+    }
+  }
+
+  public detach(observer: Observer) {
+    const observerIndex = this.observers.indexOf(observer);
+    if (!(observerIndex === -1)) {
+      this.observers.splice(observerIndex, 1);
+    }
+  }
+
+  public notify() {
+    console.log("notify");
+    this.observers.forEach((observer) => {
+      observer.updateFromCart(this.privateCart?.totalLineItemQuantity || 0);
+    });
+  }
 
   constructor() {
     this.getCart();
@@ -11,6 +38,7 @@ class BasketModel {
   async getCarts() {
     const response = await fetchCarts();
     [this.privateCart] = response.body.results;
+    this.notify();
     return response.body.results;
   }
 
@@ -29,6 +57,7 @@ class BasketModel {
 
   set cart(cart: Cart) {
     this.privateCart = cart;
+    this.notify();
   }
 
   get cart() {
