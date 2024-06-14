@@ -38,7 +38,6 @@ class BasketModel {
   async getCarts() {
     const response = await fetchCarts();
     [this.privateCart] = response.body.results;
-    this.notify();
     return response.body.results;
   }
 
@@ -52,6 +51,7 @@ class BasketModel {
         [this.privateCart] = carts;
       }
     }
+    this.notify();
     return this.privateCart;
   }
 
@@ -66,6 +66,7 @@ class BasketModel {
 
   resetCart() {
     this.privateCart = null;
+    this.notify();
   }
 }
 
