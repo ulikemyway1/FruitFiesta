@@ -4,7 +4,7 @@ import requestAPIConfig from "./APIRootBuilderConfig";
 import tokenStorage from "../state/model/tokenStorage";
 
 export class APIRootBuilder {
-  private savedRefresh: string = '';
+  private savedRefresh: string = "";
 
   private client = new ClientBuilder()
     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
@@ -55,16 +55,17 @@ export class APIRootBuilder {
   }
 
   public apiRoot() {
-    const savedAuthToken = localStorage.getItem("auth-token") || localStorage.getItem("token");
+    const savedAuthToken =
+      localStorage.getItem("auth-token") || localStorage.getItem("token");
     if (this.savedRefresh) {
       return this.withRefreshTokenFlow();
-    } 
-    if (savedAuthToken) {
-    const savedLocalRefresh = JSON.parse(savedAuthToken).refreshToken;
-    if (savedLocalRefresh) {
-      this.savedRefresh =  JSON.parse(savedAuthToken).refreshToken;
-      return this.withRefreshTokenFlow();
     }
+    if (savedAuthToken) {
+      const savedLocalRefresh = JSON.parse(savedAuthToken).refreshToken;
+      if (savedLocalRefresh) {
+        this.savedRefresh = JSON.parse(savedAuthToken).refreshToken;
+        return this.withRefreshTokenFlow();
+      }
     }
     return this.withAnonymousSessionFlow();
   }
