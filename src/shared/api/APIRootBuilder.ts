@@ -47,18 +47,22 @@ export class APIRootBuilder {
   }
 
   public apiRoot() {
-    const savedAuthToken =
-      localStorage.getItem("auth-token") || localStorage.getItem("token");
     if (this.savedRefresh) {
       return this.withRefreshTokenFlow();
     }
+
+    const savedAuthToken =
+      localStorage.getItem("auth-token") || localStorage.getItem("token");
+
     if (savedAuthToken) {
       const savedLocalRefresh = JSON.parse(savedAuthToken).refreshToken;
+
       if (savedLocalRefresh) {
         this.savedRefresh = JSON.parse(savedAuthToken).refreshToken;
         return this.withRefreshTokenFlow();
       }
     }
+
     return this.withAnonymousSessionFlow();
   }
 }
