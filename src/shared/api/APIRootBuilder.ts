@@ -38,14 +38,6 @@ export class APIRootBuilder {
   }
 
   public withRefreshTokenFlow() {
-    // let refreshToken: string;
-    // const savedAuthToken = localStorage.getItem("auth-token") || localStorage.getItem("token");
-    // if (savedAuthToken) {
-    //   refreshToken = JSON.parse(savedAuthToken).refreshToken;
-    // } else {
-    //   refreshToken = "";
-    //   console.error("No refreshToken");
-    // }
     requestAPIConfig.refreshMiddlewareOptions.refreshToken = this.savedRefresh;
     return this.createRequestAPI(
       this.client.withRefreshTokenFlow(
