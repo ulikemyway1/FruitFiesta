@@ -10,6 +10,8 @@ export default class DiscountCodeLine {
 
   setCartTotalPrice: (cart: Cart) => void;
 
+  renderLineItems: (cart: Cart) => void;
+
   private name = new CreateElement({
     tag: "div",
     cssClasses: ["discount-code-line__name"],
@@ -32,11 +34,13 @@ export default class DiscountCodeLine {
   constructor(
     discountReference: DiscountCodeReference,
     setCartTotalPrice: (cart: Cart) => void,
+    renderLineItems: (cart: Cart) => void,
   ) {
     this.discountReference = discountReference;
     this.setCartTotalPrice = setCartTotalPrice;
+    this.renderLineItems = renderLineItems;
 
-    const discount = discountsState.discounts.find(
+    const discount = discountsState.discountCodes.find(
       (item) => item.id === this.discountReference.id,
     );
 
@@ -51,6 +55,7 @@ export default class DiscountCodeLine {
       .then((response) => {
         basketModel.cart = response.body;
         this.setCartTotalPrice(basketModel.cart);
+        this.renderLineItems(basketModel.cart);
         this.container.getHTMLElement().remove();
       })
       .catch((error) => {

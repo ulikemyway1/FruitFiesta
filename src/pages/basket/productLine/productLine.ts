@@ -108,7 +108,11 @@ export default class ProductLine {
     if (product.price.discounted) {
       this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100}`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
+    } else if (product.discountedPricePerQuantity.length) {
+      this.discountPrice.getHTMLElement().textContent = `${product.discountedPricePerQuantity[0].discountedPrice.value.centAmount / 100}`;
+      this.price.getHTMLElement().style.textDecoration = "line-through";
     }
+
     this.currency.getHTMLElement().textContent =
       product.price.value.currencyCode;
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;

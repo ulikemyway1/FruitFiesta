@@ -150,6 +150,7 @@ export default class BasketView {
       const discountCodeLine = new DiscountCodeLine(
         discountCode.discountCode,
         this.setCartTotalPrice.bind(this),
+        this.renderLineItems.bind(this),
       );
       this.discountCodeItems.append(discountCodeLine.getHTMLElement());
     });
@@ -161,6 +162,7 @@ export default class BasketView {
         const cart = response.body;
         basketModel.cart = cart;
         this.renderDiscountCodeItems(cart);
+        this.renderLineItems(cart);
         this.setCartTotalPrice(cart);
         this.discountCodeInput.value = "";
       })

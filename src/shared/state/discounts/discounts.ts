@@ -1,7 +1,9 @@
-import { DiscountCode } from "@commercetools/platform-sdk";
+import { DiscountCode, ProductDiscount } from "@commercetools/platform-sdk";
 
 class DiscountsState {
-  discounts: DiscountCode[] = [];
+  discountCodes: DiscountCode[] = [];
+
+  productDiscounts: ProductDiscount[] = [];
 }
 
 const discountsState = new DiscountsState();

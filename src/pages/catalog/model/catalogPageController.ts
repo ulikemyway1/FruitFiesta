@@ -1,10 +1,10 @@
 import { Category } from "@commercetools/platform-sdk";
-import { fetchCategories } from "../api";
+import { fetchCategories, fetchProductProjections } from "../api";
 import CatalogPageView from "../ui/catalogPageView";
-// import CatalogPageModel from "./catalogPageModel";
 import ProductsBlockView from "../productsBlock";
 import CategoriesBlockView from "../categoriesBlock";
 import Hash from "../../../shared/routs/enumHash";
+import Pagination from "../paginationBlock/pagination";
 
 class CatalogPageController {
   // model = CatalogPageModel;
@@ -81,6 +81,13 @@ class CatalogPageController {
           queryArgs.fuzzy = true;
           break;
 
+        case "limit":
+          queryArgs.limit = Number(value);
+          break;
+        case "offset":
+          queryArgs.offset = Number(value);
+          break;
+
         default:
           console.log("Unknown query parameter: ", key);
         }
@@ -94,11 +101,25 @@ class CatalogPageController {
         ).getHTMLElement(),
       );
 
-      // console.log("QueryArgs: ", queryArgs);
+      fetchProductProjections(queryArgs)
+        .then((response) => {
+          console.log("Products: ", response);
+          this.view.appendContent(
+            new Pagination(searchParams, response.body.total).getHTMLElement(),
+          );
 
-      this.view.appendContent(
-        new ProductsBlockView(queryArgs).getHTMLElement(),
-      );
+          this.view.appendContent(
+            new ProductsBlockView(response.body.results).getHTMLElement(),
+          );
+
+          this.view.appendContent(
+            new Pagination(searchParams, response.body.total).getHTMLElement(),
+          );
+        })
+        .catch((error) => {
+          console.log("Error while fetching products: ", error);
+          window.history.back();
+        });
     });
   }
 
