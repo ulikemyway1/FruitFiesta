@@ -27,14 +27,14 @@ export default class BasketView {
     cssClasses: ["basket__discount-code-input"],
     attributes: {
       type: "text",
-      placeholder: "Discount code",
+      placeholder: "e.g SUPERPROMOCODE...",
     },
   }).getHTMLElement();
 
   private addDiscountButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["basket__add-discount-button"],
-    textContent: "Add",
+    textContent: "Apply",
     eventType: "click",
     callback: () => {
       this.addDiscount(this.discountCodeInput.value);
@@ -44,7 +44,7 @@ export default class BasketView {
   private discountLabel = new CreateElement({
     tag: "div",
     cssClasses: ["basket__discount-label"],
-    textContent: "Add discount code:",
+    textContent: "Promocode:",
     children: [this.discountCodeInput, this.addDiscountButton],
   }).getHTMLElement();
 
@@ -116,15 +116,15 @@ export default class BasketView {
       new CreateElement({
         tag: "h2",
         cssClasses: ["basket__line-items-title"],
-        textContent: "Products:",
-      }).getHTMLElement(),
+        textContent: "Products in cart:",
+      }).getHTMLElement()
     );
 
     cart.lineItems.forEach((product) => {
       const productLine = new ProductLine(
         product,
         this.setCartTotalPrice.bind(this),
-        this.deleteCart.bind(this),
+        this.deleteCart.bind(this)
       );
       this.lineItems.append(productLine.getHTMLElement());
     });
@@ -137,20 +137,20 @@ export default class BasketView {
       new CreateElement({
         tag: "h2",
         cssClasses: ["basket__discount-code-items-title"],
-        textContent: "Discounts:",
+        textContent: "Don't have a discount?",
       }).getHTMLElement(),
       new CreateElement({
         tag: "p",
         cssClasses: ["basket__discount-code-items-description"],
-        textContent: "You can find some discount codes on main page",
-      }).getHTMLElement(),
+        textContent: "Look for promocodes on main page",
+      }).getHTMLElement()
     );
 
     cart.discountCodes.forEach((discountCode) => {
       const discountCodeLine = new DiscountCodeLine(
         discountCode.discountCode,
         this.setCartTotalPrice.bind(this),
-        this.renderLineItems.bind(this),
+        this.renderLineItems.bind(this)
       );
       this.discountCodeItems.append(discountCodeLine.getHTMLElement());
     });
@@ -189,8 +189,8 @@ export default class BasketView {
     document.body.append(
       new ModalConfirmation(
         "Are you sure you want to delete the cart?",
-        this.deleteCart.bind(this),
-      ).getHTMLElement(),
+        this.deleteCart.bind(this)
+      ).getHTMLElement()
     );
   }
 
@@ -225,9 +225,13 @@ export default class BasketView {
     if (isDiscounted) {
       const discount = cart.discountOnTotalPrice.discountedAmount.centAmount;
       const fullPrice = totalPrice + discount;
-      this.cartTotalPrice.innerHTML = `Total cost: <del>${fullPrice / 100}</del> ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+      this.cartTotalPrice.innerHTML = `Total cost: <del>${
+        fullPrice / 100
+      }</del> ${totalPrice / 100} ${totalPriceCurrencyCode}`;
     } else {
-      this.cartTotalPrice.textContent = `Total cost: ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+      this.cartTotalPrice.textContent = `Total cost: ${
+        totalPrice / 100
+      } ${totalPriceCurrencyCode}`;
     }
   }
 

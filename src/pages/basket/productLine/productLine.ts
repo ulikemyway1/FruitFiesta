@@ -67,7 +67,7 @@ export default class ProductLine {
   private delete = new CreateElement({
     tag: "button",
     cssClasses: ["product-line__delete"],
-    textContent: "✖",
+    textContent: "Delete",
     eventType: "click",
     callback: this.removeProductHandler.bind(this),
   });
@@ -81,7 +81,6 @@ export default class ProductLine {
     tag: "div",
     cssClasses: ["product-line"],
     children: [
-      this.delete,
       this.img,
       this.name,
       this.priceBlock,
@@ -89,13 +88,14 @@ export default class ProductLine {
       this.quantity,
       this.plus,
       this.totalLineItemPrice,
+      this.delete,
     ],
   });
 
   constructor(
     product: LineItem,
     setCartTotalPrice: (cart: Cart) => void,
-    deleteCart: () => void,
+    deleteCart: () => void
   ) {
     this.product = product;
     this.setCartTotalPrice = setCartTotalPrice;
@@ -104,12 +104,19 @@ export default class ProductLine {
     this.name.getHTMLElement().textContent = product.name["en-GB"];
     if (product.variant.images?.length)
       this.img.getHTMLElement().src = product.variant.images[0].url;
-    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100}`;
+    this.price.getHTMLElement().textContent = `${
+      product.price.value.centAmount / 100
+    }`;
     if (product.price.discounted) {
-      this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100}`;
+      this.discountPrice.getHTMLElement().textContent = `${
+        product.price.discounted.value.centAmount / 100
+      }`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     } else if (product.discountedPricePerQuantity.length) {
-      this.discountPrice.getHTMLElement().textContent = `${product.discountedPricePerQuantity[0].discountedPrice.value.centAmount / 100}`;
+      this.discountPrice.getHTMLElement().textContent = `${
+        product.discountedPricePerQuantity[0].discountedPrice.value.centAmount /
+        100
+      }`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     }
 
@@ -129,7 +136,7 @@ export default class ProductLine {
       .then((response) => {
         basketModel.cart = response.body;
         this.product = response.body.lineItems.find(
-          (lineItem) => lineItem.id === this.product.id,
+          (lineItem) => lineItem.id === this.product.id
         )!;
         if (!basketModel.cart.lineItems.length) {
           this.deleteCart();
