@@ -1,5 +1,7 @@
 .user-profile__shipping-card,
 .user-profile__billing-card {
+  position: relative;
+
   background: var(--additional-pages-background);
   color: var(--dark-brown-text-color);
   border-radius: 12px;
