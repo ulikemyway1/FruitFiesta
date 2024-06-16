@@ -8,9 +8,18 @@ export class APIRootBuilder {
     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
     .withProjectKey(process.env.CTP_PROJECT_KEY!);
 
+  // private client: ClientBuilder;
+
+  // constructor() {
+  //   this.client = new ClientBuilder()
+  //     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
+  //     .withProjectKey(process.env.CTP_PROJECT_KEY!);
+  // }
+
   private createRequestAPI(client: ClientBuilder) {
-    tokenStorage.clear();
-    return createApiBuilderFromCtpClient(client.build()).withProjectKey({
+    return createApiBuilderFromCtpClient(
+      client.withLoggerMiddleware().build(),
+    ).withProjectKey({
       projectKey: process.env.CTP_PROJECT_KEY!,
     });
   }
@@ -35,18 +44,15 @@ export class APIRootBuilder {
     );
   }
 
+  // public withRefreshTokenFlow(refreshToken: TokenStore["refreshToken"]) {
+  //   requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken!;
   public withRefreshTokenFlow() {
-    // token: TokenStore
-    let refreshToken: string;
-    const savedAuthToken = localStorage.getItem("auth-token");
-    if (savedAuthToken) {
-      refreshToken = JSON.parse(savedAuthToken).refreshToken;
-    } else {
-      refreshToken = "";
-      console.error("No refreshToken");
-    }
-    // const refreshToken = token.refreshToken!;
+    const { refreshToken } = tokenStorage.get(); // .split(":")[1];
+
+    // debugger;
+
     requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken;
+
     return this.createRequestAPI(
       this.client.withRefreshTokenFlow(
         requestAPIConfig.refreshMiddlewareOptions,
@@ -55,11 +61,8 @@ export class APIRootBuilder {
   }
 
   public apiRoot() {
-    const savedAuthToken = localStorage.getItem("auth-token");
-    if (savedAuthToken) {
-      // const token = tokenStorage.get();
-      // if (token) {
-      return this.withRefreshTokenFlow(); // token
+    if (JSON.parse(localStorage.getItem("LoggedIn") || "false")) {
+      return this.withRefreshTokenFlow();
     }
     return this.withAnonymousSessionFlow();
   }

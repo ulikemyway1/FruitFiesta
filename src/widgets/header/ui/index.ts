@@ -6,7 +6,7 @@ import Hash from "../../../shared/routs/enumHash";
 import user from "../../../entities/user";
 import userProfileAddresses from "../../../features/user-profile/user-address";
 // import basketModel from "../../../pages/basket/basketModel";
-// import requestAPI from "../../../shared/api/APIRootBuilder";
+import requestAPI from "../../../shared/api/APIRootBuilder";
 
 class Header {
   private title = new CreateElement<HTMLDivElement>({
@@ -237,22 +237,24 @@ class Header {
       userProfileAddresses.removeAll();
       user.userInfo = null;
       user.userIsLoggedIn = false;
-      localStorage.removeItem("auth-token");
+      // localStorage.removeItem("auth-token");
+      localStorage.setItem("LoggedIn", JSON.stringify(false));
+
       window.location.hash = Hash.LOGIN;
       this.closeKeyIconPopUp();
 
       // basketModel.resetCart();
 
-      // requestAPI
-      //   .apiRoot()
-      //   .me()
-      //   .get()
-      //   .execute()
-      //   .then((response) => {
-      //     console.log("User on LogOUT!!!", response);
-      //   });
+      requestAPI
+        .apiRoot()
+        .me()
+        .get()
+        .execute()
+        .then((response) => {
+          console.log("User on LogOUT!!!", response);
+        });
 
-      // console.log("requestAPI on LogOUT!!!", requestAPI.apiRoot());
+      console.log("requestAPI on LogOUT!!!", requestAPI.apiRoot());
     });
 
     setTimeout(() => {

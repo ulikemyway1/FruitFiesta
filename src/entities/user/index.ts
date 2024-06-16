@@ -11,14 +11,15 @@ class User {
 
   private observers: Observer[] = [];
 
-  private authToken = localStorage.getItem("auth-token");
+  // private authToken = localStorage.getItem("auth-token");
+  loggedIn = JSON.parse(localStorage.getItem("LoggedIn") || "false");
   // private token = localStorage.getItem("token");
 
   private userData: Customer | null = null;
 
   constructor() {
-    if (this.authToken) {
-      // if (this.token) {
+    // if (this.authToken) {
+    if (this.loggedIn) {
       this.userIsLoggedIn = true;
       requestAPI
         .apiRoot()
