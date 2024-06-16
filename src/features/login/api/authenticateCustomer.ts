@@ -4,6 +4,8 @@ import { LoginFormView } from "../ui/loginFormView";
 import loginCustomer from "../../../shared/api/loginCustomer";
 
 import user from "../../../entities/user";
+import requestAPI from "../../../shared/api/APIRootBuilder";
+import basketModel from "../../../pages/basket/basketModel";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
@@ -19,7 +21,22 @@ export default function sendRequestCustomerAuth(
         localStorage.setItem("auth-token", localStorage.getItem("token")!);
         user.userIsLoggedIn = true;
         user.userInfo = response.body.customer;
+
+        // fetch actual user cart
+        requestAPI
+          .withPasswordFlow(customerAuthData.password, customerAuthData.email)
+          .me()
+          .activeCart()
+          .get()
+          .execute()
+          .then((responseWithBasket) => {
+            if (response.statusCode === 200) {
+              basketModel.privateCart = responseWithBasket.body;
+              basketModel.notify();
+            }
+          });
         user.notify();
+        //
       }
     })
     .catch((e) => {
