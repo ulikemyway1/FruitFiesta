@@ -37,7 +37,7 @@ export default function sendRequestCustomerCreation(
             // save token as auth on success log ing for auto re-login
             localStorage.setItem("auth-token", localStorage.getItem("token")!);
             requestAPI
-              .apiRoot()
+              .withPasswordFlow(customerData.password, customerData.email)
               .me()
               .post({
                 body: {

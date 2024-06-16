@@ -4,6 +4,8 @@ import requestAPIConfig from "./APIRootBuilderConfig";
 import tokenStorage from "../state/model/tokenStorage";
 
 export class APIRootBuilder {
+  public savedRefresh: string = "";
+
   private client = new ClientBuilder()
     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
     .withProjectKey(process.env.CTP_PROJECT_KEY!);
@@ -36,15 +38,7 @@ export class APIRootBuilder {
   }
 
   public withRefreshTokenFlow() {
-    let refreshToken: string;
-    const savedAuthToken = localStorage.getItem("auth-token");
-    if (savedAuthToken) {
-      refreshToken = JSON.parse(savedAuthToken).refreshToken;
-    } else {
-      refreshToken = "";
-      console.error("No refreshToken");
-    }
-    requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken;
+    requestAPIConfig.refreshMiddlewareOptions.refreshToken = this.savedRefresh;
     return this.createRequestAPI(
       this.client.withRefreshTokenFlow(
         requestAPIConfig.refreshMiddlewareOptions,
@@ -53,10 +47,22 @@ export class APIRootBuilder {
   }
 
   public apiRoot() {
-    const savedAuthToken = localStorage.getItem("auth-token");
-    if (savedAuthToken) {
+    if (this.savedRefresh) {
       return this.withRefreshTokenFlow();
     }
+
+    const savedAuthToken =
+      localStorage.getItem("auth-token") || localStorage.getItem("token");
+
+    if (savedAuthToken) {
+      const savedLocalRefresh = JSON.parse(savedAuthToken).refreshToken;
+
+      if (savedLocalRefresh) {
+        this.savedRefresh = JSON.parse(savedAuthToken).refreshToken;
+        return this.withRefreshTokenFlow();
+      }
+    }
+
     return this.withAnonymousSessionFlow();
   }
 }

@@ -306,7 +306,7 @@ export default class CategoriesBlockView {
       ? categories.filter((category) => category.parent === undefined)
       : categories.filter(
           (category) =>
-            category.parent?.id === this.getLastCategoryIdByPathSlug(path)
+            category.parent?.id === this.getLastCategoryIdByPathSlug(path),
         );
 
     availableCategories.forEach((category) => {
