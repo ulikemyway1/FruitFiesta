@@ -2,39 +2,115 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  padding: 1rem;
+  justify-content: start;
+  border: 1px solid var(--dark-brown-text-color);
+  background-color: var(--additional-pages-background);
+  border-radius: 5px;
+}
+
+@media (max-width: 1024px) {
+  .product-line {
+    max-width: 500px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .basket__line-items {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .basket__checkout-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 550px) {
+  .product-line {
+    max-width: 300px;
+    &__name {
+      text-align: center;
+    }
+  }
 }
 
 .product-line__img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
+  transition: 0.3s linear;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    transform: scale(4);
+  }
 }
 
 .product-line__name {
+  min-width: 200px;
 }
 
 .product-line__price {
 }
 
 .product-line__discount-price {
+  color: var(--green-text-color);
 }
 
 .product-line__currency {
 }
 
 .product-line__price-block {
+  display: flex;
+  gap: 10px;
+  min-width: 200px;
 }
 
 .product-line__quantity {
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.product-line__minus {
-}
-
+.product-line__minus,
 .product-line__plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s linear;
+  height: 33px;
+  &:hover {
+    background-color: var(--green-text-color);
+  }
 }
 
 .product-line__delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s linear;
+  height: 33px;
+  &:hover {
+    background-color: var(--green-text-color);
+  }
 }
 
 .product-line__total-line-item-price {
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
 }

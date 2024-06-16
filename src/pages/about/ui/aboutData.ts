@@ -8,7 +8,7 @@ const aboutData = {
   teamTitle: "Our team",
   teamContent: [
     {
-      name: "Aleksey",
+      name: "Alexander",
       position: "Frontend Developer",
       img: alex,
       text: "PhD in Technical Sciences and passionate about programming. Currently teaching computer science at the Department of Computer Science and Web-Design. During the final project development he did an internship in a Belarusian web-studio. The youngest and most ambitious member of our team - team lead. Lives in Belarus.",
