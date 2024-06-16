@@ -5,6 +5,8 @@ import Hash from "../../../shared/routs/enumHash";
 
 import user from "../../../entities/user";
 import userProfileAddresses from "../../../features/user-profile/user-address";
+import requestAPI from "../../../shared/api/APIRootBuilder";
+import basketModel from "../../../pages/basket/basketModel";
 
 class Header {
   private title = new CreateElement<HTMLDivElement>({
@@ -232,10 +234,21 @@ class Header {
 
     this.logoutLink.addEventListener("click", (event) => {
       event.preventDefault();
+
+      // clean data
       userProfileAddresses.removeAll();
       user.userInfo = null;
       user.userIsLoggedIn = false;
       localStorage.removeItem("auth-token");
+      localStorage.removeItem("token");
+      requestAPI.savedRefresh = "";
+      //
+
+      // init new car for new anon session
+      basketModel.resetCart();
+      basketModel.getCart();
+      //
+
       window.location.hash = Hash.LOGIN;
       this.closeKeyIconPopUp();
     });

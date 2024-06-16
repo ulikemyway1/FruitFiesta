@@ -4,7 +4,7 @@ import requestAPIConfig from "./APIRootBuilderConfig";
 import tokenStorage from "../state/model/tokenStorage";
 
 export class APIRootBuilder {
-  private savedRefresh: string = "";
+  public savedRefresh: string = "";
 
   private client = new ClientBuilder()
     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
