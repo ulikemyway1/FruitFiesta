@@ -4,6 +4,7 @@ import { LoginFormView } from "../ui/loginFormView";
 import loginCustomer from "../../../shared/api/loginCustomer";
 
 import user from "../../../entities/user";
+// import requestAPI from "../../../shared/api/APIRootBuilder";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
@@ -20,6 +21,17 @@ export default function sendRequestCustomerAuth(
         user.userIsLoggedIn = true;
         user.userInfo = response.body.customer;
         user.notify();
+
+        // requestAPI
+        //   .apiRoot()
+        //   .me()
+        //   .get()
+        //   .execute()
+        //   .then((responseee) => {
+        //     console.log("User on LogIN!!!", responseee);
+        //   });
+
+        // console.log("requestAPI on LogIN!!!", requestAPI.apiRoot());
       }
     })
     .catch((e) => {

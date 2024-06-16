@@ -1,4 +1,4 @@
-import { ClientBuilder } from "@commercetools/sdk-client-v2";
+import { ClientBuilder } from "@commercetools/sdk-client-v2"; // TokenStore
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
 import requestAPIConfig from "./APIRootBuilderConfig";
 import tokenStorage from "../state/model/tokenStorage";
@@ -36,6 +36,7 @@ export class APIRootBuilder {
   }
 
   public withRefreshTokenFlow() {
+    // token: TokenStore
     let refreshToken: string;
     const savedAuthToken = localStorage.getItem("auth-token");
     if (savedAuthToken) {
@@ -44,6 +45,7 @@ export class APIRootBuilder {
       refreshToken = "";
       console.error("No refreshToken");
     }
+    // const refreshToken = token.refreshToken!;
     requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken;
     return this.createRequestAPI(
       this.client.withRefreshTokenFlow(
@@ -55,7 +57,9 @@ export class APIRootBuilder {
   public apiRoot() {
     const savedAuthToken = localStorage.getItem("auth-token");
     if (savedAuthToken) {
-      return this.withRefreshTokenFlow();
+      // const token = tokenStorage.get();
+      // if (token) {
+      return this.withRefreshTokenFlow(); // token
     }
     return this.withAnonymousSessionFlow();
   }

@@ -12,11 +12,13 @@ class User {
   private observers: Observer[] = [];
 
   private authToken = localStorage.getItem("auth-token");
+  // private token = localStorage.getItem("token");
 
   private userData: Customer | null = null;
 
   constructor() {
     if (this.authToken) {
+      // if (this.token) {
       this.userIsLoggedIn = true;
       requestAPI
         .apiRoot()
@@ -37,6 +39,7 @@ class User {
   set userIsLoggedIn(value: boolean) {
     this.privateUserIsLoggedIn = value;
     basketModel.resetCart();
+    basketModel.getCart();
     this.notify();
   }
 
