@@ -37,7 +37,8 @@ class User {
   set userIsLoggedIn(value: boolean) {
     this.privateUserIsLoggedIn = value;
     basketModel.resetCart();
-    this.notify();
+    // this.notify();
+    basketModel.getCart().then(() => this.notify());
   }
 
   set userInfo(userData: Customer | null) {
