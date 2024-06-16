@@ -13,7 +13,11 @@
 .pagination__current-page {
   flex-shrink: 0;
   background: white;
-  padding: 0.4rem;
+  padding: 0 0.4rem;
+  height: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination__total-pages {
@@ -32,6 +36,7 @@
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  height: 33px;
 
   @media (hover: hover) {
     &:hover {
@@ -41,24 +46,21 @@
 
   &:disabled {
     background: var(--button-disabled-background);
-    // color: var(--button-disabled-text);
     cursor: default;
   }
 }
 
 .pagination__button-prev {
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px;
 }
 .pagination__button-next {
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 5px 5px 0;
 }
 
 .pagination__items-on-page-select {
   cursor: pointer;
-  padding: 0.3rem;
-  border: none;
-  border-radius: 10px;
-}
-
-.pagination__items-on-page {
+  padding: 0 0.3rem;
+  border: 1px solid var(--dark-brown-text-color);
+  border-radius: 5px;
+  min-height: 33px;
 }
