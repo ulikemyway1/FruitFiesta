@@ -8,14 +8,7 @@
   gap: 60px;
   flex-grow: 1;
 }
-@media (max-width: 1024px) {
-  .basket {
-    align-items: center;
-  }
-  .basket__discount-label {
-    justify-content: center;
-  }
-}
+
 .basket__line-items {
   display: flex;
   flex-direction: column;
@@ -30,14 +23,12 @@
 .basket__discount-code-items {
   background-color: var(--white-text-color);
   border: 1px solid var(--dark-brown-text-color);
-  margin: 0 auto;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  justify-content: start;
   align-items: center;
-  text-align: center;
+  align-self: flex-start;
   border-radius: 40px;
 }
 
@@ -118,4 +109,19 @@
 }
 
 .basket__empty-link {
+}
+
+@media (max-width: 1024px) {
+  .basket {
+    align-items: center;
+  }
+  .basket__discount-label {
+    justify-content: center;
+  }
+  .basket__checkout-row {
+    flex-direction: column;
+  }
+  .basket__discount-code-items {
+    align-self: center;
+  }
 }
