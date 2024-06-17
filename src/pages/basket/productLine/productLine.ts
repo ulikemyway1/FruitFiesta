@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
 import basketModel from "../basketModel";
+import modalLoadingScreen from "../../../widgets/modalLoadingScreen/modalLoadingScreen";
 
 export default class ProductLine {
   private product: LineItem;
@@ -95,7 +96,7 @@ export default class ProductLine {
   constructor(
     product: LineItem,
     setCartTotalPrice: (cart: Cart) => void,
-    deleteCart: () => void
+    deleteCart: () => void,
   ) {
     this.product = product;
     this.setCartTotalPrice = setCartTotalPrice;
@@ -129,6 +130,8 @@ export default class ProductLine {
   }
 
   private async changeQuantityHandler(change: number) {
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     if (!this.product?.quantity) return;
     const newQuantity = this.product.quantity + change;
     const cart = await basketModel.getCart();
@@ -136,7 +139,7 @@ export default class ProductLine {
       .then((response) => {
         basketModel.cart = response.body;
         this.product = response.body.lineItems.find(
-          (lineItem) => lineItem.id === this.product.id
+          (lineItem) => lineItem.id === this.product.id,
         )!;
         if (!basketModel.cart.lineItems.length) {
           this.deleteCart();
@@ -156,10 +159,15 @@ export default class ProductLine {
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
+      })
+      .finally(() => {
+        modalLoadingScreen.close();
       });
   }
 
   private async removeProductHandler() {
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     const cart = await basketModel.getCart();
     fetchRemoveFromCart(cart, this.product.id)
       .then((response) => {
@@ -173,6 +181,9 @@ export default class ProductLine {
       })
       .catch((error) => {
         console.log("Error while removing product: ", error);
+      })
+      .finally(() => {
+        modalLoadingScreen.close();
       });
   }
 

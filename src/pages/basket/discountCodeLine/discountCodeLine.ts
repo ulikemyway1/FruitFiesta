@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import { fetchRemoveDiscountCode } from "../apiBasket";
 import basketModel from "../basketModel";
 import discountsState from "../../../shared/state/discounts/discounts";
+import modalLoadingScreen from "../../../widgets/modalLoadingScreen/modalLoadingScreen";
 
 export default class DiscountCodeLine {
   private discountReference: DiscountCodeReference;
@@ -49,7 +50,8 @@ export default class DiscountCodeLine {
   }
 
   private async removeDiscountHandler() {
-    console.log("Remove discount button clicked");
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     const cart = await basketModel.getCart();
     fetchRemoveDiscountCode(cart, this.discountReference)
       .then((response) => {
@@ -60,6 +62,9 @@ export default class DiscountCodeLine {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        modalLoadingScreen.getHTMLElement().remove();
       });
   }
 

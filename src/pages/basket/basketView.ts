@@ -8,6 +8,7 @@ import basketModel from "./basketModel";
 import cleanContainer from "../../shared/utils/clean-container";
 import ModalConfirmation from "../../widgets/modalConfirmation/modalConfirmation";
 import ModalMessage from "../../widgets/modalMessage/modalMessage";
+import modalLoadingScreen from "../../widgets/modalLoadingScreen/modalLoadingScreen";
 
 export default class BasketView {
   cart: Cart | undefined;
@@ -60,6 +61,11 @@ export default class BasketView {
     eventType: "click",
     callback: () => {
       console.log("Checkout button clicked");
+      document.body.append(
+        new ModalMessage(
+          "Congrats!!! Let's assume that you bought everything you wanted.",
+        ).getHTMLElement(),
+      );
     },
   }).getHTMLElement();
 
@@ -117,14 +123,14 @@ export default class BasketView {
         tag: "h2",
         cssClasses: ["basket__line-items-title"],
         textContent: "Products in cart:",
-      }).getHTMLElement()
+      }).getHTMLElement(),
     );
 
     cart.lineItems.forEach((product) => {
       const productLine = new ProductLine(
         product,
         this.setCartTotalPrice.bind(this),
-        this.deleteCart.bind(this)
+        this.deleteCart.bind(this),
       );
       this.lineItems.append(productLine.getHTMLElement());
     });
@@ -143,20 +149,22 @@ export default class BasketView {
         tag: "p",
         cssClasses: ["basket__discount-code-items-description"],
         textContent: "Look for promocodes on main page",
-      }).getHTMLElement()
+      }).getHTMLElement(),
     );
 
     cart.discountCodes.forEach((discountCode) => {
       const discountCodeLine = new DiscountCodeLine(
         discountCode.discountCode,
         this.setCartTotalPrice.bind(this),
-        this.renderLineItems.bind(this)
+        this.renderLineItems.bind(this),
       );
       this.discountCodeItems.append(discountCodeLine.getHTMLElement());
     });
   }
 
   addDiscount(discountCode: string) {
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     fetchAddDiscountCode(basketModel.cart, discountCode)
       .then((response) => {
         const cart = response.body;
@@ -168,20 +176,27 @@ export default class BasketView {
       })
       .catch((error) => {
         this.getMessageModal(error.message);
+      })
+      .finally(() => {
+        modalLoadingScreen.getHTMLElement().remove();
       });
   }
 
   deleteCart() {
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     if (basketModel.cart)
       fetchDeleteCart(basketModel.cart)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           basketModel.resetCart();
           cleanContainer(this.container.getHTMLElement());
           this.render(basketModel.cart);
         })
         .catch((error) => {
           console.log("Error while deleting cart: ", error);
+        })
+        .finally(() => {
+          modalLoadingScreen.close();
         });
   }
 
@@ -189,8 +204,8 @@ export default class BasketView {
     document.body.append(
       new ModalConfirmation(
         "Are you sure you want to delete the cart?",
-        this.deleteCart.bind(this)
-      ).getHTMLElement()
+        this.deleteCart.bind(this),
+      ).getHTMLElement(),
     );
   }
 
@@ -218,7 +233,6 @@ export default class BasketView {
   }
 
   setCartTotalPrice(cart: Cart) {
-    console.log(cart);
     const isDiscounted = cart.discountOnTotalPrice;
     const totalPrice = cart.totalPrice.centAmount;
     const totalPriceCurrencyCode = cart.totalPrice.currencyCode;

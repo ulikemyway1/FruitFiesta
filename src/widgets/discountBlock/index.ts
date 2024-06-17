@@ -30,7 +30,6 @@ export default class DiscountBlockView {
 
   constructor() {
     fetchDiscountCodes().then((response) => {
-      // console.log(response);
       discountsState.discountCodes = response.body.results;
       response.body.results.forEach((discountCode) => {
         const discountCodeCard = new DiscountCodeCardView(discountCode);
@@ -42,7 +41,6 @@ export default class DiscountBlockView {
       .append(this.container.getHTMLElement());
 
     fetchProductDiscounts().then((response) => {
-      console.log(response);
       discountsState.productDiscounts = response.body.results;
       response.body.results.forEach((productDiscount) => {
         const discountCard = new ProductDiscountView(productDiscount);
