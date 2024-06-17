@@ -3,7 +3,6 @@ import CreateElement from "../../../shared/helpers/element-create";
 import getProductData from "../api/getProductData";
 import notFoundPageView from "../../notFound";
 import Router from "../../../app/routing/model/router";
-// import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
@@ -11,6 +10,7 @@ import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
 import { fetchAddToCart, fetchRemoveFromCart } from "../../basket/apiBasket";
 import basketModel from "../../basket/basketModel";
+import modalLoadingScreen from "../../../widgets/modalLoadingScreen/modalLoadingScreen";
 
 export default class ProductDetailsPageView {
   private product: ProductProjection | undefined;
@@ -227,6 +227,8 @@ export default class ProductDetailsPageView {
   }
 
   private async removeProductHandler() {
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     const cart = await basketModel.getCart();
     const lineItem = cart.lineItems.find(
       (item) => item.productId === this.product?.id,
@@ -239,6 +241,9 @@ export default class ProductDetailsPageView {
       })
       .catch((error) => {
         console.log("Error while removing product: ", error);
+      })
+      .finally(() => {
+        modalLoadingScreen.close();
       });
   }
 
@@ -346,14 +351,9 @@ export default class ProductDetailsPageView {
     ).toFixed(2);
   }
 
-  // private navigateToBasket(): void {
-  //   window.location.hash = Hash.BASKET;
-  // }
-
   private async handleBuyButton(event: Event, quantity: number) {
-    // event.stopPropagation();
-    // console.log("Buy button clicked", this.product);
-    // console.log("Quantity: ", quantity);
+    document.body.append(modalLoadingScreen.getHTMLElement());
+
     if (!this.product) return;
     const cart = await basketModel.getCart();
     fetchAddToCart(cart, this.product.id, quantity)
@@ -363,6 +363,9 @@ export default class ProductDetailsPageView {
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
+      })
+      .finally(() => {
+        modalLoadingScreen.close();
       });
   }
 

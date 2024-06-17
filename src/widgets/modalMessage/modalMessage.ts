@@ -33,7 +33,14 @@ export default class ModalMessage {
 
   constructor(messageText: string) {
     this.message.getHTMLElement().textContent = messageText;
+
+    document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
+    document.body.style.overflow = "hidden";
+
     this.confirmButton.getHTMLElement().addEventListener("click", () => {
+      document.body.style.paddingRight = "";
+      document.body.style.overflow = "";
+
       this.container.getHTMLElement().remove();
     });
   }

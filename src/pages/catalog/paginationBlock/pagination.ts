@@ -98,7 +98,6 @@ export default class Pagination {
     this.searchParams = searchParams;
     this.total = total;
 
-    console.log("Pagination searchParams: ", searchParams, total);
     if (searchParams.has("limit")) {
       this.limit = Number(searchParams.get("limit"));
       this.itemsOnPageSelect.value = this.limit.toString();
