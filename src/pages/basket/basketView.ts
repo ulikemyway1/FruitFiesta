@@ -178,7 +178,7 @@ export default class BasketView {
         this.getMessageModal(error.message);
       })
       .finally(() => {
-        modalLoadingScreen.getHTMLElement().remove();
+        modalLoadingScreen.close();
       });
   }
 

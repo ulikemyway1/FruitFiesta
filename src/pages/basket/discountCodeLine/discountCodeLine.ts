@@ -64,7 +64,7 @@ export default class DiscountCodeLine {
         console.log(error);
       })
       .finally(() => {
-        modalLoadingScreen.getHTMLElement().remove();
+        modalLoadingScreen.close();
       });
   }
 
