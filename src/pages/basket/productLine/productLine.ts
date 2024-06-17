@@ -65,17 +65,48 @@ export default class ProductLine {
     callback: this.changeQuantityHandler.bind(this, 1),
   });
 
+  private totalLineItemPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-price"],
+  });
+
+  private totalLineItemDiscountedPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-discounted-price"],
+  });
+
+  private totalLineItemCurrency = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-currency"],
+  });
+
+  private totalLineItemPriceBlock = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-price-block"],
+    children: [
+      this.totalLineItemPrice,
+      this.totalLineItemDiscountedPrice,
+      this.totalLineItemCurrency,
+    ],
+  });
+
+  private minusQuantityPlusBlock = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__minus-quantity-plus-block"],
+    children: [
+      this.minus,
+      this.quantity,
+      this.plus,
+      this.totalLineItemPriceBlock,
+    ],
+  });
+
   private delete = new CreateElement({
     tag: "button",
     cssClasses: ["product-line__delete"],
     textContent: "Delete",
     eventType: "click",
     callback: this.removeProductHandler.bind(this),
-  });
-
-  private totalLineItemPrice = new CreateElement({
-    tag: "div",
-    cssClasses: ["product-line__total-line-item-price"],
   });
 
   private container = new CreateElement({
@@ -85,10 +116,7 @@ export default class ProductLine {
       this.img,
       this.name,
       this.priceBlock,
-      this.minus,
-      this.quantity,
-      this.plus,
-      this.totalLineItemPrice,
+      this.minusQuantityPlusBlock,
       this.delete,
     ],
   });
@@ -105,6 +133,7 @@ export default class ProductLine {
     this.name.getHTMLElement().textContent = product.name["en-GB"];
     if (product.variant.images?.length)
       this.img.getHTMLElement().src = product.variant.images[0].url;
+
     this.price.getHTMLElement().textContent = `${
       product.price.value.centAmount / 100
     }`;
@@ -120,13 +149,19 @@ export default class ProductLine {
       }`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     }
-
     this.currency.getHTMLElement().textContent =
       product.price.value.currencyCode;
+
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
-    this.totalLineItemPrice.getHTMLElement().textContent = `${
-      product.totalPrice.centAmount / 100
-    } ${product.totalPrice.currencyCode}`;
+
+    // start
+
+    this.renderTotalLineItemPrice(product);
+
+    // finish
+
+    this.totalLineItemCurrency.getHTMLElement().textContent =
+      product.totalPrice.currencyCode;
   }
 
   private async changeQuantityHandler(change: number) {
@@ -151,9 +186,8 @@ export default class ProductLine {
           return;
         }
         this.quantity.getHTMLElement().textContent = `${this.product.quantity}`;
-        this.totalLineItemPrice.getHTMLElement().textContent = `${
-          this.product.totalPrice.centAmount / 100
-        } ${this.product.totalPrice.currencyCode}`;
+
+        this.renderTotalLineItemPrice(this.product);
 
         this.setCartTotalPrice(response.body);
       })
@@ -163,6 +197,31 @@ export default class ProductLine {
       .finally(() => {
         modalLoadingScreen.close();
       });
+  }
+
+  private renderTotalLineItemPrice(product: LineItem) {
+    this.totalLineItemPrice.getHTMLElement().textContent = `${
+      product.totalPrice.centAmount / 100
+    }`;
+    if (product.price.discounted) {
+      this.totalLineItemPrice.getHTMLElement().textContent = `${
+        (product.price.value.centAmount * product.quantity) / 100
+      }`;
+      this.totalLineItemPrice.getHTMLElement().style.textDecoration =
+        "line-through";
+      this.totalLineItemDiscountedPrice.getHTMLElement().textContent = `${
+        product.totalPrice.centAmount / 100
+      }`;
+    } else if (product.discountedPricePerQuantity.length) {
+      this.totalLineItemPrice.getHTMLElement().textContent = `${
+        (product.price.value.centAmount * product.quantity) / 100
+      }`;
+      this.totalLineItemPrice.getHTMLElement().style.textDecoration =
+        "line-through";
+      this.totalLineItemDiscountedPrice.getHTMLElement().textContent = `${
+        product.totalPrice.centAmount / 100
+      }`;
+    }
   }
 
   private async removeProductHandler() {
