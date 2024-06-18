@@ -126,7 +126,7 @@ export default class ProductCardView {
 
   private async handleBuyButton(event: Event) {
     event.stopPropagation();
-    const cart = await basketModel.loadSetGetCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
 
     fetchLoadingWrapperDecorator(fetchAddToCart(cart, this.product.id))
       .then((response) => {

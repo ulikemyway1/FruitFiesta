@@ -50,7 +50,7 @@ export default class DiscountCodeLine {
   }
 
   private async removeDiscountHandler() {
-    const cart = await basketModel.loadSetGetCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
     fetchLoadingWrapperDecorator(
       fetchRemoveDiscountCode(cart, this.discountReference),
     )

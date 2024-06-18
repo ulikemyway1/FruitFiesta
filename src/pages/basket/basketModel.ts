@@ -31,7 +31,7 @@ class BasketModel {
   }
 
   constructor() {
-    this.loadSetGetCart();
+    this.getOrLoadSetGetCart();
   }
 
   async loadSetGetCarts() {
@@ -40,7 +40,7 @@ class BasketModel {
     return response.body.results;
   }
 
-  async loadSetGetCart() {
+  async getOrLoadSetGetCart() {
     if (!this.privateCart) {
       const carts = await this.loadSetGetCarts();
       if (carts.length === 0) {

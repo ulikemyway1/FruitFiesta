@@ -227,7 +227,7 @@ export default class ProductDetailsPageView {
   }
 
   private async removeProductHandler() {
-    const cart = await basketModel.loadSetGetCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
     const lineItem = cart.lineItems.find(
       (item) => item.productId === this.product?.id,
     );
@@ -244,7 +244,7 @@ export default class ProductDetailsPageView {
   }
 
   private checkIfInCart(productId: ProductProjection["id"]) {
-    basketModel.loadSetGetCart().then((cart) => {
+    basketModel.getOrLoadSetGetCart().then((cart) => {
       const quantity = cart.lineItems.find(
         (item) => item.productId === productId,
       )?.quantity;
@@ -350,7 +350,7 @@ export default class ProductDetailsPageView {
   private async handleBuyButton(event: Event, quantity: number) {
     if (!this.product) return;
 
-    const cart = await basketModel.loadSetGetCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
     fetchLoadingWrapperDecorator(
       fetchAddToCart(cart, this.product.id, quantity),
     )

@@ -13,7 +13,7 @@ export default class BasketController {
   }
 
   async initialize() {
-    const cart = await basketModel.loadSetGetCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
     this.view.render(cart);
   }
 
