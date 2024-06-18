@@ -4,7 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
 import basketModel from "../basketModel";
-import modalLoadingScreen from "../../../widgets/modalLoadingScreen/modalLoadingScreen";
+import fetchLoadingWrapperDecorator from "../../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class ProductLine {
   private product: LineItem;
@@ -165,12 +165,13 @@ export default class ProductLine {
   }
 
   private async changeQuantityHandler(change: number) {
-    document.body.append(modalLoadingScreen.getHTMLElement());
-
     if (!this.product?.quantity) return;
+
     const newQuantity = this.product.quantity + change;
     const cart = await basketModel.getCart();
-    fetchChangeQuantity(cart, this.product.id, newQuantity)
+    fetchLoadingWrapperDecorator(
+      fetchChangeQuantity(cart, this.product.id, newQuantity),
+    )
       .then((response) => {
         basketModel.cart = response.body;
         this.product = response.body.lineItems.find(
@@ -193,9 +194,6 @@ export default class ProductLine {
       })
       .catch((error) => {
         console.log("Error while changing quantity: ", error);
-      })
-      .finally(() => {
-        modalLoadingScreen.close();
       });
   }
 
@@ -225,10 +223,8 @@ export default class ProductLine {
   }
 
   private async removeProductHandler() {
-    document.body.append(modalLoadingScreen.getHTMLElement());
-
     const cart = await basketModel.getCart();
-    fetchRemoveFromCart(cart, this.product.id)
+    fetchLoadingWrapperDecorator(fetchRemoveFromCart(cart, this.product.id))
       .then((response) => {
         basketModel.cart = response.body;
         if (!basketModel.cart.lineItems.length) {
@@ -240,9 +236,6 @@ export default class ProductLine {
       })
       .catch((error) => {
         console.log("Error while removing product: ", error);
-      })
-      .finally(() => {
-        modalLoadingScreen.close();
       });
   }
 

@@ -24,9 +24,16 @@ class ModalLoadingScreen {
     children: [this.content],
   });
 
-  init() {
+  // init() {
+  //   document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
+  //   document.body.style.overflow = "hidden";
+  // }
+
+  show() {
     document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
     document.body.style.overflow = "hidden";
+
+    document.body.append(this.container.getHTMLElement());
   }
 
   close() {
@@ -37,7 +44,7 @@ class ModalLoadingScreen {
   }
 
   getHTMLElement(): HTMLElement {
-    this.init();
+    // this.init();
     return this.container.getHTMLElement();
   }
 }

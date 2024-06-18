@@ -8,7 +8,7 @@ import basketModel from "./basketModel";
 import cleanContainer from "../../shared/utils/clean-container";
 import ModalConfirmation from "../../widgets/modalConfirmation/modalConfirmation";
 import ModalMessage from "../../widgets/modalMessage/modalMessage";
-import modalLoadingScreen from "../../widgets/modalLoadingScreen/modalLoadingScreen";
+import fetchLoadingWrapperDecorator from "../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class BasketView {
   cart: Cart | undefined;
@@ -163,9 +163,9 @@ export default class BasketView {
   }
 
   addDiscount(discountCode: string) {
-    document.body.append(modalLoadingScreen.getHTMLElement());
-
-    fetchAddDiscountCode(basketModel.cart, discountCode)
+    fetchLoadingWrapperDecorator(
+      fetchAddDiscountCode(basketModel.cart, discountCode),
+    )
       .then((response) => {
         const cart = response.body;
         basketModel.cart = cart;
@@ -176,28 +176,21 @@ export default class BasketView {
       })
       .catch((error) => {
         this.getMessageModal(error.message);
-      })
-      .finally(() => {
-        modalLoadingScreen.close();
       });
   }
 
   deleteCart() {
-    document.body.append(modalLoadingScreen.getHTMLElement());
+    if (!basketModel.cart) return;
 
-    if (basketModel.cart)
-      fetchDeleteCart(basketModel.cart)
-        .then(() => {
-          basketModel.resetCart();
-          cleanContainer(this.container.getHTMLElement());
-          this.render(basketModel.cart);
-        })
-        .catch((error) => {
-          console.log("Error while deleting cart: ", error);
-        })
-        .finally(() => {
-          modalLoadingScreen.close();
-        });
+    fetchLoadingWrapperDecorator(fetchDeleteCart(basketModel.cart))
+      .then(() => {
+        basketModel.resetCart();
+        cleanContainer(this.container.getHTMLElement());
+        this.render(basketModel.cart);
+      })
+      .catch((error) => {
+        console.log("Error while deleting cart: ", error);
+      });
   }
 
   getConfirmationModal() {
