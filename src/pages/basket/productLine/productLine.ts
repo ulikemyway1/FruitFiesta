@@ -168,7 +168,7 @@ export default class ProductLine {
     if (!this.product?.quantity) return;
 
     const newQuantity = this.product.quantity + change;
-    const cart = await basketModel.getCart();
+    const cart = await basketModel.loadSetGetCart();
     fetchLoadingWrapperDecorator(
       fetchChangeQuantity(cart, this.product.id, newQuantity),
     )
@@ -223,7 +223,7 @@ export default class ProductLine {
   }
 
   private async removeProductHandler() {
-    const cart = await basketModel.getCart();
+    const cart = await basketModel.loadSetGetCart();
     fetchLoadingWrapperDecorator(fetchRemoveFromCart(cart, this.product.id))
       .then((response) => {
         basketModel.cart = response.body;

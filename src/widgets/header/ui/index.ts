@@ -246,7 +246,7 @@ class Header {
 
       // init new car for new anon session
       basketModel.resetCart();
-      basketModel.getCart();
+      basketModel.loadSetGetCart();
       //
 
       window.location.hash = Hash.LOGIN;

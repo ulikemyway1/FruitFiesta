@@ -6,7 +6,7 @@ interface Observer {
 }
 
 class BasketModel {
-  privateCart: Cart | null = null;
+  private privateCart: Cart | null = null;
 
   private observers: Observer[] = [];
 
@@ -31,18 +31,18 @@ class BasketModel {
   }
 
   constructor() {
-    this.getCart();
+    this.loadSetGetCart();
   }
 
-  async getCarts() {
+  async loadSetGetCarts() {
     const response = await fetchCarts();
     [this.privateCart] = response.body.results;
     return response.body.results;
   }
 
-  async getCart() {
+  async loadSetGetCart() {
     if (!this.privateCart) {
-      const carts = await this.getCarts();
+      const carts = await this.loadSetGetCarts();
       if (carts.length === 0) {
         const cart = await fetchMakeCart();
         this.privateCart = cart.body;
