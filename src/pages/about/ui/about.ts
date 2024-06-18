@@ -1,19 +1,19 @@
 import CreateElement from "../../../shared/helpers/element-create";
-import aboutData from "./aboutData";
 import "./about.scss";
+import { contributorsData } from "../../../shared/contributorsData/contributorsData";
 
 export class About {
   private teacherImage = new CreateElement<HTMLImageElement>({
     tag: "img",
     cssClasses: ["about__teacher-image"],
-    attributes: { src: aboutData.teacherLogo },
+    attributes: { src: contributorsData.teacherHeroIcon },
   }).getHTMLElement();
 
   private teacherLink = new CreateElement<HTMLLinkElement>({
     tag: "a",
     cssClasses: ["about__teacher-link"],
     attributes: {
-      href: "https://rs.school/courses",
+      href: contributorsData.teacherCourseLink,
     },
     children: [this.teacherImage],
   }).getHTMLElement();
@@ -33,13 +33,13 @@ export class About {
   private mentorText = new CreateElement<HTMLParagraphElement>({
     tag: "p",
     cssClasses: ["about__mentor-text"],
-    textContent: aboutData.mentorText,
+    textContent: contributorsData.mentorText,
   }).getHTMLElement();
 
   private mentorTitle = new CreateElement<HTMLParagraphElement>({
     tag: "h3",
     cssClasses: ["about__mentor-title"],
-    textContent: aboutData.mentorTitle,
+    textContent: contributorsData.mentorTitle,
   }).getHTMLElement();
 
   private mentorInner = new CreateElement<HTMLElement>({
@@ -57,13 +57,13 @@ export class About {
   private contributionText = new CreateElement<HTMLParagraphElement>({
     tag: "p",
     cssClasses: ["about__text"],
-    textContent: aboutData.contributionText,
+    textContent: contributorsData.contributionText,
   }).getHTMLElement();
 
   private contributionTitle = new CreateElement<HTMLHeadingElement>({
     tag: "h3",
     cssClasses: ["about__title"],
-    textContent: aboutData.contributionTitle,
+    textContent: contributorsData.contributionTitle,
   }).getHTMLElement();
 
   private contributionInner = new CreateElement<HTMLElement>({
@@ -81,7 +81,7 @@ export class About {
   private teamTitle = new CreateElement<HTMLHeadingElement>({
     tag: "h3",
     cssClasses: ["about__title"],
-    textContent: aboutData.teamTitle,
+    textContent: contributorsData.teamTitle,
   }).getHTMLElement();
 
   private teamInner = new CreateElement<HTMLElement>({
@@ -99,7 +99,7 @@ export class About {
   private projectTitle = new CreateElement<HTMLParagraphElement>({
     tag: "h3",
     cssClasses: ["project-title"],
-    textContent: aboutData.projectTitle,
+    textContent: contributorsData.projectTitle,
   }).getHTMLElement();
 
   private projectInner = new CreateElement<HTMLElement>({
@@ -120,7 +120,7 @@ export class About {
   }).getHTMLElement();
 
   constructor() {
-    aboutData.teamContent.forEach((data) => {
+    contributorsData.teamContent.forEach((data) => {
       const image = new CreateElement<HTMLImageElement>({
         tag: "img",
         cssClasses: ["about__team-image"],
@@ -172,7 +172,7 @@ export class About {
       this.teamSection,
       this.contributionSection,
       this.mentorSection,
-      this.teacherSection,
+      this.teacherSection
     );
   }
 
