@@ -1,0 +1,24 @@
+.modal-loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: auto;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+}
+
+.modal-loading-screen__content {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.modal-loading-screen__img {
+  width: 100px;
+  height: 100px;
+}

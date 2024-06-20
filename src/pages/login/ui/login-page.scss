@@ -1,0 +1,23 @@
+@import "../../../app/ui/global.scss";
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.login-page {
+  padding: 100px 16px;
+  margin: auto;
+  width: 457px;
+  animation: fadeIn 0.5s linear forwards;
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    max-width: 100%;
+  }
+}

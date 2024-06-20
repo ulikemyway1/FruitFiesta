@@ -1,0 +1,21 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.registration-page {
+  padding: 100px 16px;
+  margin: auto;
+  width: 457px;
+  animation: fadeIn 0.5s linear forwards;
+}
+
+@media (max-width: 480px) {
+  .registration-page {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,25 @@
+.discount-code-line {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  &__delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem 0.4rem;
+    color: var(--button-text);
+    background: var(--button-default-background);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.9rem;
+    height: 33px;
+    &:hover {
+      background-color: var(--green-text-color);
+    }
+  }
+  &__name {
+    color: var(--green-text-color);
+  }
+}

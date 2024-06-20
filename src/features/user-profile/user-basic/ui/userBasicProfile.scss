@@ -1,0 +1,22 @@
+.user-profile__basic {
+  background: var(--additional-pages-background);
+  color: var(--dark-brown-text);
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 24px;
+  transition: all 0.6s;
+  font-weight: 600;
+
+  .plate__section {
+    gap: 20px;
+    &-title {
+      font-size: 30px;
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .user-profile__basic:hover {
+    filter: brightness(1) drop-shadow(1px 1px black);
+  }
+}
