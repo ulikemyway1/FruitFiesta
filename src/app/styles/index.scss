@@ -3,3 +3,14 @@
 * {
   box-sizing: border-box;
 }
+
+// test behavior in safari
+input[type="search"] {
+  -webkit-appearance: none;
+}
+input[type="submit"] {
+  -webkit-appearance: none;
+}
+select {
+  -webkit-appearance: none;
+}
