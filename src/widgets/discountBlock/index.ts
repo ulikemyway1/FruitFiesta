@@ -1,7 +1,9 @@
 import "./index.scss";
 import CreateElement from "../../shared/helpers/element-create";
-import fetchDiscountCodes from "./api";
-import DiscountCardView from "../discountCard";
+import { fetchDiscountCodes, fetchProductDiscounts } from "./api";
+import DiscountCodeCardView from "../discountCodeCard";
+import ProductDiscountView from "../productDiscountCard";
+import discountsState from "../../shared/state/discounts/discounts";
 
 export default class DiscountBlockView {
   private title = new CreateElement({
@@ -28,14 +30,23 @@ export default class DiscountBlockView {
 
   constructor() {
     fetchDiscountCodes().then((response) => {
-      response.body.results.forEach((discount) => {
-        const discountCard = new DiscountCardView(discount);
-        this.content.addInnerElements(discountCard.getHTMLElement());
+      discountsState.discountCodes = response.body.results;
+      response.body.results.forEach((discountCode) => {
+        const discountCodeCard = new DiscountCodeCardView(discountCode);
+        this.content.addInnerElements(discountCodeCard.getHTMLElement());
       });
     });
     this.discountSection
       .getHTMLElement()
       .append(this.container.getHTMLElement());
+
+    fetchProductDiscounts().then((response) => {
+      discountsState.productDiscounts = response.body.results;
+      response.body.results.forEach((productDiscount) => {
+        const discountCard = new ProductDiscountView(productDiscount);
+        this.content.addInnerElements(discountCard.getHTMLElement());
+      });
+    });
   }
 
   getHTMLElement(): HTMLElement {

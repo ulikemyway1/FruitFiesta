@@ -1,4 +1,4 @@
-import CreateElement from "../../../shared/helpers/element-create";
+// import CreateElement from "../../../shared/helpers/element-create";
 import Router from "./router";
 import user from "../../../entities/user";
 import mainPage from "../../../pages/main";
@@ -9,6 +9,8 @@ import userProfileController from "../../../pages/userProfile/model/userProfileP
 import CatalogPage from "../../../pages/catalog";
 import notFoundPageView from "../../../pages/notFound";
 import ProductDetailsPageView from "../../../pages/product-details/ui/productDetailsPageView";
+import Basket from "../../../pages/basket";
+import aboutPage from "../../../pages/about";
 
 const router = new Router();
 
@@ -44,20 +46,10 @@ router.route(new RegExp(`^${Hash.PRODUCT}(\\/[\\w-]+)$`), (hash) => {
   Router.switchContent(new ProductDetailsPageView(productKey).getView());
 });
 router.route(Hash.BASKET, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "Basket",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(new Basket().getHTMLElement());
 });
 router.route(Hash.ABOUT, () => {
-  Router.switchContent(
-    new CreateElement({
-      tag: "h1",
-      textContent: "About",
-    }).getHTMLElement(),
-  );
+  Router.switchContent(aboutPage.getHTMLElement());
 });
 router.route(Hash.NOT_FOUND, () => {
   Router.switchContent(notFoundPageView);

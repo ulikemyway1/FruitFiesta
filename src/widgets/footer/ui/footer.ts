@@ -1,27 +1,35 @@
+import { contributorsData } from "../../../shared/contributorsData/contributorsData";
 import CreateElement from "../../../shared/helpers/element-create";
-import data from "./footerData";
-import rss from "../../../assets/images/rss.svg";
 import "./footer.scss";
 
 export class Footer {
   private rights = new CreateElement<HTMLParagraphElement>({
     tag: "p",
-    cssClasses: ["footer__text"],
-    textContent: "© 2024 Fruit Fiesta. All Rights Reserved.",
+    cssClasses: ["footer__rights"],
+    textContent: "2024",
   }).getHTMLElement();
 
   private image = new CreateElement<HTMLImageElement>({
     tag: "img",
-    cssClasses: ["footer__image"],
+    cssClasses: ["footer__image-rss"],
     attributes: {
-      src: rss,
+      src: contributorsData.teacherLogo,
     },
+  }).getHTMLElement();
+
+  private link = new CreateElement<HTMLLinkElement>({
+    tag: "a",
+    cssClasses: ["footer__link"],
+    attributes: {
+      href: contributorsData.teacherCourseLink,
+    },
+    children: [this.image],
   }).getHTMLElement();
 
   private linksWrapper = new CreateElement<HTMLDivElement>({
     tag: "div",
     cssClasses: ["footer__links-wrapper"],
-    children: [this.image],
+    children: [this.link, this.rights],
   }).getHTMLElement();
 
   private developerWrapper = new CreateElement<HTMLDivElement>({
@@ -32,30 +40,6 @@ export class Footer {
   private line = new CreateElement<HTMLDivElement>({
     tag: "div",
     cssClasses: ["footer__line"],
-  }).getHTMLElement();
-
-  private buttonLeft = new CreateElement<HTMLLinkElement>({
-    tag: "a",
-    cssClasses: ["footer__button"],
-    attributes: {
-      href: "https://github.com/users/ulikemyway1/projects/2",
-    },
-    textContent: "Project GitHub",
-  }).getHTMLElement();
-
-  private buttonRight = new CreateElement<HTMLLinkElement>({
-    tag: "a",
-    cssClasses: ["footer__button"],
-    attributes: {
-      href: "https://rs.school/courses",
-    },
-    textContent: "Enroll the course",
-  }).getHTMLElement();
-
-  private buttonsWrapper = new CreateElement<HTMLElement>({
-    tag: "article",
-    cssClasses: ["footer__buttons-wrapper"],
-    children: [this.buttonLeft, this.buttonRight],
   }).getHTMLElement();
 
   private text = new CreateElement<HTMLParagraphElement>({
@@ -74,13 +58,7 @@ export class Footer {
   private content = new CreateElement<HTMLElement>({
     tag: "article",
     cssClasses: ["footer__content"],
-    children: [
-      this.title,
-      this.text,
-      this.buttonsWrapper,
-      this.line,
-      this.linksWrapper,
-    ],
+    children: [this.title, this.text, this.line, this.linksWrapper],
   }).getHTMLElement();
 
   private container = new CreateElement<HTMLElement>({
@@ -89,17 +67,25 @@ export class Footer {
   }).getHTMLElement();
 
   constructor() {
-    data.footerData.forEach((developer) => {
+    contributorsData.teamContent.forEach((developer) => {
       const image = new CreateElement<HTMLImageElement>({
         tag: "img",
         cssClasses: ["footer__image"],
         attributes: {
-          href: developer.link,
-          src: developer.img,
+          src: developer.gitIcon,
         },
       }).getHTMLElement();
 
-      this.developerWrapper.append(image);
+      const link = new CreateElement<HTMLLinkElement>({
+        tag: "a",
+        cssClasses: ["footer__link"],
+        attributes: {
+          href: developer.link,
+        },
+        children: [image],
+      }).getHTMLElement();
+
+      this.developerWrapper.append(link);
     });
     this.linksWrapper.append(this.developerWrapper);
     this.content.append(this.linksWrapper);

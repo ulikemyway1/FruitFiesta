@@ -1,5 +1,6 @@
 import { Customer } from "@commercetools/platform-sdk";
 import requestAPI from "../../shared/api/APIRootBuilder";
+import basketModel from "../../pages/basket/basketModel";
 
 interface Observer {
   update(subject: User): void;
@@ -35,6 +36,8 @@ class User {
 
   set userIsLoggedIn(value: boolean) {
     this.privateUserIsLoggedIn = value;
+    basketModel.resetCart();
+    basketModel.getOrLoadSetGetCart();
     this.notify();
   }
 

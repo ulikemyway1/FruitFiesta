@@ -6,7 +6,7 @@
 .catalog-header__content {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0.6rem;
   gap: 1rem;
 }
 
@@ -15,21 +15,26 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+.flex-row-wrap:first-child {
+  border-bottom: 2px solid var(--dark-brown-text-color);
 }
 
-.catalog-header__breadcrumbs {
-}
 .catalog-header__breadcrumbs-item {
   background: none;
   border: none;
   cursor: pointer;
-  line-height: 2rem;
-  text-decoration: underline;
+  font-weight: 600;
+  color: var(--dark-brown-text-color);
+  &::first-letter {
+    text-transform: uppercase;
+  }
 
   &:last-child {
     cursor: default;
     text-decoration: none;
+    color: var(--green-text-color);
   }
 }
 
@@ -37,14 +42,18 @@
   display: flex;
   flex-wrap: wrap;
   align-self: flex-end;
+  gap: 1px;
 }
 
 .catalog-header__category-button {
-  background: none;
-  padding: 0.4rem 1rem;
-  border: 1px solid black;
+  // background-color: var(--additional-pages-background);
+  background-color: var(--button-default-background);
+  color: var(--white-text-color);
+  padding: 0.1rem 0.3rem;
+  border: 0.5px solid var(--dark-brown-text-color);
   border-bottom: none;
-  border-radius: 15px 15px 0 0;
+  border-radius: 10px 10px 0 0;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
@@ -56,13 +65,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   color: var(--button-text);
   background: var(--button-default-background);
   border: none;
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px;
   cursor: pointer;
   transition: 0.3s;
+  height: 33px;
 
   @media (hover: hover) {
     &:hover {
@@ -71,20 +81,28 @@
   }
 }
 .catalog-header__search-input {
-  padding: 0.4rem;
-  border: none;
+  padding: 0.2rem 0.4rem;
+  border: 0.5px solid var(--dark-brown-text-color);
+  height: 33px;
+  &::placeholder {
+    font-style: italic;
+    font-size: 0.7rem;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
 }
 .catalog-header__search-submit {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   color: var(--button-text);
   background: var(--button-default-background);
   border: none;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 0.9rem;
+  height: 33px;
 
   @media (hover: hover) {
     &:hover {
@@ -97,8 +115,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
-
+.catalog-header__sort-title {
+  font-weight: 600;
+}
 .catalog-header__sort-label {
   display: flex;
   align-items: center;
@@ -107,9 +128,11 @@
 
 .catalog-header__sort-select {
   cursor: pointer;
-  padding: 0.4rem;
-  border: none;
-  border-radius: 10px;
+  padding: 0 0.3rem;
+  border: 0.5px solid var(--dark-brown-text-color);
+  border-radius: 5px;
+  // background-color: var(--additional-pages-background);
+  font-size: 0.9rem;
 }
 
 .catalog-header__filter {
@@ -123,13 +146,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   color: var(--button-text);
   background: var(--button-default-background);
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  height: 33px;
 
   @media (hover: hover) {
     &:hover {
@@ -137,7 +161,9 @@
     }
   }
 }
-
+.catalog-header__filter-span {
+  font-weight: 600;
+}
 .catalog-header__filter-label {
   display: flex;
   align-items: center;
@@ -145,23 +171,32 @@
 }
 
 .catalog-header__filter-input {
-  max-width: 65px;
-  padding: 0.4rem;
+  width: 65px;
+  padding: 0 0.4rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
+  // background-color: var(--additional-pages-background);
+  border: 1px solid var(--dark-brown-text-color);
+  min-height: 33px;
 }
-
+.catalog-header__filter-input-item {
+  width: 20px;
+  height: 20px;
+  border: 0.5px solid var(--dark-brown-text-color);
+}
 .catalog-header__filter-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   color: var(--button-text);
   background: var(--button-default-background);
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 0.9rem;
+  height: 33px;
 
   @media (hover: hover) {
     &:hover {

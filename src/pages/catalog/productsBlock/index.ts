@@ -1,14 +1,7 @@
 import "./index.scss";
+import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
-import { fetchProductProjections } from "../api";
 import ProductCardView from "../../../widgets/productCard";
-
-interface QueryArgs {
-  filter?: string | string[];
-  sort?: string | string[];
-  limit?: number;
-  offset?: number;
-}
 
 export default class ProductsBlockView {
   private content = new CreateElement({
@@ -22,25 +15,12 @@ export default class ProductsBlockView {
     children: [this.content],
   });
 
-  constructor(queryArgs?: QueryArgs) {
-    this.getProducts(queryArgs)
-      .then((products) => {
-        products.forEach((product) => {
-          // console.log(product);
-          this.content.addInnerElements(
-            new ProductCardView(product).getHTMLElement(),
-          );
-        });
-      })
-      .catch((error) => {
-        console.log("Error while fetching products: ", error);
-        window.history.back();
-      });
-  }
-
-  async getProducts(queryArgs?: QueryArgs) {
-    const response = await fetchProductProjections(queryArgs);
-    return response.body.results;
+  constructor(products: ProductProjection[]) {
+    products.forEach((product) => {
+      this.content.addInnerElements(
+        new ProductCardView(product).getHTMLElement(),
+      );
+    });
   }
 
   getHTMLElement(): HTMLElement {

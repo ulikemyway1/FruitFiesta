@@ -2,6 +2,9 @@ import "./productCard.scss";
 import { ProductProjection } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
+import { fetchAddToCart } from "../../../pages/basket/apiBasket";
+import basketModel from "../../../pages/basket/basketModel";
+import fetchLoadingWrapperDecorator from "../../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class ProductCardView {
   private product: ProductProjection;
@@ -37,7 +40,7 @@ export default class ProductCardView {
   });
 
   // можно сделать какую надо и вынести в компоненты
-  private buyButton = new CreateElement({
+  private buyButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["buy-button"],
     textContent: "Add to cart",
@@ -86,7 +89,7 @@ export default class ProductCardView {
           .append(
             `${price.discounted.value.centAmount / 100} ${
               price.discounted.value.currencyCode
-            }`
+            }`,
           );
       }
     });
@@ -94,6 +97,22 @@ export default class ProductCardView {
       this.img
         .getHTMLElement()
         .setAttribute("src", product.masterVariant.images[0].url);
+    }
+
+    // TODO: that's a sucks solution
+    setTimeout(() => {
+      this.checkIfInCart(product.id);
+    }, 100);
+  }
+
+  private checkIfInCart(productId: ProductProjection["id"]) {
+    const { cart } = basketModel;
+    if (!cart) return;
+    const quantity = cart.lineItems.find(
+      (item) => item.productId === productId,
+    )?.quantity;
+    if (quantity) {
+      this.buyButton.getHTMLElement().textContent = `Add to cart (in cart: ${quantity})`;
     }
   }
 
@@ -105,8 +124,18 @@ export default class ProductCardView {
     return str;
   }
 
-  private handleBuyButton(event: Event) {
+  private async handleBuyButton(event: Event) {
     event.stopPropagation();
+    const cart = await basketModel.getOrLoadSetGetCart();
+
+    fetchLoadingWrapperDecorator(fetchAddToCart(cart, this.product.id))
+      .then((response) => {
+        basketModel.cart = response.body;
+        this.checkIfInCart(this.product.id);
+      })
+      .catch((error) => {
+        console.log("Error while changing quantity: ", error);
+      });
   }
 
   private handleProductDetails() {
