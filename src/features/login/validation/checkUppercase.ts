@@ -1,6 +1,6 @@
 export default function checkUppercase(
   value: string,
-  element: HTMLParagraphElement
+  element: HTMLParagraphElement,
 ) {
   const hasUppercaseLetter = /[A-Z]/.test(value);
   if (hasUppercaseLetter) {

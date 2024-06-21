@@ -1,10 +1,10 @@
 export default function checkLength(
   value: string,
   element: HTMLParagraphElement,
-  input: HTMLInputElement
+  input: HTMLInputElement,
 ) {
   const isEmailValid = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/.test(
-    value
+    value,
   );
   if (isEmailValid) {
     element.classList.remove("error");

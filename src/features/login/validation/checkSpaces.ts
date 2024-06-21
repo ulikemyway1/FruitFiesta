@@ -1,6 +1,6 @@
 export default function checkUppercase(
   value: string,
-  element: HTMLParagraphElement
+  element: HTMLParagraphElement,
 ) {
   const hasNotSpaces = /^\S+$/.test(value);
   if (hasNotSpaces) {

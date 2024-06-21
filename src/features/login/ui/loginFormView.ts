@@ -201,7 +201,7 @@ export class LoginFormView {
     const general = checkFullEmail(
       emailInputValue,
       this.generalError,
-      this.emailInput
+      this.emailInput,
     );
 
     return spaces && at && general;

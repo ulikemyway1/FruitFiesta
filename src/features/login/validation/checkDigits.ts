@@ -1,6 +1,6 @@
 export default function checkLength(
   value: string,
-  element: HTMLParagraphElement
+  element: HTMLParagraphElement,
 ) {
   const hasDigits = /[0-9]/.test(value);
   if (hasDigits) {
