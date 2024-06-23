@@ -5,7 +5,7 @@ import postcodeValidationRules, {
 
 export default function validatePostcode(
   country: CountriesSet,
-  postcode: string,
+  postcode: string
 ): ValidationObject {
   const validationResult: ValidationObject = {
     status: "ok",
