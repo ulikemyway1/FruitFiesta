@@ -1,4 +1,4 @@
-import { ClientBuilder } from "@commercetools/sdk-client-v2"; // TokenStore
+import { ClientBuilder } from "@commercetools/sdk-client-v2";
 import { createApiBuilderFromCtpClient } from "@commercetools/platform-sdk";
 import requestAPIConfig from "./APIRootBuilderConfig";
 import tokenStorage from "../state/model/tokenStorage";
@@ -7,14 +7,6 @@ export class APIRootBuilder {
   private client = new ClientBuilder()
     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
     .withProjectKey(process.env.CTP_PROJECT_KEY!);
-
-  // private client: ClientBuilder;
-
-  // constructor() {
-  //   this.client = new ClientBuilder()
-  //     .withHttpMiddleware(requestAPIConfig.httpMiddlewareOptions)
-  //     .withProjectKey(process.env.CTP_PROJECT_KEY!);
-  // }
 
   private createRequestAPI(client: ClientBuilder) {
     return createApiBuilderFromCtpClient(
@@ -44,12 +36,8 @@ export class APIRootBuilder {
     );
   }
 
-  // public withRefreshTokenFlow(refreshToken: TokenStore["refreshToken"]) {
-  //   requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken!;
   public withRefreshTokenFlow() {
-    const { refreshToken } = tokenStorage.get(); // .split(":")[1];
-
-    // debugger;
+    const { refreshToken } = tokenStorage.get();
 
     requestAPIConfig.refreshMiddlewareOptions.refreshToken = refreshToken;
 
