@@ -9,7 +9,7 @@ import basketModel from "../../../pages/basket/basketModel";
 
 export default function sendRequestCustomerAuth(
   customerAuthData: CustomerAuthData,
-  loginForm: LoginFormView
+  loginForm: LoginFormView,
 ): void {
   loginCustomer(customerAuthData.email, customerAuthData.password)
     .then((response) => {

@@ -1,9 +1,5 @@
-import { JSDOM } from "jsdom";
 import checkFullEmail from "../../src/features/login/validation/checkFullEmail";
 
-const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>");
-global.window = dom.window as unknown as Window & typeof globalThis;
-global.document = dom.window.document;
 const paragraph = document.createElement("p");
 const input = document.createElement("input");
 
@@ -12,7 +8,7 @@ describe("checkFullEmail", () => {
     const validEmail = checkFullEmail(
       "imyakhoroshee@rss.com",
       paragraph,
-      input
+      input,
     );
     expect(validEmail).toBe(true);
     expect(paragraph.classList.contains("error")).toBe(false);
@@ -23,7 +19,7 @@ describe("checkFullEmail", () => {
     const secondResult = checkFullEmail(
       "imyakhoroshee-rss-com",
       paragraph,
-      input
+      input,
     );
     expect(secondResult).toBe(false);
     expect(paragraph.classList.contains("error")).toBe(true);

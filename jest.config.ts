@@ -14,7 +14,7 @@ const config: Config = {
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
-  collectCoverageFrom: ["src/**/*.ts"],
+  collectCoverageFrom: ["./src/**/*.ts"],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
@@ -23,7 +23,15 @@ const config: Config = {
   preset: "ts-jest",
 
   // The test environment that will be used for testing
-  testEnvironment: "jest-environment-node",
+  // testEnvironment: "jest-environment-node",
+  testEnvironment: "jsdom",
+
+  moduleNameMapper: {
+    "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/__mocks__/fileMock.js",
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+  },
+
+  setupFiles: ["<rootDir>/testSetup.js"],
 };
 
 export default config;

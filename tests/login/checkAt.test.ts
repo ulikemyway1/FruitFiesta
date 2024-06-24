@@ -1,9 +1,5 @@
-import { JSDOM } from "jsdom";
 import checkAt from "../../src/features/login/validation/checkAt";
 
-const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>");
-global.window = dom.window as unknown as Window & typeof globalThis;
-global.document = dom.window.document;
 const paragraph = document.createElement("p");
 
 describe("checkAt", () => {
