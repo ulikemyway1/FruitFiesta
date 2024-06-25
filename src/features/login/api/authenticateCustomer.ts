@@ -34,6 +34,7 @@ export default function sendRequestCustomerAuth(
         if (response.body.cart) basketModel.cart = response.body.cart;
 
         user.notify();
+        //
       }
     })
     .catch((e) => {
