@@ -7,8 +7,6 @@ import Hash from "../../../shared/routs/enumHash";
 import Pagination from "../paginationBlock/pagination";
 
 class CatalogPageController {
-  // model = CatalogPageModel;
-
   private categories: Category[] = [];
 
   view = new CatalogPageView();

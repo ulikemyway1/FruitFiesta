@@ -3,6 +3,15 @@ import logo from "../../../assets/images/logo.svg";
 import "./login-form.scss";
 import CustomerAuthData from "../model/ICustomerAuthData";
 import Hash from "../../../shared/routs/enumHash";
+import checkLength from "../validation/checkLength";
+import checkAt from "../validation/checkAt";
+import checkUppercase from "../validation/checkUppercase";
+import checkLowercase from "../validation/checkLowercase";
+import checkSpaces from "../validation/checkSpaces";
+import checkFullEmail from "../validation/checkFullEmail";
+import checkDigits from "../validation/checkDigits";
+import checkWhitespaces from "../validation/checkWhitespaces";
+import checkSpecialChars from "../validation/checkSpecialChars";
 
 export class LoginFormView {
   private registrationPage = Hash.REGISTRATION;
@@ -60,7 +69,12 @@ export class LoginFormView {
   private passwordInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["login-form__password"],
-    attributes: { placeholder: "Password", type: "password", autocomplete: "" },
+    attributes: {
+      placeholder: "Password",
+      type: "password",
+      autocomplete: "",
+      required: "true",
+    },
     eventType: "input",
     callback: this.passwordInputHandler.bind(this),
   }).getHTMLElement();
@@ -177,109 +191,20 @@ export class LoginFormView {
     children: [this.loginForm],
   }).getHTMLElement();
 
-  private checkAt(value: string) {
-    const hasAt = value.includes("@");
-    if (hasAt) {
-      this.atError.classList.remove("error");
-    } else {
-      this.atError.classList.add("error");
-    }
-    return hasAt;
-  }
-
-  private checkSpaces(value: string) {
-    const hasNotSpaces = /^\S+$/.test(value);
-    if (hasNotSpaces) {
-      this.spacesError.classList.remove("error");
-    } else {
-      this.spacesError.classList.add("error");
-    }
-    return hasNotSpaces;
-  }
-
-  private checkFullEmail(value: string) {
-    const isEmailValid =
-      /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/.test(value);
-    if (isEmailValid) {
-      this.generalError.classList.remove("error");
-      this.emailInput.classList.remove("error");
-    } else {
-      this.generalError.classList.add("error");
-    }
-    return isEmailValid;
-  }
-
   emailInputHandler() {
     this.invalidLoginOrPassword.classList.remove("error");
     const emailInputValue = this.emailInput.value;
     this.emailInput.classList.add("error");
 
-    const spaces = this.checkSpaces(emailInputValue);
-    const at = this.checkAt(emailInputValue);
-    const general = this.checkFullEmail(emailInputValue);
+    const spaces = checkSpaces(emailInputValue, this.spacesError);
+    const at = checkAt(emailInputValue, this.atError);
+    const general = checkFullEmail(
+      emailInputValue,
+      this.generalError,
+      this.emailInput,
+    );
 
     return spaces && at && general;
-  }
-
-  private checkLength(value: string) {
-    const isProperLength = value.length > 7;
-    if (isProperLength) {
-      this.lengthError.classList.remove("error");
-    } else {
-      this.lengthError.classList.add("error");
-    }
-    return isProperLength;
-  }
-
-  private checkUppercase(value: string) {
-    const hasUppercaseLetter = /[A-Z]/.test(value);
-    if (hasUppercaseLetter) {
-      this.uppercaseError.classList.remove("error");
-    } else {
-      this.uppercaseError.classList.add("error");
-    }
-    return hasUppercaseLetter;
-  }
-
-  private checkLowercase(value: string) {
-    const hasLowercaseLetter = /[a-z]/.test(value);
-    if (hasLowercaseLetter) {
-      this.lowercaseError.classList.remove("error");
-    } else {
-      this.lowercaseError.classList.add("error");
-    }
-    return hasLowercaseLetter;
-  }
-
-  private checkDigits(value: string) {
-    const hasDigits = /[0-9]/.test(value);
-    if (hasDigits) {
-      this.digitError.classList.remove("error");
-    } else {
-      this.digitError.classList.add("error");
-    }
-    return hasDigits;
-  }
-
-  private checkSpecialChars(value: string) {
-    const hasSpecialChars = /([!@#$%^&*]+)/.test(value);
-    if (hasSpecialChars) {
-      this.charError.classList.remove("error");
-    } else {
-      this.charError.classList.add("error");
-    }
-    return hasSpecialChars;
-  }
-
-  private checkWhitespaces(value: string) {
-    const hasWhitespaces = /^\S+$/.test(value);
-
-    if (hasWhitespaces) {
-      this.whitespaceError.classList.remove("error");
-    } else {
-      this.whitespaceError.classList.add("error");
-    }
-    return hasWhitespaces;
   }
 
   private showHidePassword(event: Event) {
@@ -305,12 +230,12 @@ export class LoginFormView {
     const passwordInputValue = this.passwordInput.value;
     this.passwordInput.classList.add("error");
 
-    const length = this.checkLength(passwordInputValue);
-    const upperCase = this.checkUppercase(passwordInputValue);
-    const lowerCase = this.checkLowercase(passwordInputValue);
-    const digits = this.checkDigits(passwordInputValue);
-    const specialChars = this.checkSpecialChars(passwordInputValue);
-    const spaces = this.checkWhitespaces(passwordInputValue);
+    const length = checkLength(passwordInputValue, this.lengthError);
+    const upperCase = checkUppercase(passwordInputValue, this.uppercaseError);
+    const lowerCase = checkLowercase(passwordInputValue, this.lowercaseError);
+    const digits = checkDigits(passwordInputValue, this.digitError);
+    const specialChars = checkSpecialChars(passwordInputValue, this.charError);
+    const spaces = checkWhitespaces(passwordInputValue, this.whitespaceError);
 
     const status =
       length && upperCase && lowerCase && digits && specialChars && spaces;

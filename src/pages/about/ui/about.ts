@@ -172,7 +172,7 @@ export class About {
       this.teamSection,
       this.contributionSection,
       this.mentorSection,
-      this.teacherSection
+      this.teacherSection,
     );
   }
 
