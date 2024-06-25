@@ -5,14 +5,14 @@ import {
 } from "@commercetools/sdk-client-v2";
 
 class TokenStorage implements TokenCache {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public get(tokenCacheOptions?: TokenCacheOptions) {
-    console.log(tokenCacheOptions);
     const token = JSON.parse(localStorage.getItem("token") || "{}");
     return token;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public set(cache: TokenStore, tokenCacheOptions?: TokenCacheOptions) {
-    console.log(tokenCacheOptions);
     localStorage.setItem("token", JSON.stringify(cache));
   }
 

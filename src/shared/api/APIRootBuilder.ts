@@ -10,7 +10,8 @@ export class APIRootBuilder {
 
   private createRequestAPI(client: ClientBuilder) {
     return createApiBuilderFromCtpClient(
-      client.withLoggerMiddleware().build(),
+      // client.withLoggerMiddleware().build(),
+      client.build(),
     ).withProjectKey({
       projectKey: process.env.CTP_PROJECT_KEY!,
     });
