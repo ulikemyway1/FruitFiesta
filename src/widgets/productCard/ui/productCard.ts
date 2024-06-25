@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
 import { fetchAddToCart } from "../../../pages/basket/apiBasket";
 import basketModel from "../../../pages/basket/basketModel";
+import fetchLoadingWrapperDecorator from "../../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class ProductCardView {
   private product: ProductProjection;
@@ -125,9 +126,9 @@ export default class ProductCardView {
 
   private async handleBuyButton(event: Event) {
     event.stopPropagation();
-    console.log("Buy button clicked", this.product);
-    const cart = await basketModel.getCart();
-    fetchAddToCart(cart, this.product.id)
+    const cart = await basketModel.getOrLoadSetGetCart();
+
+    fetchLoadingWrapperDecorator(fetchAddToCart(cart, this.product.id))
       .then((response) => {
         basketModel.cart = response.body;
         this.checkIfInCart(this.product.id);
@@ -138,7 +139,6 @@ export default class ProductCardView {
   }
 
   private handleProductDetails() {
-    console.log("Product details", this.product);
     window.location.href = `${Hash.PRODUCT}/${this.product.key}`;
   }
 

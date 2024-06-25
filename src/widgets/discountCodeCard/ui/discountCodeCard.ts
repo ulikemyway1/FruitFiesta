@@ -3,6 +3,7 @@ import { DiscountCode } from "@commercetools/platform-sdk";
 import CreateElement from "../../../shared/helpers/element-create";
 
 import discountSvg from "../../../assets/images/coupon-svgrepo-com.svg";
+import ModalMessage from "../../modalMessage/modalMessage";
 
 export default class DiscountCodeCardView {
   private discountCode: DiscountCode;
@@ -72,7 +73,11 @@ export default class DiscountCodeCardView {
     }
     navigator.clipboard.writeText(this.discountCode.code).then(
       () => {
-        console.log(`Promo code ${this.discountCode.code} copied to clipboard`);
+        document.body.append(
+          new ModalMessage(
+            `Promo code ${this.discountCode.code} was copied to clipboard`,
+          ).getHTMLElement(),
+        );
       },
       (err) => {
         console.error("Failed to copy promo code to clipboard", err);

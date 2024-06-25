@@ -3,7 +3,6 @@ import CreateElement from "../../../shared/helpers/element-create";
 import getProductData from "../api/getProductData";
 import notFoundPageView from "../../notFound";
 import Router from "../../../app/routing/model/router";
-// import Hash from "../../../shared/routs/enumHash";
 import "./product-details.scss";
 import { reviews } from "../model/review";
 import sliderInit from "../slider/swiper";
@@ -11,6 +10,7 @@ import imageDialog from "../../../features/dialog/ui/imageDialog";
 import imageSliderInit from "../../../features/dialog/slider/slider";
 import { fetchAddToCart, fetchRemoveFromCart } from "../../basket/apiBasket";
 import basketModel from "../../basket/basketModel";
+import fetchLoadingWrapperDecorator from "../../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class ProductDetailsPageView {
   private product: ProductProjection | undefined;
@@ -227,12 +227,13 @@ export default class ProductDetailsPageView {
   }
 
   private async removeProductHandler() {
-    const cart = await basketModel.getCart();
+    const cart = await basketModel.getOrLoadSetGetCart();
     const lineItem = cart.lineItems.find(
       (item) => item.productId === this.product?.id,
     );
     if (!lineItem) return;
-    fetchRemoveFromCart(cart, lineItem.id)
+
+    fetchLoadingWrapperDecorator(fetchRemoveFromCart(cart, lineItem.id))
       .then((response) => {
         basketModel.cart = response.body;
         if (this.product) this.checkIfInCart(this.product.id);
@@ -243,7 +244,7 @@ export default class ProductDetailsPageView {
   }
 
   private checkIfInCart(productId: ProductProjection["id"]) {
-    basketModel.getCart().then((cart) => {
+    basketModel.getOrLoadSetGetCart().then((cart) => {
       const quantity = cart.lineItems.find(
         (item) => item.productId === productId,
       )?.quantity;
@@ -346,17 +347,13 @@ export default class ProductDetailsPageView {
     ).toFixed(2);
   }
 
-  // private navigateToBasket(): void {
-  //   window.location.hash = Hash.BASKET;
-  // }
-
   private async handleBuyButton(event: Event, quantity: number) {
-    // event.stopPropagation();
-    // console.log("Buy button clicked", this.product);
-    // console.log("Quantity: ", quantity);
     if (!this.product) return;
-    const cart = await basketModel.getCart();
-    fetchAddToCart(cart, this.product.id, quantity)
+
+    const cart = await basketModel.getOrLoadSetGetCart();
+    fetchLoadingWrapperDecorator(
+      fetchAddToCart(cart, this.product.id, quantity),
+    )
       .then((response) => {
         basketModel.cart = response.body;
         if (this.product) this.checkIfInCart(this.product.id);

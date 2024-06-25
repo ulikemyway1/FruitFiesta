@@ -1,4 +1,5 @@
 
+
 # FruitFiesta
 
 🙌 We are pleased to see you in our eCommerce application for exotic fruits and body cosmetics! Our store has a wide range of products, convenient and clear interface. Treat yourself and your guests to these juicy fruits! 🍉🌴🍍😋
@@ -86,3 +87,4 @@ _Follow the link [RSSchool](https://rs.school/)_
 - [Dmitriy](https://github.com/dimabaril) - Front-End Developer
 
 - [Tatyana](https://github.com/ImyaKhoroshee) - Front-End Developer
+

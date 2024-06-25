@@ -43,7 +43,6 @@ export default class Router {
         typeof this.routes[i].pattern === "string" &&
         this.routes[i].pattern === hash
       ) {
-        // console.log("router catch string", hash);
         this.routes[i].handler(hash);
         return;
       }
@@ -54,7 +53,6 @@ export default class Router {
         this.routes[i].pattern instanceof RegExp &&
         hash.match(this.routes[i].pattern)
       ) {
-        // console.log("router catch regexp", hash);
         this.routes[i].handler(hash);
         return;
       }

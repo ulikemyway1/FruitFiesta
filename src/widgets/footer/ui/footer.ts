@@ -1,6 +1,5 @@
+import { contributorsData } from "../../../shared/contributorsData/contributorsData";
 import CreateElement from "../../../shared/helpers/element-create";
-import footerData from "./footerData";
-import rss from "../../../assets/images/rss.svg";
 import "./footer.scss";
 
 export class Footer {
@@ -14,7 +13,7 @@ export class Footer {
     tag: "img",
     cssClasses: ["footer__image-rss"],
     attributes: {
-      src: rss,
+      src: contributorsData.teacherLogo,
     },
   }).getHTMLElement();
 
@@ -22,7 +21,7 @@ export class Footer {
     tag: "a",
     cssClasses: ["footer__link"],
     attributes: {
-      href: "https://rs.school/courses",
+      href: contributorsData.teacherCourseLink,
     },
     children: [this.image],
   }).getHTMLElement();
@@ -68,12 +67,12 @@ export class Footer {
   }).getHTMLElement();
 
   constructor() {
-    footerData.forEach((developer) => {
+    contributorsData.teamContent.forEach((developer) => {
       const image = new CreateElement<HTMLImageElement>({
         tag: "img",
         cssClasses: ["footer__image"],
         attributes: {
-          src: developer.img,
+          src: developer.gitIcon,
         },
       }).getHTMLElement();
 

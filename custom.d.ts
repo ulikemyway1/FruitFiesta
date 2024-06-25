@@ -8,6 +8,11 @@ declare module "*.png" {
   export default content;
 }
 
+declare module "*.gif" {
+  const content: gif;
+  export default content;
+}
+
 declare module "*.jpeg" {
   const content: jpeg;
   export default content;

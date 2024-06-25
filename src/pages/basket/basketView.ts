@@ -8,6 +8,7 @@ import basketModel from "./basketModel";
 import cleanContainer from "../../shared/utils/clean-container";
 import ModalConfirmation from "../../widgets/modalConfirmation/modalConfirmation";
 import ModalMessage from "../../widgets/modalMessage/modalMessage";
+import fetchLoadingWrapperDecorator from "../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class BasketView {
   cart: Cart | undefined;
@@ -27,14 +28,14 @@ export default class BasketView {
     cssClasses: ["basket__discount-code-input"],
     attributes: {
       type: "text",
-      placeholder: "Discount code",
+      placeholder: "e.g SUPERPROMOCODE...",
     },
   }).getHTMLElement();
 
   private addDiscountButton = new CreateElement<HTMLButtonElement>({
     tag: "button",
     cssClasses: ["basket__add-discount-button"],
-    textContent: "Add",
+    textContent: "Apply",
     eventType: "click",
     callback: () => {
       this.addDiscount(this.discountCodeInput.value);
@@ -44,7 +45,7 @@ export default class BasketView {
   private discountLabel = new CreateElement({
     tag: "div",
     cssClasses: ["basket__discount-label"],
-    textContent: "Add discount code:",
+    textContent: "Promocode:",
     children: [this.discountCodeInput, this.addDiscountButton],
   }).getHTMLElement();
 
@@ -60,6 +61,11 @@ export default class BasketView {
     eventType: "click",
     callback: () => {
       console.log("Checkout button clicked");
+      document.body.append(
+        new ModalMessage(
+          "Congrats!!! Let's assume that you bought everything you wanted.",
+        ).getHTMLElement(),
+      );
     },
   }).getHTMLElement();
 
@@ -116,7 +122,7 @@ export default class BasketView {
       new CreateElement({
         tag: "h2",
         cssClasses: ["basket__line-items-title"],
-        textContent: "Products:",
+        textContent: "Products in cart:",
       }).getHTMLElement(),
     );
 
@@ -137,12 +143,12 @@ export default class BasketView {
       new CreateElement({
         tag: "h2",
         cssClasses: ["basket__discount-code-items-title"],
-        textContent: "Discounts:",
+        textContent: "Don't have a discount?",
       }).getHTMLElement(),
       new CreateElement({
         tag: "p",
         cssClasses: ["basket__discount-code-items-description"],
-        textContent: "You can find some discount codes on main page",
+        textContent: "Look for promocodes on main page",
       }).getHTMLElement(),
     );
 
@@ -157,7 +163,9 @@ export default class BasketView {
   }
 
   addDiscount(discountCode: string) {
-    fetchAddDiscountCode(basketModel.cart, discountCode)
+    fetchLoadingWrapperDecorator(
+      fetchAddDiscountCode(basketModel.cart, discountCode),
+    )
       .then((response) => {
         const cart = response.body;
         basketModel.cart = cart;
@@ -172,17 +180,17 @@ export default class BasketView {
   }
 
   deleteCart() {
-    if (basketModel.cart)
-      fetchDeleteCart(basketModel.cart)
-        .then((response) => {
-          console.log(response);
-          basketModel.resetCart();
-          cleanContainer(this.container.getHTMLElement());
-          this.render(basketModel.cart);
-        })
-        .catch((error) => {
-          console.log("Error while deleting cart: ", error);
-        });
+    if (!basketModel.cart) return;
+
+    fetchLoadingWrapperDecorator(fetchDeleteCart(basketModel.cart))
+      .then(() => {
+        basketModel.resetCart();
+        cleanContainer(this.container.getHTMLElement());
+        this.render(basketModel.cart);
+      })
+      .catch((error) => {
+        console.log("Error while deleting cart: ", error);
+      });
   }
 
   getConfirmationModal() {
@@ -218,16 +226,19 @@ export default class BasketView {
   }
 
   setCartTotalPrice(cart: Cart) {
-    console.log(cart);
     const isDiscounted = cart.discountOnTotalPrice;
     const totalPrice = cart.totalPrice.centAmount;
     const totalPriceCurrencyCode = cart.totalPrice.currencyCode;
     if (isDiscounted) {
       const discount = cart.discountOnTotalPrice.discountedAmount.centAmount;
       const fullPrice = totalPrice + discount;
-      this.cartTotalPrice.innerHTML = `Total cost: <del>${fullPrice / 100}</del> ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+      this.cartTotalPrice.innerHTML = `Total cost: <del>${
+        fullPrice / 100
+      }</del> ${totalPrice / 100} ${totalPriceCurrencyCode}`;
     } else {
-      this.cartTotalPrice.textContent = `Total cost: ${totalPrice / 100} ${totalPriceCurrencyCode}`;
+      this.cartTotalPrice.textContent = `Total cost: ${
+        totalPrice / 100
+      } ${totalPriceCurrencyCode}`;
     }
   }
 

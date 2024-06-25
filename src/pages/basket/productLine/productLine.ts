@@ -4,6 +4,7 @@ import CreateElement from "../../../shared/helpers/element-create";
 import { fetchChangeQuantity, fetchRemoveFromCart } from "../apiBasket";
 
 import basketModel from "../basketModel";
+import fetchLoadingWrapperDecorator from "../../../shared/helpers/fetchLoadingWrapperDecorator";
 
 export default class ProductLine {
   private product: LineItem;
@@ -64,31 +65,59 @@ export default class ProductLine {
     callback: this.changeQuantityHandler.bind(this, 1),
   });
 
-  private delete = new CreateElement({
-    tag: "button",
-    cssClasses: ["product-line__delete"],
-    textContent: "✖",
-    eventType: "click",
-    callback: this.removeProductHandler.bind(this),
-  });
-
   private totalLineItemPrice = new CreateElement({
     tag: "div",
     cssClasses: ["product-line__total-line-item-price"],
+  });
+
+  private totalLineItemDiscountedPrice = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-discounted-price"],
+  });
+
+  private totalLineItemCurrency = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-currency"],
+  });
+
+  private totalLineItemPriceBlock = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__total-line-item-price-block"],
+    children: [
+      this.totalLineItemPrice,
+      this.totalLineItemDiscountedPrice,
+      this.totalLineItemCurrency,
+    ],
+  });
+
+  private minusQuantityPlusBlock = new CreateElement({
+    tag: "div",
+    cssClasses: ["product-line__minus-quantity-plus-block"],
+    children: [
+      this.minus,
+      this.quantity,
+      this.plus,
+      this.totalLineItemPriceBlock,
+    ],
+  });
+
+  private delete = new CreateElement({
+    tag: "button",
+    cssClasses: ["product-line__delete"],
+    textContent: "Delete",
+    eventType: "click",
+    callback: this.removeProductHandler.bind(this),
   });
 
   private container = new CreateElement({
     tag: "div",
     cssClasses: ["product-line"],
     children: [
-      this.delete,
       this.img,
       this.name,
       this.priceBlock,
-      this.minus,
-      this.quantity,
-      this.plus,
-      this.totalLineItemPrice,
+      this.minusQuantityPlusBlock,
+      this.delete,
     ],
   });
 
@@ -104,28 +133,45 @@ export default class ProductLine {
     this.name.getHTMLElement().textContent = product.name["en-GB"];
     if (product.variant.images?.length)
       this.img.getHTMLElement().src = product.variant.images[0].url;
-    this.price.getHTMLElement().textContent = `${product.price.value.centAmount / 100}`;
+
+    this.price.getHTMLElement().textContent = `${
+      product.price.value.centAmount / 100
+    }`;
     if (product.price.discounted) {
-      this.discountPrice.getHTMLElement().textContent = `${product.price.discounted.value.centAmount / 100}`;
+      this.discountPrice.getHTMLElement().textContent = `${
+        product.price.discounted.value.centAmount / 100
+      }`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     } else if (product.discountedPricePerQuantity.length) {
-      this.discountPrice.getHTMLElement().textContent = `${product.discountedPricePerQuantity[0].discountedPrice.value.centAmount / 100}`;
+      this.discountPrice.getHTMLElement().textContent = `${
+        product.discountedPricePerQuantity[0].discountedPrice.value.centAmount /
+        100
+      }`;
       this.price.getHTMLElement().style.textDecoration = "line-through";
     }
-
     this.currency.getHTMLElement().textContent =
       product.price.value.currencyCode;
+
     this.quantity.getHTMLElement().textContent = `${product.quantity}`;
-    this.totalLineItemPrice.getHTMLElement().textContent = `${
-      product.totalPrice.centAmount / 100
-    } ${product.totalPrice.currencyCode}`;
+
+    // start
+
+    this.renderTotalLineItemPrice(product);
+
+    // finish
+
+    this.totalLineItemCurrency.getHTMLElement().textContent =
+      product.totalPrice.currencyCode;
   }
 
   private async changeQuantityHandler(change: number) {
     if (!this.product?.quantity) return;
+
     const newQuantity = this.product.quantity + change;
-    const cart = await basketModel.getCart();
-    fetchChangeQuantity(cart, this.product.id, newQuantity)
+    const cart = await basketModel.getOrLoadSetGetCart();
+    fetchLoadingWrapperDecorator(
+      fetchChangeQuantity(cart, this.product.id, newQuantity),
+    )
       .then((response) => {
         basketModel.cart = response.body;
         this.product = response.body.lineItems.find(
@@ -141,9 +187,8 @@ export default class ProductLine {
           return;
         }
         this.quantity.getHTMLElement().textContent = `${this.product.quantity}`;
-        this.totalLineItemPrice.getHTMLElement().textContent = `${
-          this.product.totalPrice.centAmount / 100
-        } ${this.product.totalPrice.currencyCode}`;
+
+        this.renderTotalLineItemPrice(this.product);
 
         this.setCartTotalPrice(response.body);
       })
@@ -152,9 +197,34 @@ export default class ProductLine {
       });
   }
 
+  private renderTotalLineItemPrice(product: LineItem) {
+    this.totalLineItemPrice.getHTMLElement().textContent = `${
+      product.totalPrice.centAmount / 100
+    }`;
+    if (product.price.discounted) {
+      this.totalLineItemPrice.getHTMLElement().textContent = `${
+        (product.price.value.centAmount * product.quantity) / 100
+      }`;
+      this.totalLineItemPrice.getHTMLElement().style.textDecoration =
+        "line-through";
+      this.totalLineItemDiscountedPrice.getHTMLElement().textContent = `${
+        product.totalPrice.centAmount / 100
+      }`;
+    } else if (product.discountedPricePerQuantity.length) {
+      this.totalLineItemPrice.getHTMLElement().textContent = `${
+        (product.price.value.centAmount * product.quantity) / 100
+      }`;
+      this.totalLineItemPrice.getHTMLElement().style.textDecoration =
+        "line-through";
+      this.totalLineItemDiscountedPrice.getHTMLElement().textContent = `${
+        product.totalPrice.centAmount / 100
+      }`;
+    }
+  }
+
   private async removeProductHandler() {
-    const cart = await basketModel.getCart();
-    fetchRemoveFromCart(cart, this.product.id)
+    const cart = await basketModel.getOrLoadSetGetCart();
+    fetchLoadingWrapperDecorator(fetchRemoveFromCart(cart, this.product.id))
       .then((response) => {
         basketModel.cart = response.body;
         if (!basketModel.cart.lineItems.length) {

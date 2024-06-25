@@ -3,40 +3,67 @@
   flex-direction: column;
   max-width: 1200px;
   width: 100%;
-  padding: 1rem;
+  padding: 2rem 1rem;
   margin: 0 auto;
-  gap: 20px;
-
+  gap: 60px;
   flex-grow: 1;
 }
 
 .basket__line-items {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .basket__line-items-title {
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .basket__discount-code-items {
+  background-color: var(--white-text-color);
+  border: 1px solid var(--dark-brown-text-color);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: center;
+  align-self: flex-start;
+  border-radius: 40px;
 }
 
 .basket__discount-code-items-title {
+  text-align: center;
 }
 
 .basket__discount-code-input {
-  padding: 0.5rem;
+  padding: 0.2rem 0.4rem;
+  border: 0.5px solid var(--dark-brown-text-color);
+  height: 40px;
+  border-radius: 5px;
+  &::placeholder {
+    font-style: italic;
+    font-size: 0.7rem;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
 }
 
 .basket__add-discount-button {
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+  height: 40px;
+  &:hover {
+    background-color: var(--green-text-color);
+  }
 }
 
 .basket__discount-label {
@@ -47,21 +74,33 @@
 }
 
 .basket__total-price {
+  text-align: center;
+  color: var(--green-text-color);
 }
 
 .basket__checkout-button,
 .basket__delete-cart-button {
-  align-self: flex-start;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  color: var(--button-text);
+  background: var(--button-default-background);
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+  height: 40px;
+  &:hover {
+    background-color: var(--green-text-color);
+  }
 }
 
 .basket__checkout-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 40px;
   padding: 1rem 0 0;
   border-top: 1px solid black;
 }
@@ -70,4 +109,19 @@
 }
 
 .basket__empty-link {
+}
+
+@media (max-width: 1024px) {
+  .basket {
+    align-items: center;
+  }
+  .basket__discount-label {
+    justify-content: center;
+  }
+  .basket__checkout-row {
+    flex-direction: column;
+  }
+  .basket__discount-code-items {
+    align-self: center;
+  }
 }

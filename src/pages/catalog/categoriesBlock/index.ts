@@ -73,7 +73,11 @@ export default class CategoriesBlockView {
     tag: "div",
     cssClasses: ["catalog-header__sort"],
     children: [
-      new CreateElement({ tag: "span", textContent: "Sort by:" }),
+      new CreateElement({
+        tag: "span",
+        cssClasses: ["catalog-header__sort-title"],
+        textContent: "Sort by: ",
+      }),
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__sort-label"],
@@ -92,7 +96,7 @@ export default class CategoriesBlockView {
   private searchInput = new CreateElement<HTMLInputElement>({
     tag: "input",
     cssClasses: ["catalog-header__search-input"],
-    attributes: { type: "search", placeholder: "Search" },
+    attributes: { type: "search", placeholder: "e.g. Pineapple ..." },
     eventType: "keyup",
     callback: (event) => {
       if ((event as KeyboardEvent).key === "Enter") {
@@ -128,7 +132,7 @@ export default class CategoriesBlockView {
 
   private filterFoodInput = new CreateElement<HTMLInputElement>({
     tag: "input",
-    cssClasses: ["catalog-header__filter-input"],
+    cssClasses: ["catalog-header__filter-input-item"],
     attributes: { type: "checkbox" },
     eventType: "change",
     callback: () => {
@@ -146,7 +150,7 @@ export default class CategoriesBlockView {
 
   private filterCosmeticsInput = new CreateElement<HTMLInputElement>({
     tag: "input",
-    cssClasses: ["catalog-header__filter-input"],
+    cssClasses: ["catalog-header__filter-input-item"],
     attributes: { type: "checkbox" },
     eventType: "change",
     callback: () => {
@@ -184,16 +188,20 @@ export default class CategoriesBlockView {
           this.handleFilters();
         },
       }),
-      new CreateElement({ tag: "span", textContent: "Filters: " }),
+      new CreateElement({
+        tag: "span",
+        cssClasses: ["catalog-header__filter-span"],
+        textContent: "Filters: ",
+      }),
       new CreateElement({
         tag: "label",
         cssClasses: ["catalog-header__filter-label"],
-        textContent: "Price(EUR) from:",
+        textContent: "Price from:",
         children: [
           new CreateElement<HTMLInputElement>({
             tag: "input",
             cssClasses: ["catalog-header__filter-input"],
-            attributes: { type: "number", placeholder: "0" },
+            attributes: { type: "number", placeholder: "0", min: "1" },
             eventType: "keyup",
             callback: (event) => {
               if ((event as KeyboardEvent).key === "Enter") {
@@ -211,7 +219,7 @@ export default class CategoriesBlockView {
           new CreateElement<HTMLInputElement>({
             tag: "input",
             cssClasses: ["catalog-header__filter-input"],
-            attributes: { type: "number", placeholder: "100" },
+            attributes: { type: "number", placeholder: "100", min: "1" },
             eventType: "keyup",
             callback: (event) => {
               if ((event as KeyboardEvent).key === "Enter") {
@@ -244,7 +252,7 @@ export default class CategoriesBlockView {
       }),
       new CreateElement({
         tag: "div",
-        cssClasses: ["flex-row-wrap"],
+        cssClasses: ["flex-row-wrap", "background"],
         children: [this.sort, this.search, this.filter],
       }),
     ],
@@ -259,7 +267,7 @@ export default class CategoriesBlockView {
   constructor(
     categories: Category[],
     pathArr?: string[],
-    searchParams?: URLSearchParams,
+    searchParams?: URLSearchParams
   ) {
     this.categories = categories;
 
@@ -292,14 +300,14 @@ export default class CategoriesBlockView {
 
   private renderAvailableCategory(
     path: string[] | undefined,
-    categories: Category[],
+    categories: Category[]
   ) {
     const availableCategories = !path
       ? categories.filter((category) => category.parent === undefined)
       : categories.filter(
-        (category) =>
-          category.parent?.id === this.getLastCategoryIdByPathSlug(path),
-      );
+          (category) =>
+            category.parent?.id === this.getLastCategoryIdByPathSlug(path),
+        );
 
     availableCategories.forEach((category) => {
       this.availableCategories.addInnerElements(
@@ -309,7 +317,7 @@ export default class CategoriesBlockView {
           textContent: category.name["en-GB"],
           eventType: "click",
           callback: this.handleCategoryClick.bind(this, category),
-        }).getHTMLElement(),
+        }).getHTMLElement()
       );
     });
   }
@@ -336,7 +344,7 @@ export default class CategoriesBlockView {
               .slice(0, path.indexOf(item) + 1)
               .join("/")}`;
           },
-        }).getHTMLElement(),
+        }).getHTMLElement()
       ) || []),
     ]);
   }
@@ -355,7 +363,7 @@ export default class CategoriesBlockView {
   private getLastCategoryIdByPathSlug(path: string[]) {
     const categorySlug = path[path.length - 1];
     const category = this.categories.find(
-      (item) => item.slug["en-GB"] === categorySlug,
+      (item) => item.slug["en-GB"] === categorySlug
     );
     return category?.id;
   }
@@ -365,24 +373,28 @@ export default class CategoriesBlockView {
       .map((ancestor) => this.getCategorySlugById(ancestor.id))
       .join("/");
 
-    window.location.hash = `${Hash.CATALOG}/${midPath.length ? midPath.concat("/") : ""}${category.slug["en-GB"]}`;
+    window.location.hash = `${Hash.CATALOG}/${
+      midPath.length ? midPath.concat("/") : ""
+    }${category.slug["en-GB"]}`;
   }
 
   private handleSearch() {
     const searchParams = new URLSearchParams(
-      window.location.hash.split("?")[1] || "",
+      window.location.hash.split("?")[1] || ""
     );
     if (!this.searchInput.getHTMLElement().value) {
       searchParams.delete("text");
     } else {
       searchParams.set("text", this.searchInput.getHTMLElement().value);
     }
-    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+    window.location.hash = `${
+      window.location.hash.split("?")[0]
+    }?${searchParams.toString()}`;
   }
 
   private handleFilters() {
     const searchParams = new URLSearchParams(
-      window.location.hash.split("?")[1] || "",
+      window.location.hash.split("?")[1] || ""
     );
 
     const from =
@@ -411,12 +423,14 @@ export default class CategoriesBlockView {
       searchParams.delete("cosmetics");
     }
 
-    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+    window.location.hash = `${
+      window.location.hash.split("?")[0]
+    }?${searchParams.toString()}`;
   }
 
   private handleSort(event: Event, sortType: "sort-price" | "sort-name") {
     const searchParams = new URLSearchParams(
-      window.location.hash.split("?")[1] || "",
+      window.location.hash.split("?")[1] || ""
     );
     const select = event.target as HTMLSelectElement;
     const { value } = select.options[select.selectedIndex];
@@ -425,7 +439,9 @@ export default class CategoriesBlockView {
     } else {
       searchParams.set(sortType, value);
     }
-    window.location.hash = `${window.location.hash.split("?")[0]}?${searchParams.toString()}`;
+    window.location.hash = `${
+      window.location.hash.split("?")[0]
+    }?${searchParams.toString()}`;
   }
 
   getHTMLElement(): HTMLElement {

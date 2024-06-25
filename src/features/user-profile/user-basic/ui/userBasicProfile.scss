@@ -1,11 +1,11 @@
 .user-profile__basic {
-  background: var(--profile-plate-background);
-  color: var(--button-text);
-  filter: brightness(0.9);
+  background: var(--additional-pages-background);
+  color: var(--dark-brown-text);
   cursor: pointer;
   border-radius: 12px;
   font-size: 24px;
   transition: all 0.6s;
+  font-weight: 600;
 
   .plate__section {
     gap: 20px;
