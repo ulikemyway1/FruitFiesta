@@ -2,11 +2,10 @@ import "./index.scss";
 import logoIcon from "../../../assets/images/logo.svg";
 import CreateElement from "../../../shared/helpers/element-create";
 import Hash from "../../../shared/routs/enumHash";
-
 import user from "../../../entities/user";
 import userProfileAddresses from "../../../features/user-profile/user-address";
-import requestAPI from "../../../shared/api/APIRootBuilder";
-import basketModel from "../../../pages/basket/basketModel";
+import tokenStorage from "../../../shared/state/model/tokenStorage";
+
 
 class Header {
   private title = new CreateElement<HTMLDivElement>({
@@ -234,20 +233,12 @@ class Header {
 
     this.logoutLink.addEventListener("click", (event) => {
       event.preventDefault();
-
-      // clean data
       userProfileAddresses.removeAll();
+
+      localStorage.setItem("LoggedIn", JSON.stringify(false));
+      tokenStorage.clear();
       user.userInfo = null;
       user.userIsLoggedIn = false;
-      localStorage.removeItem("auth-token");
-      localStorage.removeItem("token");
-      requestAPI.savedRefresh = "";
-      //
-
-      // init new car for new anon session
-      basketModel.resetCart();
-      basketModel.getOrLoadSetGetCart();
-      //
 
       window.location.hash = Hash.LOGIN;
       this.closeKeyIconPopUp();
@@ -262,7 +253,6 @@ class Header {
     const { hash } = document.location;
     Array.from(this.navList.getHTMLElement().children).forEach((link) => {
       link.classList.remove("nav__item_active");
-      // if (link.firstElementChild?.getAttribute("href") === hash) {
       if (hash.startsWith(link.firstElementChild?.getAttribute("href") || "")) {
         link.classList.add("nav__item_active");
       }
@@ -284,7 +274,6 @@ class Header {
       this.profileLink.classList.add("nav__item_hidden");
       this.logoutLink.classList.add("nav__item_hidden");
       this.profileIcon.classList.add("nav__item_hidden");
-      this.profileLink.classList.add("nav__item_hidden");
     }
   }
 
