@@ -25,7 +25,8 @@ export default function changePassword(
     })
     .then(() => loginCustomer(user.userInfo?.email || "", newPassword))
     .then((response) => {
-      localStorage.setItem("auth-token", localStorage.getItem("token") || "");
+      localStorage.setItem("LoggedIn", JSON.stringify(true));
+
       user.userInfo = response.body.customer;
     });
 }
