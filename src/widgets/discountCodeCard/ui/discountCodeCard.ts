@@ -71,18 +71,41 @@ export default class DiscountCodeCardView {
     if (!this.discountCode.code) {
       return;
     }
-    navigator.clipboard.writeText(this.discountCode.code).then(
-      () => {
-        document.body.append(
-          new ModalMessage(
-            `Promo code ${this.discountCode.code} was copied to clipboard`,
-          ).getHTMLElement(),
-        );
-      },
-      (err) => {
-        console.error("Failed to copy promo code to clipboard", err);
-      },
-    );
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(this.discountCode.code).then(
+        () => {
+          document.body.append(
+            new ModalMessage(
+              `Promo code ${this.discountCode.code} was copied to clipboard`,
+            ).getHTMLElement(),
+          );
+        },
+        (err) => {
+          console.log("Failed to copy promo code to clipboard", err);
+        },
+      );
+    } else {
+      this.fallbackCopyToClipboard(this.discountCode.code);
+    }
+  }
+
+  private fallbackCopyToClipboard(text: string) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      document.body.append(
+        new ModalMessage(
+          `Promo code ${this.discountCode.code} was copied to clipboard`,
+        ).getHTMLElement(),
+      );
+    } catch (err) {
+      console.log("Failed to copy promo code to clipboard", err);
+    }
+    textArea.remove();
   }
 
   getHTMLElement(): HTMLElement {
