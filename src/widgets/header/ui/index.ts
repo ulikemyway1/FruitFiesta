@@ -6,7 +6,6 @@ import user from "../../../entities/user";
 import userProfileAddresses from "../../../features/user-profile/user-address";
 import tokenStorage from "../../../shared/state/model/tokenStorage";
 
-
 class Header {
   private title = new CreateElement<HTMLDivElement>({
     tag: "a",

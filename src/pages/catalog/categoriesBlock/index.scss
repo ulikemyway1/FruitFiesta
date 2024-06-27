@@ -50,7 +50,7 @@
   background-color: var(--button-default-background);
   color: var(--white-text-color);
   padding: 0.1rem 0.3rem;
-  border: 0.5px solid var(--dark-brown-text-color);
+  border: 1px solid var(--dark-brown-text-color);
   border-bottom: none;
   border-radius: 10px 10px 0 0;
   font-size: 0.9rem;
@@ -186,7 +186,7 @@
 .catalog-header__filter-input-item {
   width: 20px;
   height: 20px;
-  border: 0.5px solid var(--dark-brown-text-color);
+  border: 1px solid var(--dark-brown-text-color);
 }
 .catalog-header__filter-button {
   display: flex;
